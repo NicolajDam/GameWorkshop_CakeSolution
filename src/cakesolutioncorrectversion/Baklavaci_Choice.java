@@ -6,11 +6,11 @@ package cakesolutioncorrectversion;
 
 /**
  *
- * @author eskandarpahlavaafshari
+ * @author nicolajdamfrederiksen
  */
-public interface Questions {
+public class Baklavaci_Choice {
     
-   public void askQuestion();
-    
+    String Bchoice;
+    boolean BisCorrectChoice;
     
 }

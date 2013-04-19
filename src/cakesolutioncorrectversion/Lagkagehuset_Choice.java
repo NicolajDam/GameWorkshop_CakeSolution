@@ -6,11 +6,10 @@ package cakesolutioncorrectversion;
 
 /**
  *
- * @author eskandarpahlavaafshari
+ * @author nicolajdamfrederiksen
  */
-public interface Questions {
-    
-   public void askQuestion();
-    
-    
+public class Lagkagehuset_Choice {
+   
+    String LKHchoice;
+    boolean LKHisCorrectChoice;
 }
