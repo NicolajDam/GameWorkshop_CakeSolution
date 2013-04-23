@@ -10,4 +10,8 @@ package cakesolutioncorrectversion;
  */
 public class LePetiteEclaire_Choice {
     
+    String LPEchoice;
+    boolean LPEisCorrectChoice;
+    
+    
 }
