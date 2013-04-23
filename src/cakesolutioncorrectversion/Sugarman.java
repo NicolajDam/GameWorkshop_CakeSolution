@@ -14,7 +14,8 @@ public class Sugarman extends Players implements PlayerController {
 
     @Override
     public boolean move(Direction direction) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //TODO implement it
+        return false;
     }
 
     @Override

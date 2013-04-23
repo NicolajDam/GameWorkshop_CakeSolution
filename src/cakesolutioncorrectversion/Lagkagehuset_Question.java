@@ -12,104 +12,104 @@ import java.util.ArrayList;
 public class Lagkagehuset_Question implements Questions{
     
     ArrayList<String> LKHQuestion = new ArrayList<String>();
-    ArrayList<Lagkagehuset_Choice> LKHChoices = new ArrayList<Lagkagehuset_Choice>();
+    ArrayList<Choice> LKHChoices = new ArrayList<Choice>();
     
     
     public void initializeLPEQ(){
         
          String lkhQ1 = "What is the name of the current Queen of Denmark?";
          
-         Lagkagehuset_Choice lkhQ1C1 = new Lagkagehuset_Choice();
-         lkhQ1C1.LKHchoice = "Margrethe";
-         lkhQ1C1.LKHisCorrectChoice = true;
+         Choice lkhQ1C1 = new Choice();
+         lkhQ1C1.choice = "Margrethe";
+         lkhQ1C1.isCorrectChoice = true;
          
-         Lagkagehuset_Choice lkhQ1C2 = new Lagkagehuset_Choice();
-         lkhQ1C2.LKHchoice = "Ingrid";
-         lkhQ1C2.LKHisCorrectChoice = false;
+         Choice lkhQ1C2 = new Choice();
+         lkhQ1C2.choice = "Ingrid";
+         lkhQ1C2.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ1C3 = new Lagkagehuset_Choice();
-         lkhQ1C3.LKHchoice = "Beatrice";
-         lkhQ1C3.LKHisCorrectChoice = false;
+         Choice lkhQ1C3 = new Choice();
+         lkhQ1C3.choice = "Beatrice";
+         lkhQ1C3.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ1C4 = new Lagkagehuset_Choice();
-         lkhQ1C4.LKHchoice = "Mary";
-         lkhQ1C4.LKHisCorrectChoice = false;
+         Choice lkhQ1C4 = new Choice();
+         lkhQ1C4.choice = "Mary";
+         lkhQ1C4.isCorrectChoice = false;
          
          
          String lkhQ2 = "What is the national dish of Denmark?";
          
-         Lagkagehuset_Choice lkhQ2C1 = new Lagkagehuset_Choice();
-         lkhQ2C1.LKHchoice = "A Danish";
-         lkhQ2C1.LKHisCorrectChoice = false;
+         Choice lkhQ2C1 = new Choice();
+         lkhQ2C1.choice = "A Danish";
+         lkhQ2C1.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ2C2 = new Lagkagehuset_Choice();
-         lkhQ2C2.LKHchoice = "Shooting Star";
-         lkhQ2C2.LKHisCorrectChoice = false;
+         Choice lkhQ2C2 = new Choice();
+         lkhQ2C2.choice = "Shooting Star";
+         lkhQ2C2.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ2C3 = new Lagkagehuset_Choice();
-         lkhQ2C3.LKHchoice = "Meatballs";
-         lkhQ2C3.LKHisCorrectChoice = true;
+         Choice lkhQ2C3 = new Choice();
+         lkhQ2C3.choice = "Meatballs";
+         lkhQ2C3.isCorrectChoice = true;
          
-         Lagkagehuset_Choice lkhQ2C4 = new Lagkagehuset_Choice();
-         lkhQ2C4.LKHchoice = "Open-faced sandwiches";
-         lkhQ2C4.LKHisCorrectChoice = false;
+         Choice lkhQ2C4 = new Choice();
+         lkhQ2C4.choice = "Open-faced sandwiches";
+         lkhQ2C4.isCorrectChoice = false;
          
          
          String lkhQ3 = "Which island is the biggest in Denmark?";
          
-         Lagkagehuset_Choice lkhQ3C1 = new Lagkagehuset_Choice();
-         lkhQ3C1.LKHchoice = "Greenland";
-         lkhQ3C1.LKHisCorrectChoice = false;
+         Choice lkhQ3C1 = new Choice();
+         lkhQ3C1.choice = "Greenland";
+         lkhQ3C1.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ3C2 = new Lagkagehuset_Choice();
-         lkhQ3C2.LKHchoice = "Zealand";
-         lkhQ3C2.LKHisCorrectChoice = true;
+         Choice lkhQ3C2 = new Choice();
+         lkhQ3C2.choice = "Zealand";
+         lkhQ3C2.isCorrectChoice = true;
          
-         Lagkagehuset_Choice lkhQ3C3 = new Lagkagehuset_Choice();
-         lkhQ3C3.LKHchoice = "Funen";
-         lkhQ3C3.LKHisCorrectChoice = false;
+         Choice lkhQ3C3 = new Choice();
+         lkhQ3C3.choice = "Funen";
+         lkhQ3C3.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ3C4 = new Lagkagehuset_Choice();
-         lkhQ3C4.LKHchoice = "Vendsyssel-Thy";
-         lkhQ3C4.LKHisCorrectChoice = false;
+         Choice lkhQ3C4 = new Choice();
+         lkhQ3C4.choice = "Vendsyssel-Thy";
+         lkhQ3C4.isCorrectChoice = false;
          
          
          String lkhQ4 = "Which bird is the Danish national bird?";
          
-         Lagkagehuset_Choice lkhQ4C1 = new Lagkagehuset_Choice();
-         lkhQ4C1.LKHchoice = "The alaudidae lark";
-         lkhQ4C1.LKHisCorrectChoice = false;
+         Choice lkhQ4C1 = new Choice();
+         lkhQ4C1.choice = "The alaudidae lark";
+         lkhQ4C1.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ4C2 = new Lagkagehuset_Choice();
-         lkhQ4C2.LKHchoice = "the mute swan";
-         lkhQ4C2.LKHisCorrectChoice = true;
+         Choice lkhQ4C2 = new Choice();
+         lkhQ4C2.choice = "the mute swan";
+         lkhQ4C2.isCorrectChoice = true;
          
-         Lagkagehuset_Choice lkhQ4C3 = new Lagkagehuset_Choice();
-         lkhQ4C3.LKHchoice = "the shiny blackbird";
-         lkhQ4C3.LKHisCorrectChoice = false;
+         Choice lkhQ4C3 = new Choice();
+         lkhQ4C3.choice = "the shiny blackbird";
+         lkhQ4C3.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ4C4 = new Lagkagehuset_Choice();
-         lkhQ4C4.LKHchoice = "the red swallow";
-         lkhQ4C4.LKHisCorrectChoice = false;
+         Choice lkhQ4C4 = new Choice();
+         lkhQ4C4.choice = "the red swallow";
+         lkhQ4C4.isCorrectChoice = false;
          
          
          String lkhQ5 = "When was Denmark liberated after WW2?";
          
-         Lagkagehuset_Choice lkhQ5C1 = new Lagkagehuset_Choice();
-         lkhQ5C1.LKHchoice = "may 4th 1945";
-         lkhQ5C1.LKHisCorrectChoice = false;
+         Choice lkhQ5C1 = new Choice();
+         lkhQ5C1.choice = "may 4th 1945";
+         lkhQ5C1.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ5C2 = new Lagkagehuset_Choice();
-         lkhQ5C2.LKHchoice = "july 18th 1945";
-         lkhQ5C2.LKHisCorrectChoice = false;
+         Choice lkhQ5C2 = new Choice();
+         lkhQ5C2.choice = "july 18th 1945";
+         lkhQ5C2.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ5C3 = new Lagkagehuset_Choice();
-         lkhQ5C3.LKHchoice = "june 7th 1945";
-         lkhQ5C3.LKHisCorrectChoice = false;
+         Choice lkhQ5C3 = new Choice();
+         lkhQ5C3.choice = "june 7th 1945";
+         lkhQ5C3.isCorrectChoice = false;
          
-         Lagkagehuset_Choice lkhQ5C4 = new Lagkagehuset_Choice();
-         lkhQ5C4.LKHchoice = "may 5th 1945";
-         lkhQ5C4.LKHisCorrectChoice = true;
+         Choice lkhQ5C4 = new Choice();
+         lkhQ5C4.choice = "may 5th 1945";
+         lkhQ5C4.isCorrectChoice = true;
          
          
          

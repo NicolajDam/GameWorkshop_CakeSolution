@@ -12,65 +12,65 @@ import java.util.ArrayList;
 public class Baklavaci_Questions implements Questions {
     
     ArrayList<String> BQuestion = new ArrayList<String>();
-    ArrayList<Baklavaci_Choice> BChoices = new ArrayList<Baklavaci_Choice>();
+    ArrayList<Choice> BChoices = new ArrayList<Choice>();
     
     public void initializeBQ(){
         
          String BQ1 = "On which continent does Tyrkey lie?";
          
-         Baklavaci_Choice BQ1C1 = new Baklavaci_Choice();
-         BQ1C1.Bchoice = "Asia";
-         BQ1C1.BisCorrectChoice = false;
+         Choice BQ1C1 = new Choice();
+         BQ1C1.choice = "Asia";
+         BQ1C1.isCorrectChoice = false;
          
-         Baklavaci_Choice BQ1C2 = new Baklavaci_Choice();
-         BQ1C2.Bchoice = "Europe";
-         BQ1C2.BisCorrectChoice = false;
+         Choice BQ1C2 = new Choice();
+         BQ1C2.choice = "Europe";
+         BQ1C2.isCorrectChoice = false;
          
-         Baklavaci_Choice BQ1C3 = new Baklavaci_Choice();
-         BQ1C3.Bchoice = "Europe and Asia";
-         BQ1C3.BisCorrectChoice = true;
+         Choice BQ1C3 = new Choice();
+         BQ1C3.choice = "Europe and Asia";
+         BQ1C3.isCorrectChoice = true;
          
-         Baklavaci_Choice BQ1C4 = new Baklavaci_Choice();
-         BQ1C4.Bchoice = "Middle East";
-         BQ1C4.BisCorrectChoice = false;
+         Choice BQ1C4 = new Choice();
+         BQ1C4.choice = "Middle East";
+         BQ1C4.isCorrectChoice = false;
          
          
          String BQ2 = "What is the name of the Turkish capital?";
          
-         Baklavaci_Choice BQ2C1 = new Baklavaci_Choice();
-         BQ2C1.Bchoice = "Istanbul";
-         BQ2C1.BisCorrectChoice = false;
+         Choice BQ2C1 = new Choice();
+         BQ2C1.choice = "Istanbul";
+         BQ2C1.isCorrectChoice = false;
          
-         Baklavaci_Choice BQ2C2 = new Baklavaci_Choice();
-         BQ2C2.Bchoice = "Ankara";
-         BQ2C2.BisCorrectChoice = true;
+         Choice BQ2C2 = new Choice();
+         BQ2C2.choice = "Ankara";
+         BQ2C2.isCorrectChoice = true;
          
-         Baklavaci_Choice BQ2C3 = new Baklavaci_Choice();
-         BQ2C3.Bchoice = "Marmaris";
-         BQ2C3.BisCorrectChoice = false;
+         Choice BQ2C3 = new Choice();
+         BQ2C3.choice = "Marmaris";
+         BQ2C3.isCorrectChoice = false;
          
-         Baklavaci_Choice BQ2C4 = new Baklavaci_Choice();
-         BQ2C4.Bchoice = "Izmir";
-         BQ2C4.BisCorrectChoice = false;
+         Choice BQ2C4 = new Choice();
+         BQ2C4.choice = "Izmir";
+         BQ2C4.isCorrectChoice = false;
          
            
          String BQ3 = "What is Harman?";
          
-         Baklavaci_Choice BQ3C1 = new Baklavaci_Choice();
-         BQ3C1.Bchoice = "Turkish bath";
-         BQ3C1.BisCorrectChoice = true;
+         Choice BQ3C1 = new Choice();
+         BQ3C1.choice = "Turkish bath";
+         BQ3C1.isCorrectChoice = true;
          
-         Baklavaci_Choice BQ3C2 = new Baklavaci_Choice();
-         BQ3C2.Bchoice = "A dessert";
-         BQ3C2.BisCorrectChoice = false;
+         Choice BQ3C2 = new Choice();
+         BQ3C2.choice = "A dessert";
+         BQ3C2.isCorrectChoice = false;
          
-         Baklavaci_Choice BQ3C3 = new Baklavaci_Choice();
-         BQ3C3.Bchoice = "A sport discipline";
-         BQ3C3.BisCorrectChoice = false;
+         Choice BQ3C3 = new Choice();
+         BQ3C3.choice = "A sport discipline";
+         BQ3C3.isCorrectChoice = false;
          
-         Baklavaci_Choice BQ3C4 = new Baklavaci_Choice();
-         BQ3C4.Bchoice = "A casserole dish";
-         BQ3C4.BisCorrectChoice = false;
+         Choice BQ3C4 = new Choice();
+         BQ3C4.choice = "A casserole dish";
+         BQ3C4.isCorrectChoice = false;
          
          BQuestion.add(BQ1);
          BChoices.add(BQ1C1);

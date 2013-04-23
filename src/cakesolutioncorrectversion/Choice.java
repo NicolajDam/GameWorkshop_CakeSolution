@@ -6,11 +6,10 @@ package cakesolutioncorrectversion;
 
 /**
  *
- * @author eskandarpahlavaafshari
+ * @author nicolajdamfrederiksen
  */
-public interface Questions {
-    
-   public void askQuestion();
-    
-    
+public class Choice {
+   
+    String choice;
+    boolean isCorrectChoice;
 }
