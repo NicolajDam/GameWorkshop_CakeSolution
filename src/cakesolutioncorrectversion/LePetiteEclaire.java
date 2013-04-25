@@ -30,8 +30,8 @@ public class LePetiteEclaire extends SuperLocation implements Location {
       public void initializeLPEQ(){
         
         Question q1  = new Question("What is the name of the current French republic?");
-        Choice LPEQ1C1 = new Choice();
         
+        Choice LPEQ1C1 = new Choice();
         LPEQ1C1.choice = "The Third Republic";
         LPEQ1C1.isCorrectChoice = false;
          
@@ -55,8 +55,7 @@ public class LePetiteEclaire extends SuperLocation implements Location {
 
 
 
-
-        String LPEQ2 = "What is the Bastille Day?";
+        Question q2 = new Question("What is the Bastille Day?");
         
         Choice LPEQ2C1 = new Choice();
         LPEQ2C1.choice = "The National Day";
@@ -74,8 +73,14 @@ public class LePetiteEclaire extends SuperLocation implements Location {
         LPEQ2C4.choice = "The occupation of France in WW2";
         LPEQ2C4.isCorrectChoice = false;
         
+        questionList.add(q2);
+        q1.choices.add(LPEQ2C1);
+        q1.choices.add(LPEQ2C2);
+        q1.choices.add(LPEQ2C3);
+        q1.choices.add(LPEQ2C4);
         
-        String LPEQ3 = "How many regional languages is there in France?";
+        
+        Question q3 = new Question("How many regional languages is there in France?");
         
         Choice LPEQ3C1 = new Choice();
         LPEQ3C1.choice = "2";
@@ -93,7 +98,11 @@ public class LePetiteEclaire extends SuperLocation implements Location {
         LPEQ2C4.choice = "9";
         LPEQ2C4.isCorrectChoice = false;
         
-        
+        questionList.add(q3);
+        q1.choices.add(LPEQ3C1);
+        q1.choices.add(LPEQ3C2);
+        q1.choices.add(LPEQ3C3);
+        q1.choices.add(LPEQ3C4);
                 
     }
     
