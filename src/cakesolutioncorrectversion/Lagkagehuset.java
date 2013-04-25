@@ -41,7 +41,7 @@ public class Lagkagehuset extends SuperLocation implements Location {
     }
     
     
-    public void initializeLPEQ(){
+    public void initializeQuestions(){
         
          Question q1 = new Question("What is the name of the current Queen of Denmark?");
          
