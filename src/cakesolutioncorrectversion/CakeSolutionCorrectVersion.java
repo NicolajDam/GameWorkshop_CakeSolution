@@ -13,31 +13,45 @@ import java.util.List;
  */
 public class CakeSolutionCorrectVersion {
 
-    
-    
+    Cakistan world;
+    Sugarman player1; 
     
     public void startGame(){
     
     
-            // Create worlds 
-            Cakistan world1 = new Cakistan();
+            // Creates worlds 
+            world = new Cakistan();
         
+            // Creates player
+            player1 = new Sugarman();
+            
+            
+            //get starting location from world
+            List<Location> locations = world.getLocations();
+            Location start = locations.get(0);
+            
+            player1.setLocation(start);
+            
+    
+    }
+    public void runGame(){
+    
+        Question q = player1.getLocation().getQuestionList().get(0);
+        //tell the view to ask question
+        System.out.print(q.question);
         
-            // Create player 
-    
-    
-    } 
+    }
     /**
      * @param args the command line arguments
      */
       
     public static void main(String[] args) {
-  
+        
         
         
         CakeSolutionCorrectVersion game = new CakeSolutionCorrectVersion();
         game.startGame();
-        
+        game.runGame();
         /*Cakistan newWorld = new Cakistan();
                 List<Location> myLocations = newWorld.getLocations();
                 

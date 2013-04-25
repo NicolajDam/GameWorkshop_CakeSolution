@@ -17,7 +17,18 @@ public class Lagkagehuset extends SuperLocation implements Location {
     /** This refers to the enumerated directions given in Location, 
      * and we can specify which specific directions we intend to be
      * usable in Lagkagehuset */
-     @Override
+     
+    public Lagkagehuset() {
+        initializeQuestions();
+    }
+    
+     public ArrayList<Question> getQuestionList(){
+  
+         return questionList;
+     }
+   
+    
+    @Override
     public List<Location> getExits(Direction direction) {
     return null;   
     }

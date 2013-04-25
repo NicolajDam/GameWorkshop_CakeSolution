@@ -4,6 +4,7 @@
  */
 package cakesolutioncorrectversion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,5 +24,6 @@ public interface Location {
      public void setEastNeighbor(Location l);
      public Location getEastNeighbor();
      
+     public ArrayList<Question> getQuestionList();
     
 }

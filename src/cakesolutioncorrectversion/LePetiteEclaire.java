@@ -17,7 +17,20 @@ public class LePetiteEclaire extends SuperLocation implements Location {
     /** This refers to the enumerated directions given in Location, 
      * and we can specify which specific directions we intend to be
      * usable in LePetiteEclaire */
-     @Override
+     
+    public LePetiteEclaire(){
+    
+        initializeLPEQ();
+    
+    }
+    
+    
+    public ArrayList<Question> getQuestionList(){
+  
+         return questionList;
+     }
+    
+    @Override
     public List<Location> getExits(Location.Direction direction) {
     return null;   
     }

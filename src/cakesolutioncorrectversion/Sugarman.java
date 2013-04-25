@@ -12,6 +12,9 @@ import cakesolutioncorrectversion.Location.Direction;
  */
 public class Sugarman extends Players implements PlayerController {
 
+    Location sugarmanLocation;
+    
+    
     @Override
     public boolean move(Direction direction) {
         //TODO implement it
@@ -40,12 +43,18 @@ public class Sugarman extends Players implements PlayerController {
 
     @Override
     public Location getLocation() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return sugarmanLocation;
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public boolean setLocation(Location location) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //Methode variable: Location som vi kalder sugarmanLocation.
+        sugarmanLocation = location;
+        return true;
+        
+        
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
     
    

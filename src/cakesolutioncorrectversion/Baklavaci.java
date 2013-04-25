@@ -19,6 +19,19 @@ public class Baklavaci extends SuperLocation   {
      * and we can specify which specific directions we intend to be
      * usable in Baklavaci */
     
+     public Baklavaci() {
+     
+     initializeBQ();
+     }
+     
+     
+     
+     public ArrayList<Question> getQuestionList(){
+  
+         return questionList;
+     }
+     
+     
     @Override
     public List<Location> getExits(Direction direction) {
     return null;   
