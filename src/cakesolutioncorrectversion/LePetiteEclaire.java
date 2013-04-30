@@ -38,7 +38,7 @@ public class LePetiteEclaire extends SuperLocation implements Location {
        /** This is the description of the location LePetiteEclaire */
       @Override
     public String getDescription() {
-            return "This is a totally French place";
+            return "Le Petite Eclaire";
     }
       public void initializeLPEQ(){
         

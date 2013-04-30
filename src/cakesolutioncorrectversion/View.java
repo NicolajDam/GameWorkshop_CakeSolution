@@ -10,7 +10,10 @@ package cakesolutioncorrectversion;
  */
 public class View {
     
-    
+    public void playerStatus(Sugarman sugarman){
+        System.out.println("This is your current sugar level: "+sugarman.getSugarlevel());
+        System.out.println("This is your current location: "+sugarman.getLocation().getDescription());
+    }
     
     
     public void printOutQuestion(Question q) {
@@ -24,6 +27,8 @@ public class View {
         System.out.println((i+1)+") "+c.choice);
     
     }
+    
+    
    
     
     

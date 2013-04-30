@@ -23,8 +23,8 @@ public interface PlayerController extends Localizable {
      *@param object - the cake to eat
      *@return true if the question is answered correctly, false otherwise
      */
-    boolean eat(GameObject object);
-    boolean dont_eat(GameObject object);
+    public void eatCake(Cake cake);
+    public void dontEatCake(Cake cake);
   
     /**
      * Returns the sugar level of the player

@@ -38,7 +38,7 @@ public class Lagkagehuset extends SuperLocation implements Location {
      /** This is the description of the location Lagkagehuset */
       @Override
     public String getDescription() {
-            return "This is a totally lagkage place";
+            return "Lagkagehuset";
     }
 
    

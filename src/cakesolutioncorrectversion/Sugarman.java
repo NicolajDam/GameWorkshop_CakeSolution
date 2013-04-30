@@ -12,8 +12,8 @@ import cakesolutioncorrectversion.Location.Direction;
  */
 public class Sugarman extends Players implements PlayerController {
 
-    Location sugarmanLocation;
-    int currentSugarLevel = 50;
+    private Location sugarmanLocation;
+    private int currentSugarLevel = 50;
     
     
     @Override
@@ -22,15 +22,7 @@ public class Sugarman extends Players implements PlayerController {
         return false;
     }
 
-    @Override
-    public boolean eat(GameObject object) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean dont_eat(GameObject object) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
 
     @Override
     public int getSugarlevel() {
@@ -43,8 +35,16 @@ public class Sugarman extends Players implements PlayerController {
         
         currentSugarLevel = currentSugarLevel + difference;
     }
+     
+    public void eatCake(Cake cake){
+        changeSugarLevel(cake.sugarLevel);
+    }
     
-    
+    @Override
+    public void dontEatCake(Cake cake) {
+        changeSugarLevel(-cake.sugarLevel);
+        
+    }
     
     
 

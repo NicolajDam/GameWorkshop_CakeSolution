@@ -14,9 +14,11 @@ public class Question {
     
     String question;
     ArrayList<Choice> choices = new ArrayList<Choice>();
+    Cake cake= new Cake();
     
     public Question(String questionText){
         this.question = questionText;
+        
     }
     
     

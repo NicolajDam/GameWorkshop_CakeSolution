@@ -42,7 +42,7 @@ public class Baklavaci extends SuperLocation   {
     // THIS IS JUST TO TRY GIT! IGNORE THIS COMMENT
    
     public String getDescription() {
-            return "This is a totally fabulouuuus place";
+            return "Baklavaci";
     }
 
     

@@ -8,21 +8,10 @@ package cakesolutioncorrectversion;
  *
  * @author anders
  */
-public class Cake implements GameObject{
+public class Cake{
 
-    @Override
-    public boolean canBeTaken() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public Location getLocation() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean setLocation(Location location) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    int sugarLevel= 10;
+    
+    
     
 }

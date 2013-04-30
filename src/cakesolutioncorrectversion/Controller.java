@@ -39,20 +39,22 @@ public class Controller {
     
     }
     public void runGame(){
-    
+        theView.playerStatus(player1);
         Question q = player1.getLocation().getQuestionList().get(0);
         theView.printOutQuestion(q);
         System.out.println("Please enter the number of your answer: ");
         int answer = userInput();
     if(q.choices.get(answer-1).isCorrectChoice){
         System.out.println("Hurray you get a cake!");
-    
+        player1.eatCake(q.cake);
     }
     else{
         System.out.println("Sucker, you don't get a cake! HA!");
-    
-    
+        player1.dontEatCake(q.cake);
+
     }
+    
+    System.out.println(player1.getSugarlevel());
     
     }
     /**
