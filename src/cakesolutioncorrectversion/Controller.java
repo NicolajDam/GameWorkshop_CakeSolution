@@ -6,15 +6,17 @@ package cakesolutioncorrectversion;
 
 import cakesolutioncorrectversion.Location.Direction;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
  * @author nicolajdamfrederiksen
  */
-public class CakeSolutionCorrectVersion {
+public class Controller {
 
     Cakistan world;
     Sugarman player1; 
+    View theView;
     
     public void startGame(){
     
@@ -24,6 +26,8 @@ public class CakeSolutionCorrectVersion {
         
             // Creates player
             player1 = new Sugarman();
+            
+            theView = new View();
             
             
             //get starting location from world
@@ -37,19 +41,38 @@ public class CakeSolutionCorrectVersion {
     public void runGame(){
     
         Question q = player1.getLocation().getQuestionList().get(0);
-        //tell the view to ask question
-        System.out.print(q.question);
-        
+        theView.printOutQuestion(q);
+        System.out.println("Please enter the number of your answer: ");
+        int answer = userInput();
+    if(q.choices.get(answer-1).isCorrectChoice){
+        System.out.println("Hurray you get a cake!");
+    
+    }
+    else{
+        System.out.println("Sucker, you don't get a cake! HA!");
+    
+    
+    }
+    
     }
     /**
      * @param args the command line arguments
      */
-      
+     
+    public int userInput(){
+    
+        Scanner userInput = new Scanner(System.in);
+        return userInput.nextInt();
+    
+    
+    }
+    
+    
     public static void main(String[] args) {
         
         
         
-        CakeSolutionCorrectVersion game = new CakeSolutionCorrectVersion();
+        Controller game = new Controller();
         game.startGame();
         game.runGame();
         /*Cakistan newWorld = new Cakistan();

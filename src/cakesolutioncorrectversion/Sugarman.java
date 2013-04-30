@@ -13,6 +13,7 @@ import cakesolutioncorrectversion.Location.Direction;
 public class Sugarman extends Players implements PlayerController {
 
     Location sugarmanLocation;
+    int currentSugarLevel = 50;
     
     
     @Override
@@ -33,13 +34,19 @@ public class Sugarman extends Players implements PlayerController {
 
     @Override
     public int getSugarlevel() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        return currentSugarLevel;   
     }
 
     @Override
     public void changeSugarLevel(int difference) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        currentSugarLevel = currentSugarLevel + difference;
     }
+    
+    
+    
+    
 
     @Override
     public Location getLocation() {

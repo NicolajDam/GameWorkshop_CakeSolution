@@ -57,7 +57,7 @@ public class Baklavaci extends SuperLocation   {
 
      public void initializeBQ(){
         
-         Question q1 = new Question("On which continent does Tyrkey lie?");
+         Question q1 = new Question("On which continent does Turkey lie?");
          
          Choice BQ1C1 = new Choice();
          BQ1C1.choice = "Asia";
@@ -100,10 +100,10 @@ public class Baklavaci extends SuperLocation   {
          BQ2C4.isCorrectChoice = false;
          
          questionList.add(q2);
-         q1.choices.add(BQ2C1);
-         q1.choices.add(BQ2C2);
-         q1.choices.add(BQ2C3);
-         q1.choices.add(BQ2C4);
+         q2.choices.add(BQ2C1);
+         q2.choices.add(BQ2C2);
+         q2.choices.add(BQ2C3);
+         q2.choices.add(BQ2C4);
            
          Question q3 = new Question("What is Harman?");
          
@@ -124,10 +124,10 @@ public class Baklavaci extends SuperLocation   {
          BQ3C4.isCorrectChoice = false;
          
          questionList.add(q3);
-         q1.choices.add(BQ3C1);
-         q1.choices.add(BQ3C2);
-         q1.choices.add(BQ3C3);
-         q1.choices.add(BQ3C4);
+         q3.choices.add(BQ3C1);
+         q3.choices.add(BQ3C2);
+         q3.choices.add(BQ3C3);
+         q3.choices.add(BQ3C4);
         
     }
     
