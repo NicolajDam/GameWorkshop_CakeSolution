@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * 
  * @author nicolajdamfrederiksen
  */
 public class Baklavaci extends SuperLocation   {
@@ -41,6 +41,12 @@ public class Baklavaci extends SuperLocation   {
     /** This is the description of the location Baklavaci */
     // THIS IS JUST TO TRY GIT! IGNORE THIS COMMENT
    
+    /**
+     * Name of the method: getDescription.
+     * @param null 
+     * 
+     * @return 
+     */
     public String getDescription() {
             return "Baklavaci";
     }
