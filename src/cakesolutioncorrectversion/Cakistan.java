@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  *
- * @author nicolajdamfrederiksen
+ * @author CakeSolutionGroup
  */
 public class Cakistan implements World {
     

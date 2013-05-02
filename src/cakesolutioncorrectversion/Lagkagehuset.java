@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author nicolajdamfrederiksen
+ * @author CakeSolutionGroup
  */
 public class Lagkagehuset extends SuperLocation implements Location {
     

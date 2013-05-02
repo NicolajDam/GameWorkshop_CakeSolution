@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author nicolajdamfrederiksen
+ * @author CakeSolutionGroup
  */
 public class LePetiteEclaire extends SuperLocation implements Location {
      

@@ -7,7 +7,7 @@ package cakesolutioncorrectversion;
 import cakesolutioncorrectversion.Location;
 /**
  *
- * @author anders
+ * @author CakeSolutionGroup
  */
 public interface Localizable {
     

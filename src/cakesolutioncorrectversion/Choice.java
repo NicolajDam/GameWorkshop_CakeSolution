@@ -6,7 +6,7 @@ package cakesolutioncorrectversion;
 
 /**
  *
- * @author nicolajdamfrederiksen
+ * @author CakeSolutionGroup
  */
 public class Choice {
    

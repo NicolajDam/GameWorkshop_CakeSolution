@@ -6,7 +6,7 @@ package cakesolutioncorrectversion;
 
 /**
  *
- * @author anders
+ * @author CakeSolutionGroup
  */
 public class Cake{
 

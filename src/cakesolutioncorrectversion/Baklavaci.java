@@ -1,24 +1,26 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
+
 package cakesolutioncorrectversion;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author nicolajdamfrederiksen
+ 
+ * Class Baklavaci extends a superclass called SuperLocation which that class
+ * implements the interface called Location. This class initializes questionList
+ * of its own, and it has a description of which world the player is at.
+ * @author Cakesolutiongroup
+ * @version 1.0
+ * @since ( 01 may 2013)
+ * 
  */
+ 
 public class Baklavaci extends SuperLocation {
 
     ArrayList<Question> questionList = new ArrayList<Question>();
 
-    /**
-     * This refers to the enumerated directions given in Location, and we can
-     * specify which specific directions we intend to be usable in Baklavaci
-     */
+  
     public Baklavaci() {
 
         initializeBQ();

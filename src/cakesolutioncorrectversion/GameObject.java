@@ -6,7 +6,7 @@ package cakesolutioncorrectversion;
 
 /**
  *
- * @author anders
+ * @author CakeSolutionGroup
  */
 public interface GameObject extends Localizable {
     
