@@ -7,16 +7,18 @@ package cakesolutioncorrectversion;
 import java.util.List;
 
 /**
- *
- * @author nicolajdamfrederiksen
+ * The interface 'World' creates a contract that the classes implementing 'World', 
+ * will contain a method 'getLocations'. 
+ * @author CakeSolutionGroup
+ * @version 1.0 (1 May 2013)
  */
 public interface World {
    
-    /** The list references the locations from Cakistan 
-     * (Cakistan implements World) */
+    /** This method is will create a list of the Locations using the 
+     *  Class type 'Location'
+     */
     
     List<Location> getLocations();
     
 }
 
- // We can write overall rules or parameters (like enemies) for the game here in World

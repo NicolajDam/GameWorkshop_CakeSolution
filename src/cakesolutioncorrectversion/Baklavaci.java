@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+
  
  * Class Baklavaci extends a superclass called SuperLocation which that class
  * implements the interface called Location. This class initializes questionList
@@ -13,8 +14,7 @@ import java.util.List;
  * @author Cakesolutiongroup
  * @version 1.0
  * @since ( 01 may 2013)
- * 
- */
+*/
  
 public class Baklavaci extends SuperLocation {
 
@@ -36,10 +36,7 @@ public class Baklavaci extends SuperLocation {
         return null;
     }
 
-    /**
-     * This is the description of the location Baklavaci
-     */
-    // THIS IS JUST TO TRY GIT! IGNORE THIS COMMENT
+
     public String getDescription() {
         return "Baklavaci";
     }

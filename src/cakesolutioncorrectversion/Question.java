@@ -6,9 +6,11 @@ package cakesolutioncorrectversion;
 
 import java.util.ArrayList;
 
-/**
- *
- * @author eskandarpahlavaafshari
+/** the class 'Question' contains a constructor that holds the questionText for 
+ * the specific questions. The class also contains the variables needed when 
+ * answering questions.
+ * @author CakeSolutionGroup
+ * @version 1.0 (2 May 2013)
  */
 public class Question {
     
@@ -16,12 +18,13 @@ public class Question {
     ArrayList<Choice> choices = new ArrayList<Choice>();
     Cake cake= new Cake();
     
+    /**
+     * the constructor creates a new instance of question 
+     * @param questionText of type String
+     * 
+     */
     public Question(String questionText){
         this.question = questionText;
         
     }
-    
-    
-     
-    
 }
