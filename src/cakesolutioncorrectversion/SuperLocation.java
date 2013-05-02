@@ -5,7 +5,7 @@
 package cakesolutioncorrectversion;
 
 //import apple.laf.JRSUIConstants;
-import cakesolutioncorrectversion.Location.Direction;
+import cakesolutioncorrectversion.Location;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,22 +18,10 @@ import java.util.List;
  */
 abstract class SuperLocation implements Location{
     
-     List<Location> myLocations = new ArrayList<Location>();
-    
      
-     public Location neighborEast;
-     public Location neighborWest; 
+     private Location neighbor;
      
     
-/**
- * @param direction
- * @returns the exists from the current location, the locations are of type 
- * Location class 
- */
-    @Override
-    public List<Location> getExits(Direction direction) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     /**
      * 
@@ -47,11 +35,11 @@ abstract class SuperLocation implements Location{
     /**
      * 
      * @param l 
-     * @return null
+     * @return neighbor of type location
      */
     @Override
-    public void setEastNeighbor(Location l) {
-        this.neighborEast = l;
+    public void setNeighbor(Location l) {
+        neighbor = l;
     }
     /**
      * @param null
@@ -59,8 +47,8 @@ abstract class SuperLocation implements Location{
      */ 
     
     @Override
-    public Location getEastNeighbor(){
-        return null;
+    public Location getNeighbor(){
+        return neighbor;
         
     }
 

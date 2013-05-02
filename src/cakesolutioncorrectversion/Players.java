@@ -9,6 +9,6 @@ package cakesolutioncorrectversion;
  * @author anders
  */
 public class Players {
-    //Wupwup bhqbg
+    //Delete this! But to exam remember superclasses if we wanted more players beside sugarman.
     
 }

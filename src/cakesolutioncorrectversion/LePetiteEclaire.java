@@ -30,11 +30,6 @@ public class LePetiteEclaire extends SuperLocation implements Location {
          return questionList;
      }
     
-    @Override
-    public List<Location> getExits(Location.Direction direction) {
-    return null;   
-    }
-    
        /** This is the description of the location LePetiteEclaire */
       @Override
     public String getDescription() {

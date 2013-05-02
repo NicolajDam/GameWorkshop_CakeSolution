@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package cakesolutioncorrectversion;
-import cakesolutioncorrectversion.Location.Direction;
+import cakesolutioncorrectversion.Location;
 /**
  *
  * @author Signe
@@ -15,7 +15,7 @@ public interface PlayerController extends Localizable {
      * @param direction direction to be moved to
      * @Return true if new location can be sat as requested, false otherwise
      */
-    boolean move(Direction direction);
+    public void move(Location location);
     
     /**
      * Player can eat the cake

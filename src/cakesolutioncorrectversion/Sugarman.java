@@ -6,7 +6,7 @@ package cakesolutioncorrectversion;
 
 import cakesolutioncorrectversion.Players;
 import cakesolutioncorrectversion.PlayerController;
-import cakesolutioncorrectversion.Location.Direction;
+import cakesolutioncorrectversion.Location;
 
 /** Sugarman is a class that extends Players and implements PlayerController.
  * The class contains the methods needed for the player to play the game, 
@@ -20,15 +20,26 @@ public class Sugarman extends Players implements PlayerController {
     private Location sugarmanLocation;
     private int currentSugarLevel = 50;
 
+    public boolean hasSugarmanWon(){
+        boolean hasWon = currentSugarLevel >= 100;
+        return hasWon;
+        //return currentSugarLevel >= 100;    
+}
+    public boolean hasSugarmanLost(){
+        boolean hasLost = currentSugarLevel <= 0;    
+        return hasLost;
+    }
+    
+    
     /**move is a method that determines whether the player can 
      * move to the desired location.
      * @param direction
      * @return boolean
      */
     @Override
-    public boolean move(Direction direction) {
-        //TODO implement it
-        return false;
+    public void move(Location location) {
+        sugarmanLocation = location;
+        
     }
 
     /**getSugarLevel returns the currentSugarLevel, which keeps track of the 

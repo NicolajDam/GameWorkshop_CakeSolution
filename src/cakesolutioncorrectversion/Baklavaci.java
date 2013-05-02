@@ -26,28 +26,17 @@ public class Baklavaci extends SuperLocation {
         initializeBQ();
     }
 
+    @Override
     public ArrayList<Question> getQuestionList() {
 
         return questionList;
     }
 
     @Override
-    public List<Location> getExits(Direction direction) {
-        return null;
-    }
-
-
     public String getDescription() {
         return "Baklavaci";
     }
 
-    public List<Location> getLocations() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void setEastNeighbor() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     public void initializeBQ() {
 

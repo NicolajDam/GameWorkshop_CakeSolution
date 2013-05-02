@@ -26,12 +26,6 @@ public class Lagkagehuset extends SuperLocation implements Location {
   
          return questionList;
      }
-   
-    
-    @Override
-    public List<Location> getExits(Direction direction) {
-    return null;   
-    }
     
      // make a Junit test to check that we override the getDescripttion function from the SuperLocation. agata will love.
      
@@ -39,16 +33,6 @@ public class Lagkagehuset extends SuperLocation implements Location {
       @Override
     public String getDescription() {
             return "Lagkagehuset";
-    }
-
-   
-    public List<Location> getLocations() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-   // @Override
-    public void setEastNeighbor() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     

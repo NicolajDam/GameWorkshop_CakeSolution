@@ -41,4 +41,23 @@ public class View {
     
         }
     }   
+
+    public void printSugarmanWon(){
+    
+        System.out.println("SPLASH! Hurray Sugarman won! He exploded and is now a happy part of all the cakes - JAY!");  
+    }
+
+    public void printSugarmanLost(){
+    
+        System.out.println("Sorry Sugarman got too thin and got the SugarCold...and then he died...sorry.");
+    }
+
+    public void printRanOutOfQuestions(){
+    
+        System.out.println("Sorry you ran out of questions. Sugarman will run around crying until you Start over.");
+    }
+
+
+
+
 }
