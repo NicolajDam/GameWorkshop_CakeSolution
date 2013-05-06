@@ -1,13 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cakesolutioncorrectversion;
 
 import cakesolutioncorrectversion.Location;
 /**
- *
+ * Localizable interface holds getLocation method of type Location.
  * @author CakeSolutionGroup
+ * @version 1.0
+ * @since (01 may 2013)
  */
 public interface Localizable {
     

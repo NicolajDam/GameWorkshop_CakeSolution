@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface World {
    
-    /** This method is will create a list of the Locations using the 
+    /** This method  will create a list of the Locations using the 
      *  Class type 'Location'
      */
     

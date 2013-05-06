@@ -1,41 +1,56 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cakesolutioncorrectversion;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Class Lagkagehuset extends a superclass SuperLocation which that class
+ * implements the interface Location. This class initializes questionList
+ * of its own, and it has a description of which world the player is at.
+ * 
  * @author CakeSolutionGroup
+ * @version 1.0
+ * @since (01 may 2013)
  */
 public class Lagkagehuset extends SuperLocation implements Location {
     
     ArrayList<Question> questionList = new ArrayList<Question>();
-    /** This refers to the enumerated directions given in Location, 
-     * and we can specify which specific directions we intend to be
-     * usable in Lagkagehuset */
-     
+  
+    
+    
+    /**
+     * 
+     * Class constructor that initializes the questions for Lagkagehuset.
+     */
+    
     public Lagkagehuset() {
         initializeQuestions();
     }
-    
+    /**
+     * getQuestionList method that returns question list for Lagekagehuset.
+     * @return questionList
+     */
      public ArrayList<Question> getQuestionList(){
   
          return questionList;
      }
     
-     // make a Junit test to check that we override the getDescripttion function from the SuperLocation. agata will love.
      
-     /** This is the description of the location Lagkagehuset */
+     /** 
+      * This is the description of the location Lagkagehuset.
+      * @return String Lagkagehuset.
+      */
       @Override
     public String getDescription() {
             return "Lagkagehuset";
     }
     
-    
+    /**
+     * Method initializeQuestions that generates questions and choices
+     * for the world, Lagkagehuset.
+     * 
+     */
     public void initializeQuestions(){
         
          Question q1 = new Question("What is the name of the current Queen of Denmark?");
@@ -82,10 +97,10 @@ public class Lagkagehuset extends SuperLocation implements Location {
          lkhQ2C4.isCorrectChoice = false;
          
          questionList.add(q2);
-         q1.choices.add(lkhQ2C1);
-         q1.choices.add(lkhQ2C2);
-         q1.choices.add(lkhQ2C3);
-         q1.choices.add(lkhQ2C4);
+         q2.choices.add(lkhQ2C1);
+         q2.choices.add(lkhQ2C2);
+         q2.choices.add(lkhQ2C3);
+         q2.choices.add(lkhQ2C4);
          
          Question q3 = new Question("Which island is the biggest in Denmark?");
          
@@ -106,10 +121,10 @@ public class Lagkagehuset extends SuperLocation implements Location {
          lkhQ3C4.isCorrectChoice = false;
          
          questionList.add(q3);
-         q1.choices.add(lkhQ3C1);
-         q1.choices.add(lkhQ3C2);
-         q1.choices.add(lkhQ3C3);
-         q1.choices.add(lkhQ3C4);
+         q3.choices.add(lkhQ3C1);
+         q3.choices.add(lkhQ3C2);
+         q3.choices.add(lkhQ3C3);
+         q3.choices.add(lkhQ3C4);
          
          Question q4 = new Question("Which bird is the Danish national bird?");
          
@@ -130,10 +145,10 @@ public class Lagkagehuset extends SuperLocation implements Location {
          lkhQ4C4.isCorrectChoice = false;
          
          questionList.add(q4);
-         q1.choices.add(lkhQ4C1);
-         q1.choices.add(lkhQ4C2);
-         q1.choices.add(lkhQ4C3);
-         q1.choices.add(lkhQ4C4);
+         q4.choices.add(lkhQ4C1);
+         q4.choices.add(lkhQ4C2);
+         q4.choices.add(lkhQ4C3);
+         q4.choices.add(lkhQ4C4);
          
          Question q5 = new Question("When was Denmark liberated after WW2?");
          
@@ -154,10 +169,10 @@ public class Lagkagehuset extends SuperLocation implements Location {
          lkhQ5C4.isCorrectChoice = true;
          
          questionList.add(q5);
-         q1.choices.add(lkhQ5C1);
-         q1.choices.add(lkhQ5C2);
-         q1.choices.add(lkhQ5C3);
-         q1.choices.add(lkhQ5C4);
+         q5.choices.add(lkhQ5C1);
+         q5.choices.add(lkhQ5C2);
+         q5.choices.add(lkhQ5C3);
+         q5.choices.add(lkhQ5C4);
         
           
     }

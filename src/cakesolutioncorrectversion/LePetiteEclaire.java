@@ -1,40 +1,57 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cakesolutioncorrectversion;
 
 import java.util.List;
 import java.util.ArrayList;
 
 /**
- *
+ *Class LePetiteEclaire extends a superclass SuperLocation which that class
+ * implements the interface Location. This class initializes questionList
+ * of its own, and it has a description of which world the player is at.
+ * 
  * @author CakeSolutionGroup
+ * @version 1.0
+ * @since (01 may 2013)
  */
 public class LePetiteEclaire extends SuperLocation implements Location {
      
     ArrayList<Question> questionList = new ArrayList<Question>();
-    /** This refers to the enumerated directions given in Location, 
-     * and we can specify which specific directions we intend to be
-     * usable in LePetiteEclaire */
-     
+    
+    
+     /**
+     * 
+     * Class constructor that initializes the questions for LePetiteEclaire.
+     */
     public LePetiteEclaire(){
     
         initializeLPEQ();
     
     }
-    
-    
+    /**
+     * getQuestionList method that returns question list for Lagekagehuset.
+     * @return questionList
+     */
+    @Override
     public ArrayList<Question> getQuestionList(){
   
          return questionList;
      }
     
-       /** This is the description of the location LePetiteEclaire */
+       /** 
+        * This is the description of the location LePetiteEclaire
+        *@return  String Le petite Eclaire.
+        */
       @Override
     public String getDescription() {
             return "Le Petite Eclaire";
     }
+      
+      
+     /**
+     * Method initializeLPEQ that generates questions and choices
+     * for the world, LePetiteEclaire.
+     * 
+     */
       public void initializeLPEQ(){
         
         Question q1  = new Question("What is the name of the current French republic?");

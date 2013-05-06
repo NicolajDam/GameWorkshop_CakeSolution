@@ -8,8 +8,8 @@ import java.util.List;
 /**
 
  
- * Class Baklavaci extends a superclass called SuperLocation which that class
- * implements the interface called Location. This class initializes questionList
+ * Class Baklavaci extends a superclass SuperLocation which that class
+ * implements the interface Location. This class initializes questionList
  * of its own, and it has a description of which world the player is at.
  * @author Cakesolutiongroup
  * @version 1.0
@@ -20,24 +20,42 @@ public class Baklavaci extends SuperLocation {
 
     ArrayList<Question> questionList = new ArrayList<Question>();
 
+    /**
+     * Class constructor that initializes the questions for Baklavaci.
+     * 
+     */
   
     public Baklavaci() {
 
         initializeBQ();
     }
 
+    
+    /**
+     * getQuestionList method that returns question list for Baklavaci.
+     * @return questionList
+     */
     @Override
     public ArrayList<Question> getQuestionList() {
 
         return questionList;
     }
 
+    /**
+     * getDescription method that returns the name of the world the player is at.
+     * @return String "Baklavaci" - the name of the world where the player is at. 
+     */
     @Override
     public String getDescription() {
         return "Baklavaci";
     }
 
 
+    /**
+     * Method initializeBQ that generates questions and choices
+     * for the world, Baklavaci.
+     * 
+     */
     public void initializeBQ() {
 
         Question q1 = new Question("On which continent does Turkey lie?");

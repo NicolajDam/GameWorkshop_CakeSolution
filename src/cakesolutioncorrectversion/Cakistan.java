@@ -1,7 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cakesolutioncorrectversion;
 
 import cakesolutioncorrectversion.Location;
@@ -9,8 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ *This class generates an arrayList called myLocations
+ * which adds all 3 different worlds in the game. i.e : Baklavaci
+ * The class also implements the interface World.
+ * 
  * @author CakeSolutionGroup
+ * @since (01 may 2013)
  */
 public class Cakistan implements World {
 
@@ -18,6 +19,7 @@ public class Cakistan implements World {
 
     /**
      * This creates a list of all the locations and connects to World
+     * 
      */
     public Cakistan() {
         Location baklavaci = new Baklavaci();
@@ -36,7 +38,11 @@ public class Cakistan implements World {
 
     
     
-    
+    /**
+     * Method getLocations that returns arrayList myLocations.
+     * 
+     * @return myLocations of type arrayList
+     */
     @Override
     public List<Location> getLocations() {
         return myLocations;

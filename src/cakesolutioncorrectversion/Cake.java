@@ -1,12 +1,13 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package cakesolutioncorrectversion;
 
 /**
  *
+ * This class just holds the sugarLevel.
  * @author CakeSolutionGroup
+ * @version 1.0
+ * @since (01 may 2013)
+ * 
  */
 public class Cake{
 
