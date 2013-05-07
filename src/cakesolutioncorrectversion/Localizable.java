@@ -10,10 +10,14 @@ import cakesolutioncorrectversion.Location;
  */
 public interface Localizable {
     
-    /**Returns the current location*/
+    /**
+     * Returns the current location
+     */
     Location getLocation();
     
-    /**Sets the location*/
+    /**
+     * Sets the location
+     */
     boolean setLocation(Location location);
     
     

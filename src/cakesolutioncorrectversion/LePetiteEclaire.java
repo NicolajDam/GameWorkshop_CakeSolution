@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * @version 1.0
  * @since (01 may 2013)
  */
-public class LePetiteEclaire extends SuperLocation implements Location {
+public class LePetiteEclaire extends SuperLocation  {
      
     ArrayList<Question> questionList = new ArrayList<Question>();
     
@@ -99,10 +99,10 @@ public class LePetiteEclaire extends SuperLocation implements Location {
         LPEQ2C4.isCorrectChoice = false;
         
         questionList.add(q2);
-        q1.choices.add(LPEQ2C1);
-        q1.choices.add(LPEQ2C2);
-        q1.choices.add(LPEQ2C3);
-        q1.choices.add(LPEQ2C4);
+        q2.choices.add(LPEQ2C1);
+        q2.choices.add(LPEQ2C2);
+        q2.choices.add(LPEQ2C3);
+        q2.choices.add(LPEQ2C4);
         
         
         Question q3 = new Question("How many regional languages is there in France?");
@@ -124,10 +124,10 @@ public class LePetiteEclaire extends SuperLocation implements Location {
         LPEQ2C4.isCorrectChoice = false;
         
         questionList.add(q3);
-        q1.choices.add(LPEQ3C1);
-        q1.choices.add(LPEQ3C2);
-        q1.choices.add(LPEQ3C3);
-        q1.choices.add(LPEQ3C4);
+        q3.choices.add(LPEQ3C1);
+        q3.choices.add(LPEQ3C2);
+        q3.choices.add(LPEQ3C3);
+        q3.choices.add(LPEQ3C4);
                 
     }
     

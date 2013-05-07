@@ -51,10 +51,28 @@ public class WorldTest {
         fail("The test case is a prototype.");
     }
 
+    /**
+     * Test of isOutOfQuestions method, of class World.
+     */
+    @Test
+    public void testIsOutOfQuestions() {
+        System.out.println("isOutOfQuestions");
+        World instance = new WorldImpl();
+        boolean expResult = false;
+        boolean result = instance.isOutOfQuestions();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
     public class WorldImpl implements World {
 
         public List<Location> getLocations() {
             return null;
+        }
+
+        public boolean isOutOfQuestions() {
+            return false;
         }
     }
 }

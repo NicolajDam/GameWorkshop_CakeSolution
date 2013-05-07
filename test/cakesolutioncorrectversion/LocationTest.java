@@ -4,9 +4,7 @@
  */
 package cakesolutioncorrectversion;
 
-import cakesolutioncorrectversion.Location.Direction;
 import java.util.ArrayList;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,21 +38,6 @@ public class LocationTest {
     }
 
     /**
-     * Test of getExits method, of class Location.
-     */
-    @Test
-    public void testGetExits() {
-        System.out.println("getExits");
-        Direction direction = null;
-        Location instance = new LocationImpl();
-        List expResult = null;
-        List result = instance.getExits(direction);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getDescription method, of class Location.
      */
     @Test
@@ -69,27 +52,27 @@ public class LocationTest {
     }
 
     /**
-     * Test of setEastNeighbor method, of class Location.
+     * Test of setNeighbor method, of class Location.
      */
     @Test
-    public void testSetEastNeighbor() {
-        System.out.println("setEastNeighbor");
+    public void testSetNeighbor() {
+        System.out.println("setNeighbor");
         Location l = null;
         Location instance = new LocationImpl();
-        instance.setEastNeighbor(l);
+        instance.setNeighbor(l);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of getEastNeighbor method, of class Location.
+     * Test of getNeighbor method, of class Location.
      */
     @Test
-    public void testGetEastNeighbor() {
-        System.out.println("getEastNeighbor");
+    public void testGetNeighbor() {
+        System.out.println("getNeighbor");
         Location instance = new LocationImpl();
         Location expResult = null;
-        Location result = instance.getEastNeighbor();
+        Location result = instance.getNeighbor();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -111,18 +94,14 @@ public class LocationTest {
 
     public class LocationImpl implements Location {
 
-        public List<Location> getExits(Direction direction) {
-            return null;
-        }
-
         public String getDescription() {
             return "";
         }
 
-        public void setEastNeighbor(Location l) {
+        public void setNeighbor(Location l) {
         }
 
-        public Location getEastNeighbor() {
+        public Location getNeighbor() {
             return null;
         }
 

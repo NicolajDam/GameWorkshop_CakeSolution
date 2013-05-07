@@ -4,7 +4,6 @@
  */
 package cakesolutioncorrectversion;
 
-import cakesolutioncorrectversion.Location.Direction;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,11 +42,9 @@ public class PlayerControllerTest {
     @Test
     public void testMove() {
         System.out.println("move");
-        Direction direction = null;
+        Location location = null;
         PlayerController instance = new PlayerControllerImpl();
-        boolean expResult = false;
-        boolean result = instance.move(direction);
-        assertEquals(expResult, result);
+        instance.move(location);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -107,8 +104,7 @@ public class PlayerControllerTest {
 
     public class PlayerControllerImpl implements PlayerController {
 
-        public boolean move(Direction direction) {
-            return false;
+        public void move(Location location) {
         }
 
         public void eatCake(Cake cake) {

@@ -9,8 +9,8 @@ import java.util.List;
 
  
  * Class Baklavaci extends a superclass SuperLocation which that class
- * implements the interface Location. This class initializes questionList
- * of its own, and it has a description of which world the player is at.
+ * implements the interface Location. This class represents one of the locations of the game.
+ * it initializes questionList of its own, and it has a description of which world the player is at.
  * @author Cakesolutiongroup
  * @version 1.0
  * @since ( 01 may 2013)

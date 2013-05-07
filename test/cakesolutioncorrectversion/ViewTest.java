@@ -61,4 +61,40 @@ public class ViewTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of printSugarmanWon method, of class View.
+     */
+    @Test
+    public void testPrintSugarmanWon() {
+        System.out.println("printSugarmanWon");
+        View instance = new View();
+        instance.printSugarmanWon();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of printSugarmanLost method, of class View.
+     */
+    @Test
+    public void testPrintSugarmanLost() {
+        System.out.println("printSugarmanLost");
+        View instance = new View();
+        instance.printSugarmanLost();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of printRanOutOfQuestions method, of class View.
+     */
+    @Test
+    public void testPrintRanOutOfQuestions() {
+        System.out.println("printRanOutOfQuestions");
+        View instance = new View();
+        instance.printRanOutOfQuestions();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
 }

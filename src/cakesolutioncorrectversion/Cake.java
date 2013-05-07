@@ -9,10 +9,13 @@ package cakesolutioncorrectversion;
  * @since (01 may 2013)
  * 
  */
-public class Cake{
+public class Cake {
 
     int sugarLevel= 10;
+
+    
+    }
     
     
     
-}
+

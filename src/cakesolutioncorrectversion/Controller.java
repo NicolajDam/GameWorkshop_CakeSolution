@@ -1,13 +1,15 @@
 package cakesolutioncorrectversion;
 
 import cakesolutioncorrectversion.Location;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
- * This class is a part of MVC (Model View Controller). It controls the actions
- * in the game. Class controller declares "world" of type Cakistan, "player1" of
- * type Sugarman and "the view" of type View.
+ * This class is the Controller part of MVC (Model View Controller). It controls the actions
+ * in the game. Class Controller declares "world" of type Cakistan, "player1" of
+ * type Sugarman, "the view" of type View and "r" of type Random.
  *
  * @author CakeSolutionGroup
  * @version 1.0
@@ -15,9 +17,11 @@ import java.util.Scanner;
  */
 public class Controller {
 
-    Cakistan world;
+    World world;
     Sugarman player1;
     View theView;
+    Random r= new Random();
+    
 
     /**
      * Method startGame instantiate world, player1 and the view.
@@ -50,15 +54,22 @@ public class Controller {
      *
      */
     public void runGame() {
-        while (!player1.hasSugarmanLost() && !player1.hasSugarmanWon()) {
+        while (!player1.hasSugarmanLost() && !player1.hasSugarmanWon()&& !world.isOutOfQuestions()) {
             theView.playerStatus(player1);
             System.out.println("Do you wanna stay here in " + player1.getLocation().getDescription()
                     + " and answer questions or move on to " + player1.getLocation().getNeighbor().getDescription()
                     + "Type in 1 to stay or 2 to move on");
             int decision = userInput();
-            if (decision == 1) {
-
-                Question q = player1.getLocation().getQuestionList().get(0);
+            if (decision == 1 ) {
+ 
+                ArrayList<Question> currentQuestionList =  player1.getLocation().getQuestionList();
+               if(currentQuestionList.isEmpty()){
+                   System.out.println("There are no questions left in this location! Move to the next location by choosing 2 : ");
+                   continue;
+               }
+                int randomNumber= r.nextInt(currentQuestionList.size());
+                Question q = currentQuestionList.get(randomNumber);
+                currentQuestionList.remove(randomNumber);
                 theView.printOutQuestion(q);
                 System.out.println("Please enter the number of your answer: ");
                 int answer = userInput();
@@ -110,24 +121,7 @@ public class Controller {
         Controller game = new Controller();
         game.startGame();
         game.runGame();
-        /*Cakistan newWorld = new Cakistan();
-         List<Location> myLocations = newWorld.getLocations();
-                
-         /**This for loop gets the locations and prints out 
-         * the description of these */
 
-//                for (Location L : myLocations) { 
-//                        System.out.println("Fancy for loop: " 
-//                                +L.getDescription());
-//                }
-//                
-//                /**This for loop gets the directions and prints out them out */
-//                
-//                for (Direction theNextDirection : Direction.values()) {
-//                        System.out.println(theNextDirection);
-//                    
-//                }
-//        
 
     }
 }

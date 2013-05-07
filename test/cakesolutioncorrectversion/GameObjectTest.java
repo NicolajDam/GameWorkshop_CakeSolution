@@ -36,24 +36,9 @@ public class GameObjectTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of canBeTaken method, of class GameObject.
-     */
     @Test
-    public void testCanBeTaken() {
-        System.out.println("canBeTaken");
-        GameObject instance = new GameObjectImpl();
-        boolean expResult = false;
-        boolean result = instance.canBeTaken();
-        assertEquals(expResult, result);
+    public void testSomeMethod() {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-    }
-
-    public class GameObjectImpl implements GameObject {
-
-        public boolean canBeTaken() {
-            return false;
-        }
     }
 }

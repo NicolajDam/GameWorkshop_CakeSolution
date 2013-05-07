@@ -20,5 +20,7 @@ public interface World {
     
     List<Location> getLocations();
     
+    public boolean isOutOfQuestions();
+    
 }
 

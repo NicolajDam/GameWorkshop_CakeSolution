@@ -14,6 +14,6 @@ package cakesolutioncorrectversion;
  */
 public interface GameObject extends Localizable {
     
-    boolean canBeTaken();
+    
     
 }

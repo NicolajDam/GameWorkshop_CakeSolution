@@ -4,7 +4,6 @@
  */
 package cakesolutioncorrectversion;
 
-import cakesolutioncorrectversion.Location.Direction;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,16 +37,42 @@ public class SugarmanTest {
     }
 
     /**
+     * Test of hasSugarmanWon method, of class Sugarman.
+     */
+    @Test
+    public void testHasSugarmanWon() {
+        System.out.println("hasSugarmanWon");
+        Sugarman instance = new Sugarman();
+        boolean expResult = false;
+        boolean result = instance.hasSugarmanWon();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of hasSugarmanLost method, of class Sugarman.
+     */
+    @Test
+    public void testHasSugarmanLost() {
+        System.out.println("hasSugarmanLost");
+        Sugarman instance = new Sugarman();
+        boolean expResult = false;
+        boolean result = instance.hasSugarmanLost();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
      * Test of move method, of class Sugarman.
      */
     @Test
     public void testMove() {
         System.out.println("move");
-        Direction direction = null;
+        Location location = null;
         Sugarman instance = new Sugarman();
-        boolean expResult = false;
-        boolean result = instance.move(direction);
-        assertEquals(expResult, result);
+        instance.move(location);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

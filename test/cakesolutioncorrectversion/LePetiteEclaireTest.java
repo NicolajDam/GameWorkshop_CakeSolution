@@ -4,9 +4,7 @@
  */
 package cakesolutioncorrectversion;
 
-import cakesolutioncorrectversion.Location.Direction;
 import java.util.ArrayList;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -48,21 +46,6 @@ public class LePetiteEclaireTest {
         LePetiteEclaire instance = new LePetiteEclaire();
         ArrayList expResult = null;
         ArrayList result = instance.getQuestionList();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getExits method, of class LePetiteEclaire.
-     */
-    @Test
-    public void testGetExits() {
-        System.out.println("getExits");
-        Direction direction = null;
-        LePetiteEclaire instance = new LePetiteEclaire();
-        List expResult = null;
-        List result = instance.getExits(direction);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

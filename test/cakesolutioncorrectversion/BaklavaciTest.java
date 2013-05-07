@@ -4,9 +4,7 @@
  */
 package cakesolutioncorrectversion;
 
-import cakesolutioncorrectversion.Location.Direction;
 import java.util.ArrayList;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -16,7 +14,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author nicolajdamfrederiksen
+ * @author eskandarpahlavaafshari
  */
 public class BaklavaciTest {
     
@@ -46,26 +44,11 @@ public class BaklavaciTest {
     public void testGetQuestionList() {
         System.out.println("getQuestionList");
         Baklavaci instance = new Baklavaci();
-        ArrayList expResult = instance.getQuestionList();
+        ArrayList expResult = null;
         ArrayList result = instance.getQuestionList();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getExits method, of class Baklavaci.
-     */
-    @Test
-    public void testGetExits() {
-        System.out.println("getExits");
-        Direction direction = null;
-        Baklavaci instance = new Baklavaci();
-        List expResult = instance.getExits(direction);
-        List result = instance.getExits(direction);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -75,37 +58,11 @@ public class BaklavaciTest {
     public void testGetDescription() {
         System.out.println("getDescription");
         Baklavaci instance = new Baklavaci();
-        String expResult = "Baklavaci";
+        String expResult = "";
         String result = instance.getDescription();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getLocations method, of class Baklavaci.
-     */
-    @Test
-    public void testGetLocations() {
-        System.out.println("getLocations");
-        Baklavaci instance = new Baklavaci();
-        List expResult = instance.getLocations();
-        List result = instance.getLocations();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setEastNeighbor method, of class Baklavaci.
-     */
-    @Test
-    public void testSetEastNeighbor() {
-        System.out.println("setEastNeighbor");
-        Baklavaci instance = new Baklavaci();
-        instance.setEastNeighbor();
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -117,6 +74,6 @@ public class BaklavaciTest {
         Baklavaci instance = new Baklavaci();
         instance.initializeBQ();
         // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        fail("The test case is a prototype.");
     }
 }

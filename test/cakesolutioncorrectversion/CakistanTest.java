@@ -4,7 +4,6 @@
  */
 package cakesolutioncorrectversion;
 
-import cakesolutioncorrectversion.Location.Direction;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -39,17 +38,17 @@ public class CakistanTest {
     }
 
     /**
-     * Test of getLocations method, of class Cakistan.
+     * Test of isOutOfQuestions method, of class Cakistan.
      */
     @Test
-    public void testThatGetLocationsReturnsThreeLocations() {
-        Cakistan testCakistan= new Cakistan();
-        assertEquals(3, testCakistan.getLocations().size());
-    }
-    
-    @Test
-    public void testThatConnectLocationsFromLocationAToLocationBGivesAnExitWithTheRightDirection(){
-        
+    public void testIsOutOfQuestions() {
+        System.out.println("isOutOfQuestions");
+        Cakistan instance = new Cakistan();
+        boolean expResult = false;
+        boolean result = instance.isOutOfQuestions();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -62,21 +61,6 @@ public class CakistanTest {
         List expResult = null;
         List result = instance.getLocations();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of connectLocation method, of class Cakistan.
-     */
-    @Test
-    public void testConnectLocation() {
-        System.out.println("connectLocation");
-        Location comingFromLocation = null;
-        Direction d = null;
-        Location goingToLocation = null;
-        Cakistan instance = new Cakistan();
-        instance.connectLocation(comingFromLocation, d, goingToLocation);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

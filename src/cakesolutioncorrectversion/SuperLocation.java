@@ -21,16 +21,7 @@ abstract class SuperLocation implements Location{
      
      private Location neighbor;
      
-    
-
-    /**
-     * 
-     * @returns a string, which describes the name of the location
-     */
-    @Override
-    public String getDescription() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+ 
     
     /**
      * 

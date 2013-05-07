@@ -13,7 +13,7 @@ import java.util.List;
  * @version 1.0
  * @since (01 may 2013)
  */
-public class Lagkagehuset extends SuperLocation implements Location {
+public class Lagkagehuset extends SuperLocation  {
     
     ArrayList<Question> questionList = new ArrayList<Question>();
   

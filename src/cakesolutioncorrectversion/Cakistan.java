@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  *This class generates an arrayList called myLocations
- * which adds all 3 different worlds in the game. i.e : Baklavaci
+ * which adds all existing locations in the game. i.e : Baklavaci
  * The class also implements the interface World.
  * 
  * @author CakeSolutionGroup
@@ -32,8 +32,22 @@ public class Cakistan implements World {
         baklavaci.setNeighbor(lagkagehuset);
         lagkagehuset.setNeighbor(lePetiteEclaire);
         lePetiteEclaire.setNeighbor(baklavaci);
+   
+    }
+    /**
+     * 
+     * @return 
+     */
+    public boolean isOutOfQuestions(){
         
-
+        for(int i=0; i < myLocations.size(); i++){
+            
+            boolean isEmpty = myLocations.get(i).getQuestionList().isEmpty();
+            if(!isEmpty) {
+                return false;
+            }
+        } 
+        return true;
     }
 
     
