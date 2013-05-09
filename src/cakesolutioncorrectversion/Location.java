@@ -20,4 +20,5 @@ public interface Location {
      
      public ArrayList<Question> getQuestionList();
     
+     public Question getRandomQuestion();
 }

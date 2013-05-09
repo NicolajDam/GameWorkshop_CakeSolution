@@ -42,6 +42,43 @@ public class View {
         }
     }   
 
+    
+    public void printToMoveOrToStay(String currentLocation, String neighborLocation){
+            System.out.println("Do you wanna stay here in " + currentLocation
+                    + " and answer questions or move on to " + neighborLocation
+                    + "Type in 1 to stay or 2 to move on");
+        
+    }
+    
+    public void printNoQuestionsLeft(){
+        
+        System.out.println("There are no questions left in this location! Move to the next location by choosing 2 : ");
+    }
+    
+    public void printEnterAnswer(){
+        
+        System.out.println("Please enter the number of your answer: ");
+        
+    }
+    
+    public void printYouGotACake(){
+        
+        System.out.println("Hurray you get a cake!");
+        
+    }
+    
+    public void printNoCake(){
+        
+        System.out.println("Sucker, you don't get a cake! HA!");
+        
+    }
+    
+    public void printRetypeInput(int max){
+        
+        System.out.println("Please, type an input from 1 to " + max);
+        
+    }
+    
     public void printSugarmanWon(){
     
         System.out.println("SPLASH! Hurray Sugarman won! He exploded and is now a happy part of all the cakes - JAY!");  

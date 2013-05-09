@@ -8,6 +8,7 @@ package cakesolutioncorrectversion;
 import cakesolutioncorrectversion.Location;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /** The class 'SuperLocation' is a super class, which implements Location.
  * It's purpose is to create the methods for placing the locations in relation
@@ -17,11 +18,43 @@ import java.util.List;
  * @version 1.0 (1 May 2013)
  */
 abstract class SuperLocation implements Location{
+     
     
-     
      private Location neighbor;
-     
+     Random r= new Random();
+     ArrayList<Question> questionList = new ArrayList<Question>();
  
+      /**
+     * Class constructor that initializes the questions for the location.
+     */
+     public SuperLocation(){
+        
+         initializeQuestionList();
+        
+    }
+     
+     abstract void initializeQuestionList();
+     
+     /**
+     * getQuestionList method that returns question list for the location.
+     * @return questionList
+     */
+    @Override
+    public ArrayList<Question> getQuestionList(){
+  
+         return questionList;
+     }
+    
+    public Question getRandomQuestion(){
+        
+        int randomNumber= r.nextInt(questionList.size());
+                Question q = questionList.get(randomNumber);
+                questionList.remove(randomNumber);
+        
+        return q;
+    }
+    
+   
     
     /**
      * 

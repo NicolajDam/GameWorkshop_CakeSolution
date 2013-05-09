@@ -18,28 +18,7 @@ import java.util.List;
  
 public class Baklavaci extends SuperLocation {
 
-    ArrayList<Question> questionList = new ArrayList<Question>();
-
-    /**
-     * Class constructor that initializes the questions for Baklavaci.
-     * 
-     */
-  
-    public Baklavaci() {
-
-        initializeBQ();
-    }
-
-    
-    /**
-     * getQuestionList method that returns question list for Baklavaci.
-     * @return questionList
-     */
-    @Override
-    public ArrayList<Question> getQuestionList() {
-
-        return questionList;
-    }
+   
 
     /**
      * getDescription method that returns the name of the world the player is at.
@@ -56,7 +35,7 @@ public class Baklavaci extends SuperLocation {
      * for the world, Baklavaci.
      * 
      */
-    public void initializeBQ() {
+    public void initializeQuestionList() {
 
         Question q1 = new Question("On which continent does Turkey lie?");
 

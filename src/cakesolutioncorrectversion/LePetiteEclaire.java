@@ -15,28 +15,11 @@ import java.util.ArrayList;
  */
 public class LePetiteEclaire extends SuperLocation  {
      
-    ArrayList<Question> questionList = new ArrayList<Question>();
     
     
-     /**
-     * 
-     * Class constructor that initializes the questions for LePetiteEclaire.
-     */
-    public LePetiteEclaire(){
     
-        initializeLPEQ();
-    
-    }
-    /**
-     * getQuestionList method that returns question list for Lagekagehuset.
-     * @return questionList
-     */
-    @Override
-    public ArrayList<Question> getQuestionList(){
-  
-         return questionList;
-     }
-    
+     
+
        /** 
         * This is the description of the location LePetiteEclaire
         *@return  String Le petite Eclaire.
@@ -52,7 +35,7 @@ public class LePetiteEclaire extends SuperLocation  {
      * for the world, LePetiteEclaire.
      * 
      */
-      public void initializeLPEQ(){
+      public void initializeQuestionList(){
         
         Question q1  = new Question("What is the name of the current French republic?");
         
@@ -120,8 +103,8 @@ public class LePetiteEclaire extends SuperLocation  {
         LPEQ3C3.isCorrectChoice = true;
          
         Choice LPEQ3C4 = new Choice();
-        LPEQ2C4.choice = "9";
-        LPEQ2C4.isCorrectChoice = false;
+        LPEQ3C4.choice = "9";
+        LPEQ3C4.isCorrectChoice = false;
         
         questionList.add(q3);
         q3.choices.add(LPEQ3C1);

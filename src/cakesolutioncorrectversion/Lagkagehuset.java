@@ -15,27 +15,7 @@ import java.util.List;
  */
 public class Lagkagehuset extends SuperLocation  {
     
-    ArrayList<Question> questionList = new ArrayList<Question>();
-  
-    
-    
-    /**
-     * 
-     * Class constructor that initializes the questions for Lagkagehuset.
-     */
-    
-    public Lagkagehuset() {
-        initializeQuestions();
-    }
-    /**
-     * getQuestionList method that returns question list for Lagekagehuset.
-     * @return questionList
-     */
-     public ArrayList<Question> getQuestionList(){
-  
-         return questionList;
-     }
-    
+
      
      /** 
       * This is the description of the location Lagkagehuset.
@@ -51,7 +31,7 @@ public class Lagkagehuset extends SuperLocation  {
      * for the world, Lagkagehuset.
      * 
      */
-    public void initializeQuestions(){
+    public void initializeQuestionList(){
         
          Question q1 = new Question("What is the name of the current Queen of Denmark?");
          
