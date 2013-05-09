@@ -18,6 +18,18 @@ public class Sugarman extends Players implements PlayerController {
     private Location sugarmanLocation;
     private int currentSugarLevel = 50;
 
+    
+    public boolean isAnswerCorrect(Question q, int answer) {
+
+        if (q.choices.get(answer - 1).isCorrectChoice) {
+            eatCake(q.cake);
+            return true;
+        } else {
+            dontEatCake(q.cake);
+            return false;
+        }
+    }
+    
     public boolean hasSugarmanWon() {
         boolean hasWon = currentSugarLevel >= 100;
         return hasWon;

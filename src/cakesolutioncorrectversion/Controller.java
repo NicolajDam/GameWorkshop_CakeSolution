@@ -131,14 +131,14 @@ public class Controller {
         theView.printOutQuestion(q);
         theView.printEnterAnswer();
         int answer = userInput(q.choices.size());
-        if (q.choices.get(answer - 1).isCorrectChoice) {
-            theView.printYouGotACake();
-            player1.eatCake(q.cake);
-        } else {
-            theView.printNoCake();
-            player1.dontEatCake(q.cake);
-
+        boolean wasCorrectAnswer = player1.isAnswerCorrect(q, answer);
+        
+        if(wasCorrectAnswer){
+        theView.printYouGotACake();
+        } else{
+        theView.printNoCake();
         }
+    
     }
 
     public void printGameOver() {
