@@ -1,39 +1,38 @@
-
-
 package cakesolutioncorrectversion;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
-
- 
+ *
+ *
  * Class Baklavaci extends a superclass SuperLocation which that class
- * implements the interface Location. This class represents one of the locations of the game.
- * it initializes questionList of its own, and it has a description of which world the player is at.
+ * implements the interface Location. This class represents one of the locations
+ * of the game. it initializes questionList of its own, and it has a description
+ * of which world the player is at.
+ *
  * @author Cakesolutiongroup
  * @version 1.0
  * @since ( 01 may 2013)
-*/
- 
+ */
 public class Baklavaci extends SuperLocation {
 
-   
-
     /**
-     * getDescription method that returns the name of the world the player is at.
-     * @return String "Baklavaci" - the name of the world where the player is at. 
+     * getDescription method that returns the name of the world the player is
+     * at.
+     *
+     * @return String "Baklavaci" - the name of the world where the player is
+     * at.
      */
     @Override
     public String getDescription() {
         return "Baklavaci";
     }
 
-
     /**
-     * Method initializeBQ that generates questions and choices
-     * for the world, Baklavaci.
-     * 
+     * Method initializeBQ that generates questions and choices for the world,
+     * Baklavaci.
+     *
      */
     public void initializeQuestionList() {
 

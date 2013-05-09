@@ -7,7 +7,7 @@ package cakesolutioncorrectversion;
 import java.util.List;
 
 /**
- * The interface 'World' creates a contract that the classes implementing 'World', 
+ * The interface 'World' creates a contract that the classes implementing 'World'
  * will contain a method 'getLocations'. 
  * @author CakeSolutionGroup
  * @version 1.0 (1 May 2013)

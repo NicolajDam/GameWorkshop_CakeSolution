@@ -3,40 +3,46 @@
  * and open the template in the editor.
  */
 package cakesolutioncorrectversion;
+
 import cakesolutioncorrectversion.Location;
+
 /**
  *
- * @author Signe
+ * @author CakeSolutionGroup
+ * @version 1.0
+ * @since (01 may 2013)
  */
 public interface PlayerController extends Localizable {
-    
-    /** 
+
+    /**
      * Moves the player around to a new location.
+     *
      * @param direction direction to be moved to
      * @Return true if new location can be sat as requested, false otherwise
      */
     public void move(Location location);
-    
+
     /**
      * Player can eat the cake
-     * 
-     *@param object - the cake to eat
-     *@return true if the question is answered correctly, false otherwise
+     *
+     * @param object - the cake to eat
+     * @return true if the question is answered correctly, false otherwise
      */
     public void eatCake(Cake cake);
+
     public void dontEatCake(Cake cake);
-  
+
     /**
      * Returns the sugar level of the player
+     *
      * @return
      */
     int getSugarlevel();
-    
+
     /**
-     *Changes the Sugar level of the player as specified by the difference
+     * Changes the Sugar level of the player as specified by the difference
+     *
      * @param difference change in Sugar level.
      */
     void changeSugarLevel(int difference);
-    
-    
 }

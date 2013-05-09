@@ -3,9 +3,10 @@ package cakesolutioncorrectversion;
 
 /**
  *Class GameObject extends the interface Localizable.
- * It holds boolean canBeTaken.
- * This class was created when we thought we wanted the player to be able to go around and 
- * take cakes. so canBeTaken would have returned true, once the player have answered the question correctly.
+ * The class used to hold a boolean variable declared as 'canBeTaken'.
+ * This class was created for the initial PacMan layer, where the idea was that 
+ * the player was able to go around and take cakes. So canBeTaken would have 
+ * returned true, once the player have answered the question correctly.
  *
  * @author CakeSolutionGroup
  * @version 1.0
