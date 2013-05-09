@@ -12,13 +12,14 @@ import java.util.List;
  * @author nicolajdamfrederiksen
  */
 public interface Location {
-    
-     String getDescription();
-     
-     public void setNeighbor(Location l);
-     public Location getNeighbor();
-     
-     public ArrayList<Question> getQuestionList();
-    
-     public Question getRandomQuestion();
+
+    String getDescription();
+
+    public void setNeighbor(Location l);
+
+    public Location getNeighbor();
+
+    public ArrayList<Question> getQuestionList();
+
+    public Question getRandomQuestion();
 }

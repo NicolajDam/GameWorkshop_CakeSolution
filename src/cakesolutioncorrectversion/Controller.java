@@ -104,7 +104,7 @@ public class Controller {
 
             int input = 0;
             Scanner userInput = new Scanner(System.in);
-        
+
             try {
 
                 input = userInput.nextInt();
@@ -132,13 +132,13 @@ public class Controller {
         theView.printEnterAnswer();
         int answer = userInput(q.choices.size());
         boolean wasCorrectAnswer = player1.isAnswerCorrect(q, answer);
-        
-        if(wasCorrectAnswer){
-        theView.printYouGotACake();
-        } else{
-        theView.printNoCake();
+
+        if (wasCorrectAnswer) {
+            theView.printYouGotACake();
+        } else {
+            theView.printNoCake();
         }
-    
+
     }
 
     public void printGameOver() {
