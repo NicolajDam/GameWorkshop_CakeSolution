@@ -33,7 +33,7 @@ public class Sugarman extends Players implements PlayerController {
     public boolean hasSugarmanWon() {
         boolean hasWon = currentSugarLevel >= 100;
         return hasWon;
-        //return currentSugarLevel >= 100;    
+           
     }
 
     public boolean hasSugarmanLost() {

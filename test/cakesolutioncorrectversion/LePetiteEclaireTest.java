@@ -10,43 +10,44 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+import static org.junit.Assert.*;
 
 /**
  *
- * @author nicolajdamfrederiksen
+ * @author eskandarpahlavaafshari
  */
-public class BaklavaciTest {
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-    }
-
-    @AfterClass
-    public static void tearDownClass() throws Exception {
-    }
-
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
+public class LePetiteEclaireTest {
+    
+    public LePetiteEclaireTest() {
     }
     
-    @Test
+    @BeforeClass
+    public static void setUpClass() {
+    }
+    
+    @AfterClass
+    public static void tearDownClass() {
+    }
+    
+    @Before
+    public void setUp() {
+    }
+    
+    @After
+    public void tearDown() {
+    }
+
+     @Test
     public void hasQuestions(){
         
-        Baklavaci newBaklavaci = new Baklavaci();
+        LePetiteEclaire newLePetiteEclaire = new LePetiteEclaire();
         
         
         boolean expected = true;
         
         
-        boolean actual = !newBaklavaci.getQuestionList().isEmpty();
+        boolean actual = !newLePetiteEclaire.getQuestionList().isEmpty();
         
         Assert.assertEquals(expected, actual); 
     }
-
-    
 }

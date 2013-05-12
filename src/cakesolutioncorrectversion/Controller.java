@@ -153,7 +153,7 @@ public class Controller {
 
     }
 
-    private boolean isInputValid(int input, int max) {
+    public boolean isInputValid(int input, int max) {
 
         if (input < 1 || input > max) {
             return false;
