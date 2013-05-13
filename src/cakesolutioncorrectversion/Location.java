@@ -16,12 +16,16 @@ import java.util.List;
 public interface Location {
 
     String getDescription();
-
-    public void setNeighbor(Location l);
-
+     
     public Location getNeighbor();
 
     public ArrayList<Question> getQuestionList();
-
+    
     public Question getRandomQuestion();
+    
+    public void setNeighbor(Location l);
+
+   
+
+    
 }

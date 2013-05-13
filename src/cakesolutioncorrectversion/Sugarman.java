@@ -19,22 +19,78 @@ public class Sugarman extends Players implements PlayerController {
     private int currentSugarLevel = 50;
 
     /**
-     * isAnswerCorrect is a boolean method which returns true if the user's
-     * answer is correct. and it returns false otherwise.
+     * changeSugarLevel changes the currentSugarLevel
      *
-     * @param q
-     * @param answer
-     * @return true/ false
+     * @param difference, which is an integer variable
+     * @return Null
      */
-    public boolean isAnswerCorrect(Question q, int answer) {
+    @Override
+    public void changeSugarLevel(int difference) {
 
-        if (q.choices.get(answer - 1).isCorrectChoice) {
-            eatCake(q.cake);
-            return true;
-        } else {
-            dontEatCake(q.cake);
-            return false;
-        }
+        currentSugarLevel = currentSugarLevel + difference;
+    }
+
+    /**
+     * dontEatCake sets the value for the integer 'difference' in the method
+     * changeSugarLevel, whenever the player answers a question incorrectly
+     *
+     * @param cake of class type Cake
+     * @return Null
+     */
+    @Override
+    public void dontEatCake(Cake cake) {
+        changeSugarLevel(-cake.sugarLevel);
+
+    }
+
+    /**
+     * eatCake sets the value for the integer 'difference' in the method
+     * changeSugarLevel, whenever the player answers a question correctly
+     *
+     * @param cake of class type Cake
+     * @return Null
+     */
+    public void eatCake(Cake cake) {
+        changeSugarLevel(cake.sugarLevel);
+    }
+
+    /**
+     * getLocation returns the current location of sugarman
+     *
+     * @param Null
+     * @returns sugarmanLocation of class type Location
+     */
+    @Override
+    public Location getLocation() {
+        return sugarmanLocation;
+
+    }
+
+    /**
+     * setLocation returns true whenever the location equals sugarmanLocation
+     *
+     * @param location of class type Location
+     * @return boolean
+     */
+    @Override
+    public boolean setLocation(Location location) {
+
+        sugarmanLocation = location;
+        return true;
+
+    }
+
+    /**
+     * getSugarLevel returns the currentSugarLevel, which keeps track of the
+     * player's progress
+     *
+     * @param null
+     * @returns the currentSugarLevel of type integer
+     */
+    @Override
+    public int getSugarlevel() {
+
+        return currentSugarLevel;
     }
 
     /**
@@ -61,6 +117,25 @@ public class Sugarman extends Players implements PlayerController {
     }
 
     /**
+     * isAnswerCorrect is a boolean method which returns true if the user's
+     * answer is correct. and it returns false otherwise.
+     *
+     * @param q
+     * @param answer
+     * @return true/ false
+     */
+    public boolean isAnswerCorrect(Question q, int answer) {
+
+        if (q.choices.get(answer - 1).isCorrectChoice) {
+            eatCake(q.cake);
+            return true;
+        } else {
+            dontEatCake(q.cake);
+            return false;
+        }
+    }
+
+    /**
      * move is a method that determines whether the player can move to the
      * desired location.
      *
@@ -70,81 +145,6 @@ public class Sugarman extends Players implements PlayerController {
     @Override
     public void move(Location location) {
         sugarmanLocation = location;
-
-    }
-
-    /**
-     * getSugarLevel returns the currentSugarLevel, which keeps track of the
-     * player's progress
-     *
-     * @param null
-     * @returns the currentSugarLevel of type integer
-     */
-    @Override
-    public int getSugarlevel() {
-
-        return currentSugarLevel;
-    }
-
-    /**
-     * changeSugarLevel changes the currentSugarLevel
-     *
-     * @param difference, which is an integer variable
-     * @return Null
-     */
-    @Override
-    public void changeSugarLevel(int difference) {
-
-        currentSugarLevel = currentSugarLevel + difference;
-    }
-
-    /**
-     * eatCake sets the value for the integer 'difference' in the method
-     * changeSugarLevel, whenever the player answers a question correctly
-     *
-     * @param cake of class type Cake
-     * @return Null
-     */
-    public void eatCake(Cake cake) {
-        changeSugarLevel(cake.sugarLevel);
-    }
-
-    /**
-     * dontEatCake sets the value for the integer 'difference' in the method
-     * changeSugarLevel, whenever the player answers a question incorrectly
-     *
-     * @param cake of class type Cake
-     * @return Null
-     */
-    @Override
-    public void dontEatCake(Cake cake) {
-        changeSugarLevel(-cake.sugarLevel);
-
-    }
-
-    /**
-     * getLocation returns the current location of sugarman
-     *
-     * @param Null
-     * @returns sugarmanLocation of class type Location
-     */
-    @Override
-    public Location getLocation() {
-        return sugarmanLocation;
-
-    }
-
-    /**
-     * setLocation returns true whenever the location equals sugarmanLocation
-     *
-     * @param location of class type Location
-     * @return boolean
-     */
-    @Override
-    public boolean setLocation(Location location) {
-
-        sugarmanLocation = location;
-        return true;
 
     }
 }

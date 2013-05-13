@@ -35,8 +35,20 @@ public class Cakistan implements World {
     }
 
     /**
-     * This method has a for loop that goes through all 3 locations and determines if the 
-     * QuestionList in each location is empty or not, meaning that the questions are all asked or not.
+     * Method getLocations that returns arrayList myLocations.
+     *
+     * @return myLocations of type arrayList
+     */
+    @Override
+    public List<Location> getLocations() {
+        return myLocations;
+    }
+
+    /**
+     * This method has a for loop that goes through all 3 locations and
+     * determines if the QuestionList in each location is empty or not, meaning
+     * that the questions are all asked or not.
+     *
      * @return true/ false
      */
     public boolean isOutOfQuestions() {
@@ -49,15 +61,5 @@ public class Cakistan implements World {
             }
         }
         return true;
-    }
-
-    /**
-     * Method getLocations that returns arrayList myLocations.
-     *
-     * @return myLocations of type arrayList
-     */
-    @Override
-    public List<Location> getLocations() {
-        return myLocations;
     }
 }

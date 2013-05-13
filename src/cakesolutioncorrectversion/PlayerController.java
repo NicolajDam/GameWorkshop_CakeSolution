@@ -15,22 +15,27 @@ import cakesolutioncorrectversion.Location;
 public interface PlayerController extends Localizable {
 
     /**
-     * Moves the player around to a new location.
+     * Changes the Sugar level of the player as specified by the difference
      *
-     * @param direction direction to be moved to
-     * @Return true if new location can be sat as requested, false otherwise
+     * @param difference change in Sugar level.
      */
-    public void move(Location location);
+    void changeSugarLevel(int difference);
+
+    /**
+     * Player can not eat the cake
+     *
+     * @param object of type Cake
+     * @return true if the question is answered correctly, false otherwise
+     */
+    public void dontEatCake(Cake cake);
 
     /**
      * Player can eat the cake
      *
-     * @param object - the cake to eat
+     * @param object of type Cake
      * @return true if the question is answered correctly, false otherwise
      */
     public void eatCake(Cake cake);
-
-    public void dontEatCake(Cake cake);
 
     /**
      * Returns the sugar level of the player
@@ -40,9 +45,10 @@ public interface PlayerController extends Localizable {
     int getSugarlevel();
 
     /**
-     * Changes the Sugar level of the player as specified by the difference
+     * Moves the player around to a new location.
      *
-     * @param difference change in Sugar level.
+     * @param direction direction to be moved to
+     * @Return true if new location can be sat as requested, false otherwise
      */
-    void changeSugarLevel(int difference);
+    public void move(Location location);
 }

@@ -34,7 +34,7 @@ abstract class SuperLocation implements Location {
 
     }
 
-    abstract void initializeQuestionList();
+  
 
     /**
      * getQuestionList method that returns question list for the location.
@@ -57,6 +57,11 @@ abstract class SuperLocation implements Location {
         return q;
     }
 
+    
+      abstract void initializeQuestionList();
+      
+      
+      
     /**
      *
      * @param l

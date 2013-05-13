@@ -60,6 +60,30 @@ public class Controller {
     }
 
     /**
+     * This method randomizes questions for each location and if the answer to
+     * the question was right award the user with a cake, which is equal to 10
+     * points.
+     *
+     * @param null
+     *
+     */
+    public void askRandomQuestion() {
+
+        Question q = player1.getLocation().getRandomQuestion();
+        theView.printOutQuestion(q);
+        theView.printEnterAnswer();
+        int answer = userInput(q.choices.size());
+        boolean wasCorrectAnswer = player1.isAnswerCorrect(q, answer);
+
+        if (wasCorrectAnswer) {
+            theView.printYouGotACake();
+        } else {
+            theView.printNoCake();
+        }
+
+    }
+
+    /**
      * This method is a boolean which returns true, if either Sugarman has lost,
      * or won or all locations are out of questions[all questions are asked].
      *
@@ -68,6 +92,41 @@ public class Controller {
     private boolean isGameOver() {
 
         return player1.hasSugarmanLost() || player1.hasSugarmanWon() || world.isOutOfQuestions();
+
+    }
+
+    /**
+     * a method of type boolean which returns false if user's input is less than
+     * 1 or it's greater than max. otherwise returns true.
+     *
+     * @param input
+     * @param max
+     * @return true/ false
+     */
+    public boolean isInputValid(int input, int max) {
+
+        if (input < 1 || input > max) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * This method just calls the view for printing messages in case of:
+     * Sugarman lost, Sugarman won or locations are out of questions.
+     *
+     * @param null
+     * @return null
+     */
+    public void printGameOver() {
+
+        if (player1.hasSugarmanLost()) {
+            theView.printSugarmanLost();
+        } else if (player1.hasSugarmanWon()) {
+            theView.printSugarmanWon();
+        } else {
+            theView.printRanOutOfQuestions();
+        }
 
     }
 
@@ -132,59 +191,5 @@ public class Controller {
         }
 
 
-    }
-
-    /**
-     * This method randomizes questions for each location and if the answer to the question was
-     * right award the user with a cake, which is equal to 10 points.
-     * @param null
-     * 
-     */
-    public void askRandomQuestion() {
-
-        Question q = player1.getLocation().getRandomQuestion();
-        theView.printOutQuestion(q);
-        theView.printEnterAnswer();
-        int answer = userInput(q.choices.size());
-        boolean wasCorrectAnswer = player1.isAnswerCorrect(q, answer);
-
-        if (wasCorrectAnswer) {
-            theView.printYouGotACake();
-        } else {
-            theView.printNoCake();
-        }
-
-    }
-
-    /**
-     * This method just calls the view for printing messages in case of:
-     * Sugarman lost, Sugarman won or locations are out of questions.
-     * @param null
-     * @return null
-     */
-    public void printGameOver() {
-
-        if (player1.hasSugarmanLost()) {
-            theView.printSugarmanLost();
-        } else if (player1.hasSugarmanWon()) {
-            theView.printSugarmanWon();
-        } else {
-            theView.printRanOutOfQuestions();
-        }
-
-    }
-/**
- * a method of type boolean which returns false if user's input is less than 1 
- * or it's greater than max. otherwise returns true.
- * @param input
- * @param max
- * @return true/ false
- */
-    public boolean isInputValid(int input, int max) {
-
-        if (input < 1 || input > max) {
-            return false;
-        }
-        return true;
     }
 }
