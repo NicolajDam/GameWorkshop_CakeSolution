@@ -155,7 +155,102 @@ public class Lagkagehuset extends SuperLocation {
         q5.choices.add(lkhQ5C2);
         q5.choices.add(lkhQ5C3);
         q5.choices.add(lkhQ5C4);
-
-
+        
+        Question q6 = new Question("When did Copenhagen become the capital of Denmark?");
+        
+        Choice lkhQ6C1 = new Choice();
+        lkhQ6C1.choice = "Mid 14th century";
+        lkhQ6C1.isCorrectChoice = false;
+        
+        Choice lkhQ6C2 = new Choice();
+        lkhQ6C2.choice = "Mid 15th century";
+        lkhQ6C2.isCorrectChoice = true;
+        
+        Choice lkhQ6C3 = new Choice();
+        lkhQ6C3.choice = "Mid 16th century";
+        lkhQ6C3.isCorrectChoice = false;
+        
+        Choice lkhQ6C4 = new Choice();
+        lkhQ6C4.choice = "Mid 17th century";
+        lkhQ6C4.isCorrectChoice = false;
+        
+        questionList.add(q6);
+        q6.choices.add(lkhQ6C1);
+        q6.choices.add(lkhQ6C2);
+        q6.choices.add(lkhQ6C3);
+        q6.choices.add(lkhQ6C4);
+        
+        Question q7 = new Question("Why did hamlet say that \"something was rotten in the State of Denmark\"? ");
+        
+        Choice lkhQ7C1 = new Choice();
+        lkhQ7C1.choice = "He disliked the smell of fish";
+        lkhQ7C1.isCorrectChoice = false;
+        
+        Choice lkhQ7C2 = new Choice();
+        lkhQ7C2.choice = "All was not well at the top of the political hierarchy";
+        lkhQ7C2.isCorrectChoice = true;
+        
+        Choice lkhQ7C3 = new Choice();
+        lkhQ7C3.choice = "He wanted a warmer climate";
+        lkhQ7C3.isCorrectChoice = false;
+        
+        Choice lkhQ7C4 = new Choice();
+        lkhQ7C4.choice = "He was no fan of bacon";
+        lkhQ7C4.isCorrectChoice = false;
+        
+        questionList.add(q7);
+        q7.choices.add(lkhQ7C1);
+        q7.choices.add(lkhQ7C2);
+        q7.choices.add(lkhQ7C3);
+        q7.choices.add(lkhQ7C4);
+        
+        Question q8 = new Question("When was H. C. Andersen born?");
+        
+        Choice lkhQ8C1 = new Choice();
+        lkhQ8C1.choice = "1792";
+        lkhQ8C1.isCorrectChoice = false;
+        
+        Choice lkhQ8C2 = new Choice();
+        lkhQ8C2.choice = "1802";
+        lkhQ8C2.isCorrectChoice = true;
+        
+        Choice lkhQ8C3 = new Choice();
+        lkhQ8C3.choice = "1812";
+        lkhQ8C3.isCorrectChoice = false;
+        
+        Choice lkhQ8C4 = new Choice();
+        lkhQ8C4.choice = "1822";
+        lkhQ8C4.isCorrectChoice = false;
+        
+        questionList.add(q8);
+        q8.choices.add(lkhQ8C1);
+        q8.choices.add(lkhQ8C2);
+        q8.choices.add(lkhQ8C3);
+        q8.choices.add(lkhQ8C4);
+        
+        Question q9 = new Question("Which programming language was invented by the Dane Bjarne Stroustrup?");
+        
+        Choice lkhQ9C1 = new Choice();
+        lkhQ9C1.choice = "PHP";
+        lkhQ9C1.isCorrectChoice = false;
+        
+        Choice lkhQ9C2 = new Choice();
+        lkhQ9C2.choice = "C++";
+        lkhQ9C2.isCorrectChoice = true;
+        
+        Choice lkhQ9C3 = new Choice();
+        lkhQ9C3.choice = "C#";
+        lkhQ9C3.isCorrectChoice = false;
+        
+        Choice lkhQ9C4 = new Choice();
+        lkhQ9C4.choice = "Perl";
+        lkhQ9C4.isCorrectChoice = false;
+        
+        questionList.add(q9);
+        q9.choices.add(lkhQ9C1);
+        q9.choices.add(lkhQ9C2);
+        q9.choices.add(lkhQ9C3);
+        q9.choices.add(lkhQ9C4);
+        
     }
 }
