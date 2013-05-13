@@ -18,7 +18,14 @@ public class Sugarman extends Players implements PlayerController {
     private Location sugarmanLocation;
     private int currentSugarLevel = 50;
 
-    
+    /**
+     * isAnswerCorrect is a boolean method which returns true if the user's
+     * answer is correct. and it returns false otherwise.
+     *
+     * @param q
+     * @param answer
+     * @return true/ false
+     */
     public boolean isAnswerCorrect(Question q, int answer) {
 
         if (q.choices.get(answer - 1).isCorrectChoice) {
@@ -29,13 +36,25 @@ public class Sugarman extends Players implements PlayerController {
             return false;
         }
     }
-    
+
+    /**
+     * if the currentSugarLevel of sugarman is equal or above 100, it returns
+     * hasWon.
+     *
+     * @return hasWon
+     */
     public boolean hasSugarmanWon() {
         boolean hasWon = currentSugarLevel >= 100;
         return hasWon;
-           
+
     }
 
+    /**
+     * if the currentSugarLevel of sugarman is equal or less than 0, it returns
+     * hasLost.
+     *
+     * @return hasLost
+     */
     public boolean hasSugarmanLost() {
         boolean hasLost = currentSugarLevel <= 0;
         return hasLost;

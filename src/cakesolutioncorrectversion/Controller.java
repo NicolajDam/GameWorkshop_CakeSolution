@@ -59,6 +59,12 @@ public class Controller {
 
     }
 
+    /**
+     * This method is a boolean which returns true, if either Sugarman has lost,
+     * or won or all locations are out of questions[all questions are asked].
+     *
+     * @return true
+     */
     private boolean isGameOver() {
 
         return player1.hasSugarmanLost() || player1.hasSugarmanWon() || world.isOutOfQuestions();
@@ -68,6 +74,7 @@ public class Controller {
     /**
      * Method runGame run games for as long as the player hasn't won or hasn't
      * lost or hasn't run out of questions in the game.
+     *
      *
      */
     public void runGame() {
@@ -94,7 +101,9 @@ public class Controller {
     }
 
     /**
-     * @param args the command line arguments
+     * Scans the user's input and checks if it's valid or not.
+     *
+     * @param max of type integer
      * @return user's input of type integer
      */
     public int userInput(int max) {
@@ -125,6 +134,12 @@ public class Controller {
 
     }
 
+    /**
+     * This method randomizes questions for each location and if the answer to the question was
+     * right award the user with a cake, which is equal to 10 points.
+     * @param null
+     * 
+     */
     public void askRandomQuestion() {
 
         Question q = player1.getLocation().getRandomQuestion();
@@ -141,6 +156,12 @@ public class Controller {
 
     }
 
+    /**
+     * This method just calls the view for printing messages in case of:
+     * Sugarman lost, Sugarman won or locations are out of questions.
+     * @param null
+     * @return null
+     */
     public void printGameOver() {
 
         if (player1.hasSugarmanLost()) {
@@ -152,7 +173,13 @@ public class Controller {
         }
 
     }
-
+/**
+ * a method of type boolean which returns false if user's input is less than 1 
+ * or it's greater than max. otherwise returns true.
+ * @param input
+ * @param max
+ * @return true/ false
+ */
     public boolean isInputValid(int input, int max) {
 
         if (input < 1 || input > max) {

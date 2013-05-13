@@ -27,7 +27,8 @@ public class LePetiteEclaire extends SuperLocation {
     /**
      * Method initializeLPEQ that generates questions and choices for the world,
      * LePetiteEclaire.
-     *
+     *@return Null
+     * @param Null
      */
     public void initializeQuestionList() {
 

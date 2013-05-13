@@ -33,6 +33,8 @@ public class Baklavaci extends SuperLocation {
     /**
      * Method initializeBQ that generates questions and choices for the world,
      * Baklavaci.
+     * @return Null
+     * @param Null
      *
      */
     public void initializeQuestionList() {

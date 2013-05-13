@@ -35,8 +35,9 @@ public class Cakistan implements World {
     }
 
     /**
-     *
-     * @return
+     * This method has a for loop that goes through all 3 locations and determines if the 
+     * QuestionList in each location is empty or not, meaning that the questions are all asked or not.
+     * @return true/ false
      */
     public boolean isOutOfQuestions() {
 

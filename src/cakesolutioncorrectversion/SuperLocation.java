@@ -47,6 +47,7 @@ abstract class SuperLocation implements Location {
         return questionList;
     }
 
+    @Override
     public Question getRandomQuestion() {
 
         int randomNumber = r.nextInt(questionList.size());

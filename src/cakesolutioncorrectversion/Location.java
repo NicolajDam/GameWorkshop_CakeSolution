@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author nicolajdamfrederiksen
+ * Location interface sets contracts for SuperLocation which eventually sets contracts for each 3 locations.  
+ * @author Cakesolutiongroup
+ * @version 1.0
+ * @since ( 01 may 2013)
  */
 public interface Location {
 
