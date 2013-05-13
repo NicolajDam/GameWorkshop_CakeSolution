@@ -85,7 +85,7 @@ public class Baklavaci extends SuperLocation {
         q2.choices.add(bQ2C3);
         q2.choices.add(bQ2C4);
 
-        Question q3 = new Question("What is Harman?");
+        Question q3 = new Question("What is Hamam?");
 
         Choice bQ3C1 = new Choice();
         bQ3C1.choice = "Turkish bath";
