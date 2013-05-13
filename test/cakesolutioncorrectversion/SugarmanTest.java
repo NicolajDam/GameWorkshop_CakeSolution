@@ -33,33 +33,33 @@ public class SugarmanTest {
     @After
     public void tearDown() throws Exception {
     }
-    
+
     @Test
-    public void isUserChoiceCorrect(){
-        
+    public void isUserChoiceCorrect() {
+
         Sugarman newSugarman = new Sugarman();
-        
+
         Question q = createQuestion();
-        
+
         //Testing if correct answer returns true
-        
+
         boolean expected = true;
-        
+
         boolean actual = newSugarman.isAnswerCorrect(q, 3);
-        
+
         Assert.assertEquals(expected, actual);
-        
+
         //Testing if wrong answer returns false
-        
+
         expected = false;
-        
+
         actual = newSugarman.isAnswerCorrect(q, 2);
-        
+
         Assert.assertEquals(expected, actual);
     }
-    
-    public Question createQuestion(){
-        
+
+    public Question createQuestion() {
+
         Question q1 = new Question("On which continent does Turkey lie?");
 
         Choice BQ1C1 = new Choice();
@@ -82,13 +82,10 @@ public class SugarmanTest {
         q1.choices.add(BQ1C2);
         q1.choices.add(BQ1C3);
         q1.choices.add(BQ1C4);
-        
+
         return q1;
-        
+
     }
-    
-   
-   
 
     /**
      * Test of hasSugarmanWon method, of class Sugarman.
@@ -97,7 +94,7 @@ public class SugarmanTest {
     public void testHasSugarmanWon() {
         System.out.println("hasSugarmanWon");
         Sugarman instance = new Sugarman();
-        instance.changeSugarLevel(100); 
+        instance.changeSugarLevel(100);
         boolean expResult = true;
         boolean result = instance.hasSugarmanWon();
         assertEquals(expResult, result);
@@ -126,19 +123,17 @@ public class SugarmanTest {
     @Test
     public void testMove() {
         System.out.println("move");
-       
-        Baklavaci baklavaci= new Baklavaci();
+
+        Baklavaci baklavaci = new Baklavaci();
         Sugarman instance = new Sugarman();
         instance.move(baklavaci);
         Location location = instance.getLocation();
-        
-        Location result= location;
-        Location expResult= baklavaci;
-        assertEquals(result, expResult);
-  
-    }
 
-  
+        Location result = location;
+        Location expResult = baklavaci;
+        assertEquals(result, expResult);
+
+    }
 
     /**
      * Test of changeSugarLevel method, of class Sugarman.
@@ -146,74 +141,16 @@ public class SugarmanTest {
     @Test
     public void testCurrentSugarLevelAndChangeSugarLevel() {
         System.out.println("changeSugarLevel");
-        
+
         Sugarman instance = new Sugarman();
         instance.getSugarlevel();
         instance.changeSugarLevel(20);
-        
-        int result= instance.getSugarlevel();
-        int expResult= 70;
+
+        int result = instance.getSugarlevel();
+        int expResult = 70;
         assertEquals(result, expResult);
-        
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
 
-    /**
-     * Test of eatCake method, of class Sugarman.
-     */
-    @Test
-    public void testEatCake() {
-        System.out.println("eatCake");
-        Cake cake = new Cake();
-        Sugarman instance = new Sugarman();
-        instance.eatCake(cake);
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
-
-    /**
-     * Test of dontEatCake method, of class Sugarman.
-     */
-    @Test
-    public void testDontEatCake() {
-        System.out.println("dontEatCake");
-        Cake cake = new Cake();
-        Sugarman instance = new Sugarman();
-        instance.dontEatCake(cake);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getLocation method, of class Sugarman.
-     */
-    @Test
-    public void testGetLocation() {
-        System.out.println("getLocation");
-        Sugarman instance = new Sugarman();
-        
-        
-        Location expResult = instance.getLocation();
-        Location result = instance.getLocation();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setLocation method, of class Sugarman.
-     */
-    @Test
-    public void testSetLocation() {
-        System.out.println("setLocation");
-        Location location = null;
-        Sugarman instance = new Sugarman();
-        boolean expResult = instance.setLocation(location);
-        boolean result = instance.setLocation(location);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
-    }
-    
 }
