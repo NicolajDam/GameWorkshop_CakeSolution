@@ -131,8 +131,8 @@ public class Controller {
     }
 
     /**
-     * Method runGame run games for as long as the player hasn't won or hasn't
-     * lost or hasn't run out of questions in the game.
+     * Method runGame run the game for as long as the player hasn't won or hasn't
+     * lost or hasn't run out of questions in the game or hasn't exited the game.
      *
      *
      */
@@ -155,7 +155,7 @@ public class Controller {
             } else if (decision == 2) { //user chose to move to next location
                 player1.move(player1.getLocation().getNeighbor());
             }
-            else if (decision == 3){
+            else if (decision == 3){ //user chose to exit the game
                 theView.printExitGame();
                 System.exit(1);
             }

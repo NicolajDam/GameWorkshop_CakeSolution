@@ -123,13 +123,18 @@ public class View {
     }
 
     /**
-     * when there are not question left in all locations, it prnts out this
+     * when there are not question left in all locations, it prints out this
      * message.
      */
     public void printRanOutOfQuestions() {
 
         System.out.println("Sorry you ran out of questions. Sugarman will run around crying until you Start over.");
     }
+    
+    /**
+     * when the user chose to exit the game, it prints out this
+     * message.
+     */
     
     public void printExitGame() {
     
