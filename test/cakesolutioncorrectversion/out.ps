@@ -1,0 +1,4666 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 38 24 574 768
+%%Title: Enscript Output
+%%For: Signe Bernhard
+%%Creator: GNU enscript 1.6.4
+%%CreationDate: Tue May 14 23:12:34 2013
+%%Orientation: Landscape
+%%Pages: (atend)
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: (atend)
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset Enscript-Prolog 1.6 4
+%
+% Procedures.
+%
+
+/_S {	% save current state
+  /_s save def
+} def
+/_R {	% restore from saved state
+  _s restore
+} def
+
+/S {	% showpage protecting gstate
+  gsave
+  showpage
+  grestore
+} bind def
+
+/MF {	% fontname newfontname -> -	make a new encoded font
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  % insert only valid encoding vectors
+  encoding_vector length 256 eq {
+    newfont /Encoding encoding_vector put
+  } if
+
+  newfontname newfont definefont pop
+} def
+
+/MF_PS { % fontname newfontname -> -	make a new font preserving its enc
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  newfontname newfont definefont pop
+} def
+
+/SF { % fontname width height -> -	set a new font
+  /height exch def
+  /width exch def
+
+  findfont
+  [width 0 0 height 0 0] makefont setfont
+} def
+
+/SUF { % fontname width height -> -	set a new user font
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF
+  /F-gs-user-font width height SF
+} def
+
+/SUF_PS { % fontname width height -> -	set a new user font preserving its enc
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF_PS
+  /F-gs-user-font width height SF
+} def
+
+/M {moveto} bind def
+/s {show} bind def
+
+/Box {	% x y w h -> -			define box path
+  /d_h exch def /d_w exch def /d_y exch def /d_x exch def
+  d_x d_y  moveto
+  d_w 0 rlineto
+  0 d_h rlineto
+  d_w neg 0 rlineto
+  closepath
+} def
+
+/bgs {	% x y height blskip gray str -> -	show string with bg color
+  /str exch def
+  /gray exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    gray setgray
+    fill
+  grestore
+  x y M str s
+} def
+
+/bgcs { % x y height blskip red green blue str -> -  show string with bg color
+  /str exch def
+  /blue exch def
+  /green exch def
+  /red exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    red green blue setrgbcolor
+    fill
+  grestore
+  x y M str s
+} def
+
+% Highlight bars.
+/highlight_bars {	% nlines lineheight output_y_margin gray -> -
+  gsave
+    setgray
+    /ymarg exch def
+    /lineheight exch def
+    /nlines exch def
+
+    % This 2 is just a magic number to sync highlight lines to text.
+    0 d_header_y ymarg sub 2 sub translate
+
+    /cw d_output_w cols div def
+    /nrows d_output_h ymarg 2 mul sub lineheight div cvi def
+
+    % for each column
+    0 1 cols 1 sub {
+      cw mul /xp exch def
+
+      % for each rows
+      0 1 nrows 1 sub {
+        /rn exch def
+        rn lineheight mul neg /yp exch def
+        rn nlines idiv 2 mod 0 eq {
+	  % Draw highlight bar.  4 is just a magic indentation.
+	  xp 4 add yp cw 8 sub lineheight neg Box fill
+	} if
+      } for
+    } for
+
+  grestore
+} def
+
+% Line highlight bar.
+/line_highlight {	% x y width height gray -> -
+  gsave
+    /gray exch def
+    Box gray setgray fill
+  grestore
+} def
+
+% Column separator lines.
+/column_lines {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h translate
+    /cw d_output_w cols div def
+    1 1 cols 1 sub {
+      cw mul 0 moveto
+      0 d_output_h rlineto stroke
+    } for
+  grestore
+} def
+
+% Column borders.
+/column_borders {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h moveto
+    0 d_output_h rlineto
+    d_output_w 0 rlineto
+    0 d_output_h neg rlineto
+    closepath stroke
+  grestore
+} def
+
+% Do the actual underlay drawing
+/draw_underlay {
+  ul_style 0 eq {
+    ul_str true charpath stroke
+  } {
+    ul_str show
+  } ifelse
+} def
+
+% Underlay
+/underlay {	% - -> -
+  gsave
+    0 d_page_h translate
+    d_page_h neg d_page_w atan rotate
+
+    ul_gray setgray
+    ul_font setfont
+    /dw d_page_h dup mul d_page_w dup mul add sqrt def
+    ul_str stringwidth pop dw exch sub 2 div ul_h_ptsize -2 div moveto
+    draw_underlay
+  grestore
+} def
+
+/user_underlay {	% - -> -
+  gsave
+    ul_x ul_y translate
+    ul_angle rotate
+    ul_gray setgray
+    ul_font setfont
+    0 0 ul_h_ptsize 2 div sub moveto
+    draw_underlay
+  grestore
+} def
+
+% Page prefeed
+/page_prefeed {		% bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} def
+
+% Wrapped line markers
+/wrapped_line_mark {	% x y charwith charheight type -> -
+  /type exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  type 2 eq {
+    % Black boxes (like TeX does)
+    gsave
+      0 setlinewidth
+      x w 4 div add y M
+      0 h rlineto w 2 div 0 rlineto 0 h neg rlineto
+      closepath fill
+    grestore
+  } {
+    type 3 eq {
+      % Small arrows
+      gsave
+        .2 setlinewidth
+        x w 2 div add y h 2 div add M
+        w 4 div 0 rlineto
+        x w 4 div add y lineto stroke
+
+        x w 4 div add w 8 div add y h 4 div add M
+        x w 4 div add y lineto
+	w 4 div h 8 div rlineto stroke
+      grestore
+    } {
+      % do nothing
+    } ifelse
+  } ifelse
+} def
+
+% EPSF import.
+
+/BeginEPSF {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack
+  userdict begin
+  /showpage { } def
+  0 setgray 0 setlinecap
+  1 setlinewidth 0 setlinejoin
+  10 setmiterlimit [ ] 0 setdash newpath
+  /languagelevel where {
+    pop languagelevel
+    1 ne {
+      false setstrokeadjust false setoverprint
+    } if
+  } if
+} bind def
+
+/EndEPSF {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+%%EndResource
+%%BeginResource: procset Enscript-Encoding-88591 1.6 4
+/encoding_vector [
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclam       	/quotedbl     	/numbersign   	
+/dollar       	/percent      	/ampersand    	/quoteright   	
+/parenleft    	/parenright   	/asterisk     	/plus         	
+/comma        	/hyphen       	/period       	/slash        	
+/zero         	/one          	/two          	/three        	
+/four         	/five         	/six          	/seven        	
+/eight        	/nine         	/colon        	/semicolon    	
+/less         	/equal        	/greater      	/question     	
+/at           	/A            	/B            	/C            	
+/D            	/E            	/F            	/G            	
+/H            	/I            	/J            	/K            	
+/L            	/M            	/N            	/O            	
+/P            	/Q            	/R            	/S            	
+/T            	/U            	/V            	/W            	
+/X            	/Y            	/Z            	/bracketleft  	
+/backslash    	/bracketright 	/asciicircum  	/underscore   	
+/quoteleft    	/a            	/b            	/c            	
+/d            	/e            	/f            	/g            	
+/h            	/i            	/j            	/k            	
+/l            	/m            	/n            	/o            	
+/p            	/q            	/r            	/s            	
+/t            	/u            	/v            	/w            	
+/x            	/y            	/z            	/braceleft    	
+/bar          	/braceright   	/tilde        	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclamdown   	/cent         	/sterling     	
+/currency     	/yen          	/brokenbar    	/section      	
+/dieresis     	/copyright    	/ordfeminine  	/guillemotleft	
+/logicalnot   	/hyphen       	/registered   	/macron       	
+/degree       	/plusminus    	/twosuperior  	/threesuperior	
+/acute        	/mu           	/paragraph    	/bullet       	
+/cedilla      	/onesuperior  	/ordmasculine 	/guillemotright	
+/onequarter   	/onehalf      	/threequarters	/questiondown 	
+/Agrave       	/Aacute       	/Acircumflex  	/Atilde       	
+/Adieresis    	/Aring        	/AE           	/Ccedilla     	
+/Egrave       	/Eacute       	/Ecircumflex  	/Edieresis    	
+/Igrave       	/Iacute       	/Icircumflex  	/Idieresis    	
+/Eth          	/Ntilde       	/Ograve       	/Oacute       	
+/Ocircumflex  	/Otilde       	/Odieresis    	/multiply     	
+/Oslash       	/Ugrave       	/Uacute       	/Ucircumflex  	
+/Udieresis    	/Yacute       	/Thorn        	/germandbls   	
+/agrave       	/aacute       	/acircumflex  	/atilde       	
+/adieresis    	/aring        	/ae           	/ccedilla     	
+/egrave       	/eacute       	/ecircumflex  	/edieresis    	
+/igrave       	/iacute       	/icircumflex  	/idieresis    	
+/eth          	/ntilde       	/ograve       	/oacute       	
+/ocircumflex  	/otilde       	/odieresis    	/divide       	
+/oslash       	/ugrave       	/uacute       	/ucircumflex  	
+/udieresis    	/yacute       	/thorn        	/ydieresis    	
+] def
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier
+/HFpt_w 10 def
+/HFpt_h 10 def
+/Courier-Bold /HF-gs-font MF
+/HF /HF-gs-font findfont [HFpt_w 0 0 HFpt_h 0 0] makefont def
+/Courier /F-gs-font MF
+/F-gs-font 10 10 SF
+/#copies 1 def
+% Pagedevice definitions:
+gs_languagelevel 1 gt {
+  <<
+    /PageSize [612 792] 
+  >> setpagedevice
+} if
+%%BeginResource: procset Enscript-Header-simple 1.6 4
+
+/do_header {	% print default simple header
+  gsave
+    d_header_x d_header_y HFpt_h 3 div add translate
+
+    HF setfont
+    user_header_p {
+      5 0 moveto user_header_left_str show
+
+      d_header_w user_header_center_str stringwidth pop sub 2 div
+      0 moveto user_header_center_str show
+
+      d_header_w user_header_right_str stringwidth pop sub 5 sub
+      0 moveto user_header_right_str show
+    } {
+      5 0 moveto fname show
+      45 0 rmoveto fmodstr show
+      45 0 rmoveto pagenumstr show
+    } ifelse
+
+  grestore
+} def
+%%EndResource
+/d_page_w 744 def
+/d_page_h 536 def
+/d_header_x 0 def
+/d_header_y 521 def
+/d_header_w 744 def
+/d_header_h 15 def
+/d_footer_x 0 def
+/d_footer_y 0 def
+/d_footer_w 744 def
+/d_footer_h 0 def
+/d_output_w 744 def
+/d_output_h 521 def
+/cols 1 def
+%%EndSetup
+%%Page: (1) 1
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (BaklavaciTest.java) def
+/fdir () def
+/ftail (BaklavaciTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (1-1) def
+/user_header_p true def
+/user_header_left_str (BaklavaciTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (1-1/2\(1\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( junit.framework.Assert;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( org.junit.After;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( org.junit.AfterClass;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( org.junit.Before;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( org.junit.BeforeClass;) s
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(import) s
+/F-gs-font 10 10 SF
+84 387 M
+( org.junit.Test;) s
+24 376 M (13:) s
+24 365 M (14:) s
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+(/**) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( *) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( * @author nicolajdamfrederiksen) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+( */) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Bold 10 10 SUF
+48 310 M
+(public) s
+/F-gs-font 10 10 SF
+84 310 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 310 M
+(class) s
+/F-gs-font 10 10 SF
+120 310 M
+( BaklavaciTest {) s
+24 299 M (20:) s
+24 288 M (21:) s
+48 288 M
+(    @BeforeClass) s
+24 277 M (22:) s
+48 277 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 277 M
+(public) s
+/F-gs-font 10 10 SF
+108 277 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 277 M
+(static) s
+/F-gs-font 10 10 SF
+150 277 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 277 M
+(void) s
+/F-gs-font 10 10 SF
+180 277 M
+( setUpClass\(\) ) s
+/Courier-Bold 10 10 SUF
+264 277 M
+(throws) s
+/F-gs-font 10 10 SF
+300 277 M
+( Exception {) s
+24 266 M (23:) s
+48 266 M
+(    }) s
+24 255 M (24:) s
+24 244 M (25:) s
+48 244 M
+(    @AfterClass) s
+24 233 M (26:) s
+48 233 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 233 M
+(public) s
+/F-gs-font 10 10 SF
+108 233 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 233 M
+(static) s
+/F-gs-font 10 10 SF
+150 233 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 233 M
+(void) s
+/F-gs-font 10 10 SF
+180 233 M
+( tearDownClass\(\) ) s
+/Courier-Bold 10 10 SUF
+282 233 M
+(throws) s
+/F-gs-font 10 10 SF
+318 233 M
+( Exception {) s
+24 222 M (27:) s
+48 222 M
+(    }) s
+24 211 M (28:) s
+24 200 M (29:) s
+48 200 M
+(    @Before) s
+24 189 M (30:) s
+48 189 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 189 M
+(public) s
+/F-gs-font 10 10 SF
+108 189 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 189 M
+(void) s
+/F-gs-font 10 10 SF
+138 189 M
+( setUp\(\) ) s
+/Courier-Bold 10 10 SUF
+192 189 M
+(throws) s
+/F-gs-font 10 10 SF
+228 189 M
+( Exception {) s
+24 178 M (31:) s
+48 178 M
+(    }) s
+24 167 M (32:) s
+24 156 M (33:) s
+48 156 M
+(    @After) s
+24 145 M (34:) s
+48 145 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 145 M
+(public) s
+/F-gs-font 10 10 SF
+108 145 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 145 M
+(void) s
+/F-gs-font 10 10 SF
+138 145 M
+( tearDown\(\) ) s
+/Courier-Bold 10 10 SUF
+210 145 M
+(throws) s
+/F-gs-font 10 10 SF
+246 145 M
+( Exception {) s
+24 134 M (35:) s
+48 134 M
+(    }) s
+24 123 M (36:) s
+48 123 M
+(    ) s
+24 112 M (37:) s
+48 112 M
+(    @Test) s
+24 101 M (38:) s
+48 101 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 101 M
+(public) s
+/F-gs-font 10 10 SF
+108 101 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 101 M
+(void) s
+/F-gs-font 10 10 SF
+138 101 M
+( hasQuestions\(\){) s
+24 90 M (39:) s
+48 90 M
+(        ) s
+24 79 M (40:) s
+48 79 M
+(        Baklavaci newBaklavaci = ) s
+/Courier-Bold 10 10 SUF
+246 79 M
+(new) s
+/F-gs-font 10 10 SF
+264 79 M
+( Baklavaci\(\);) s
+24 68 M (41:) s
+48 68 M
+(        ) s
+24 57 M (42:) s
+48 57 M
+(        ) s
+24 46 M (43:) s
+48 46 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 46 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 46 M
+( expected = ) s
+/Courier-Bold 10 10 SUF
+210 46 M
+(true) s
+/F-gs-font 10 10 SF
+234 46 M
+(;) s
+24 35 M (44:) s
+48 35 M
+(        ) s
+24 24 M (45:) s
+48 24 M
+(        ) s
+24 13 M (46:) s
+48 13 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 13 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 13 M
+( actual = !newBaklavaci.getQuestionList\(\).isEmpty\(\);) s
+24 2 M (47:) s
+48 2 M
+(        ) s
+_R
+S
+%%Page: (2) 2
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (BaklavaciTest.java) def
+/fdir () def
+/ftail (BaklavaciTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (1-2) def
+/user_header_p true def
+/user_header_left_str (BaklavaciTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (1-2/2\(2\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(        Assert.assertEquals\(expected, actual\); ) s
+24 497 M (49:) s
+48 497 M
+(    }) s
+24 486 M (50:) s
+24 475 M (51:) s
+48 475 M
+(    ) s
+24 464 M (52:) s
+48 464 M
+(}) s
+_R
+S
+%%Page: (1) 3
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (CakeTest.java) def
+/fdir () def
+/ftail (CakeTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (2-1) def
+/user_header_p true def
+/user_header_left_str (CakeTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (2-1/1\(3\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( org.junit.After;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( org.junit.AfterClass;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( org.junit.Before;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( org.junit.BeforeClass;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( org.junit.Test;) s
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(import) s
+/F-gs-font 10 10 SF
+84 387 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 387 M
+(static) s
+/F-gs-font 10 10 SF
+126 387 M
+( org.junit.Assert.*;) s
+24 376 M (13:) s
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+(/**) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( *) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( * @author eskandarpahlavaafshari) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( */) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Bold 10 10 SUF
+48 321 M
+(public) s
+/F-gs-font 10 10 SF
+84 321 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 321 M
+(class) s
+/F-gs-font 10 10 SF
+120 321 M
+( CakeTest {) s
+24 310 M (19:) s
+48 310 M
+(    ) s
+24 299 M (20:) s
+48 299 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 299 M
+(public) s
+/F-gs-font 10 10 SF
+108 299 M
+( CakeTest\(\) {) s
+24 288 M (21:) s
+48 288 M
+(    }) s
+24 277 M (22:) s
+48 277 M
+(    ) s
+24 266 M (23:) s
+48 266 M
+(    @BeforeClass) s
+24 255 M (24:) s
+48 255 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 255 M
+(public) s
+/F-gs-font 10 10 SF
+108 255 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 255 M
+(static) s
+/F-gs-font 10 10 SF
+150 255 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 255 M
+(void) s
+/F-gs-font 10 10 SF
+180 255 M
+( setUpClass\(\) {) s
+24 244 M (25:) s
+48 244 M
+(    }) s
+24 233 M (26:) s
+48 233 M
+(    ) s
+24 222 M (27:) s
+48 222 M
+(    @AfterClass) s
+24 211 M (28:) s
+48 211 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 211 M
+(public) s
+/F-gs-font 10 10 SF
+108 211 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 211 M
+(static) s
+/F-gs-font 10 10 SF
+150 211 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 211 M
+(void) s
+/F-gs-font 10 10 SF
+180 211 M
+( tearDownClass\(\) {) s
+24 200 M (29:) s
+48 200 M
+(    }) s
+24 189 M (30:) s
+48 189 M
+(    ) s
+24 178 M (31:) s
+48 178 M
+(    @Before) s
+24 167 M (32:) s
+48 167 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 167 M
+(public) s
+/F-gs-font 10 10 SF
+108 167 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 167 M
+(void) s
+/F-gs-font 10 10 SF
+138 167 M
+( setUp\(\) {) s
+24 156 M (33:) s
+48 156 M
+(    }) s
+24 145 M (34:) s
+48 145 M
+(    ) s
+24 134 M (35:) s
+48 134 M
+(    @After) s
+24 123 M (36:) s
+48 123 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 123 M
+(public) s
+/F-gs-font 10 10 SF
+108 123 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 123 M
+(void) s
+/F-gs-font 10 10 SF
+138 123 M
+( tearDown\(\) {) s
+24 112 M (37:) s
+48 112 M
+(    }) s
+24 101 M (38:) s
+24 90 M (39:) s
+48 90 M
+(    @Test) s
+24 79 M (40:) s
+48 79 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 79 M
+(public) s
+/F-gs-font 10 10 SF
+108 79 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 79 M
+(void) s
+/F-gs-font 10 10 SF
+138 79 M
+( testSomeMethod\(\) {) s
+24 68 M (41:) s
+48 68 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 68 M
+(// TODO review the generated test code and remove the default call to fail.) s
+/F-gs-font 10 10 SF
+24 57 M (42:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 57 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 57 M
+(//fail\("The test case is a prototype."\);) s
+/F-gs-font 10 10 SF
+24 46 M (43:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 46 M
+(    }) s
+24 35 M (44:) s
+48 35 M
+(}) s
+_R
+S
+%%Page: (1) 4
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (CakistanTest.java) def
+/fdir () def
+/ftail (CakistanTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (3-1) def
+/user_header_p true def
+/user_header_left_str (CakistanTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (3-1/2\(4\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( java.util.List;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( org.junit.After;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( org.junit.AfterClass;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( org.junit.Before;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( org.junit.BeforeClass;) s
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(import) s
+/F-gs-font 10 10 SF
+84 387 M
+( org.junit.Test;) s
+24 376 M (13:) s
+/Courier-Bold 10 10 SUF
+48 376 M
+(import) s
+/F-gs-font 10 10 SF
+84 376 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 376 M
+(static) s
+/F-gs-font 10 10 SF
+126 376 M
+( org.junit.Assert.*;) s
+24 365 M (14:) s
+/Courier-Bold 10 10 SUF
+48 365 M
+(import) s
+/F-gs-font 10 10 SF
+84 365 M
+( java.util.ArrayList;) s
+24 354 M (15:) s
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+(/**) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( *) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+( * @author eskandarpahlavaafshari) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+( */) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+/Courier-Bold 10 10 SUF
+48 299 M
+(public) s
+/F-gs-font 10 10 SF
+84 299 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 299 M
+(class) s
+/F-gs-font 10 10 SF
+120 299 M
+( CakistanTest {) s
+24 288 M (21:) s
+24 277 M (22:) s
+48 277 M
+(    @org.junit.BeforeClass) s
+24 266 M (23:) s
+48 266 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 266 M
+(public) s
+/F-gs-font 10 10 SF
+108 266 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 266 M
+(static) s
+/F-gs-font 10 10 SF
+150 266 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 266 M
+(void) s
+/F-gs-font 10 10 SF
+180 266 M
+( setUpClass\(\) ) s
+/Courier-Bold 10 10 SUF
+264 266 M
+(throws) s
+/F-gs-font 10 10 SF
+300 266 M
+( Exception {) s
+24 255 M (24:) s
+48 255 M
+(    }) s
+24 244 M (25:) s
+24 233 M (26:) s
+48 233 M
+(    @org.junit.AfterClass) s
+24 222 M (27:) s
+48 222 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 222 M
+(public) s
+/F-gs-font 10 10 SF
+108 222 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 222 M
+(static) s
+/F-gs-font 10 10 SF
+150 222 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 222 M
+(void) s
+/F-gs-font 10 10 SF
+180 222 M
+( tearDownClass\(\) ) s
+/Courier-Bold 10 10 SUF
+282 222 M
+(throws) s
+/F-gs-font 10 10 SF
+318 222 M
+( Exception {) s
+24 211 M (28:) s
+48 211 M
+(    }) s
+24 200 M (29:) s
+24 189 M (30:) s
+48 189 M
+(    @org.junit.Before) s
+24 178 M (31:) s
+48 178 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 178 M
+(public) s
+/F-gs-font 10 10 SF
+108 178 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 178 M
+(void) s
+/F-gs-font 10 10 SF
+138 178 M
+( setUp\(\) ) s
+/Courier-Bold 10 10 SUF
+192 178 M
+(throws) s
+/F-gs-font 10 10 SF
+228 178 M
+( Exception {) s
+24 167 M (32:) s
+48 167 M
+(    }) s
+24 156 M (33:) s
+24 145 M (34:) s
+48 145 M
+(    @org.junit.After) s
+24 134 M (35:) s
+48 134 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 134 M
+(public) s
+/F-gs-font 10 10 SF
+108 134 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 134 M
+(void) s
+/F-gs-font 10 10 SF
+138 134 M
+( tearDown\(\) ) s
+/Courier-Bold 10 10 SUF
+210 134 M
+(throws) s
+/F-gs-font 10 10 SF
+246 134 M
+( Exception {) s
+24 123 M (36:) s
+48 123 M
+(    }) s
+24 112 M (37:) s
+24 101 M (38:) s
+48 101 M
+(  ) s
+24 90 M (39:) s
+48 90 M
+(    ) s
+24 79 M (40:) s
+48 79 M
+(    @Test) s
+24 68 M (41:) s
+48 68 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 68 M
+(public) s
+/F-gs-font 10 10 SF
+108 68 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 68 M
+(void) s
+/F-gs-font 10 10 SF
+138 68 M
+( Cakistan\(\){) s
+24 57 M (42:) s
+48 57 M
+(      ) s
+24 46 M (43:) s
+48 46 M
+(    }) s
+24 35 M (44:) s
+24 24 M (45:) s
+48 24 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 24 M
+(/**) s
+/F-gs-font 10 10 SF
+24 13 M (46:) s
+/Courier-Oblique 10 10 SUF
+48 13 M
+(     * Test of isOutOfQuestions method, of class Cakistan.) s
+/F-gs-font 10 10 SF
+24 2 M (47:) s
+/Courier-Oblique 10 10 SUF
+48 2 M
+(     */) s
+/F-gs-font 10 10 SF
+_R
+S
+%%Page: (2) 5
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (CakistanTest.java) def
+/fdir () def
+/ftail (CakistanTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (3-2) def
+/user_header_p true def
+/user_header_left_str (CakistanTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (3-2/2\(5\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(    @Test) s
+24 497 M (49:) s
+48 497 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 497 M
+(public) s
+/F-gs-font 10 10 SF
+108 497 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 497 M
+(void) s
+/F-gs-font 10 10 SF
+138 497 M
+( testIsOutOfQuestions\(\) {) s
+24 486 M (50:) s
+48 486 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 486 M
+("isOutOfQuestions") s
+/F-gs-font 10 10 SF
+318 486 M
+(\);) s
+24 475 M (51:) s
+48 475 M
+(        cakesolutioncorrectversion.Cakistan instance = ) s
+/Courier-Bold 10 10 SUF
+378 475 M
+(new) s
+/F-gs-font 10 10 SF
+396 475 M
+( cakesolutioncorrectversion.Cakistan\(\);) s
+24 464 M (52:) s
+48 464 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 464 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 464 M
+( expResult = ) s
+/Courier-Bold 10 10 SUF
+216 464 M
+(false) s
+/F-gs-font 10 10 SF
+246 464 M
+(;) s
+24 453 M (53:) s
+48 453 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 453 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 453 M
+( result = instance.isOutOfQuestions\(\);) s
+24 442 M (54:) s
+48 442 M
+(        assertEquals\(expResult, result\);) s
+24 431 M (55:) s
+48 431 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 431 M
+(// TODO review the generated test code and remove the default call to fail.) s
+/F-gs-font 10 10 SF
+24 420 M (56:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 420 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 420 M
+(//fail\("The test case is a prototype."\);) s
+/F-gs-font 10 10 SF
+24 409 M (57:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 409 M
+(    }) s
+24 398 M (58:) s
+24 387 M (59:) s
+48 387 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 387 M
+(/**) s
+/F-gs-font 10 10 SF
+24 376 M (60:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+(     * Test of getLocations method, of class Cakistan.) s
+/F-gs-font 10 10 SF
+24 365 M (61:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+(     */) s
+/F-gs-font 10 10 SF
+24 354 M (62:) s
+48 354 M
+(    @Test) s
+24 343 M (63:) s
+48 343 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 343 M
+(public) s
+/F-gs-font 10 10 SF
+108 343 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 343 M
+(void) s
+/F-gs-font 10 10 SF
+138 343 M
+( testGetLocations\(\) {) s
+24 332 M (64:) s
+48 332 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 332 M
+("getLocations") s
+/F-gs-font 10 10 SF
+294 332 M
+(\);) s
+24 321 M (65:) s
+48 321 M
+(        cakesolutioncorrectversion.Cakistan instance = ) s
+/Courier-Bold 10 10 SUF
+378 321 M
+(new) s
+/F-gs-font 10 10 SF
+396 321 M
+( cakesolutioncorrectversion.Cakistan\(\);) s
+24 310 M (66:) s
+48 310 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 310 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 310 M
+( expResult= ) s
+/Courier-Bold 10 10 SUF
+210 310 M
+(false) s
+/F-gs-font 10 10 SF
+240 310 M
+(;) s
+24 299 M (67:) s
+48 299 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 299 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 299 M
+( result = instance.getLocations\(\).isEmpty\(\);) s
+24 288 M (68:) s
+48 288 M
+(        assertEquals\(expResult, result\);) s
+24 277 M (69:) s
+48 277 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 277 M
+(// TODO review the generated test code and remove the default call to fail.) s
+/F-gs-font 10 10 SF
+24 266 M (70:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 266 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 266 M
+(//fail\("The test case is a prototype."\);) s
+/F-gs-font 10 10 SF
+24 255 M (71:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 255 M
+(    }) s
+24 244 M (72:) s
+48 244 M
+(    ) s
+24 233 M (73:) s
+48 233 M
+(}) s
+_R
+S
+%%Page: (1) 6
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (ChoiceTest.java) def
+/fdir () def
+/ftail (ChoiceTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (4-1) def
+/user_header_p true def
+/user_header_left_str (ChoiceTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (4-1/1\(6\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( org.junit.After;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( org.junit.AfterClass;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( org.junit.Before;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( org.junit.BeforeClass;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( org.junit.Test;) s
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(import) s
+/F-gs-font 10 10 SF
+84 387 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 387 M
+(static) s
+/F-gs-font 10 10 SF
+126 387 M
+( org.junit.Assert.*;) s
+24 376 M (13:) s
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+(/**) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( *) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( * @author eskandarpahlavaafshari) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( */) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Bold 10 10 SUF
+48 321 M
+(public) s
+/F-gs-font 10 10 SF
+84 321 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 321 M
+(class) s
+/F-gs-font 10 10 SF
+120 321 M
+( ChoiceTest {) s
+24 310 M (19:) s
+48 310 M
+(    ) s
+24 299 M (20:) s
+48 299 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 299 M
+(public) s
+/F-gs-font 10 10 SF
+108 299 M
+( ChoiceTest\(\) {) s
+24 288 M (21:) s
+48 288 M
+(    }) s
+24 277 M (22:) s
+48 277 M
+(    ) s
+24 266 M (23:) s
+48 266 M
+(    @BeforeClass) s
+24 255 M (24:) s
+48 255 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 255 M
+(public) s
+/F-gs-font 10 10 SF
+108 255 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 255 M
+(static) s
+/F-gs-font 10 10 SF
+150 255 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 255 M
+(void) s
+/F-gs-font 10 10 SF
+180 255 M
+( setUpClass\(\) {) s
+24 244 M (25:) s
+48 244 M
+(    }) s
+24 233 M (26:) s
+48 233 M
+(    ) s
+24 222 M (27:) s
+48 222 M
+(    @AfterClass) s
+24 211 M (28:) s
+48 211 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 211 M
+(public) s
+/F-gs-font 10 10 SF
+108 211 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 211 M
+(static) s
+/F-gs-font 10 10 SF
+150 211 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 211 M
+(void) s
+/F-gs-font 10 10 SF
+180 211 M
+( tearDownClass\(\) {) s
+24 200 M (29:) s
+48 200 M
+(    }) s
+24 189 M (30:) s
+48 189 M
+(    ) s
+24 178 M (31:) s
+48 178 M
+(    @Before) s
+24 167 M (32:) s
+48 167 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 167 M
+(public) s
+/F-gs-font 10 10 SF
+108 167 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 167 M
+(void) s
+/F-gs-font 10 10 SF
+138 167 M
+( setUp\(\) {) s
+24 156 M (33:) s
+48 156 M
+(    }) s
+24 145 M (34:) s
+48 145 M
+(    ) s
+24 134 M (35:) s
+48 134 M
+(    @After) s
+24 123 M (36:) s
+48 123 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 123 M
+(public) s
+/F-gs-font 10 10 SF
+108 123 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 123 M
+(void) s
+/F-gs-font 10 10 SF
+138 123 M
+( tearDown\(\) {) s
+24 112 M (37:) s
+48 112 M
+(    }) s
+24 101 M (38:) s
+24 90 M (39:) s
+48 90 M
+(    @Test) s
+24 79 M (40:) s
+48 79 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 79 M
+(public) s
+/F-gs-font 10 10 SF
+108 79 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 79 M
+(void) s
+/F-gs-font 10 10 SF
+138 79 M
+( testSomeMethod\(\) {) s
+24 68 M (41:) s
+48 68 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 68 M
+(// TODO review the generated test code and remove the default call to fail.) s
+/F-gs-font 10 10 SF
+24 57 M (42:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 57 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 57 M
+(//fail\("The test case is a prototype."\);) s
+/F-gs-font 10 10 SF
+24 46 M (43:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 46 M
+(    }) s
+24 35 M (44:) s
+48 35 M
+(}) s
+_R
+S
+%%Page: (1) 7
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (ControllerTest.java) def
+/fdir () def
+/ftail (ControllerTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (5-1) def
+/user_header_p true def
+/user_header_left_str (ControllerTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (5-1/3\(7\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( java.util.List;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( org.junit.After;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( org.junit.AfterClass;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( org.junit.Assert;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( org.junit.Before;) s
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(import) s
+/F-gs-font 10 10 SF
+84 387 M
+( org.junit.BeforeClass;) s
+24 376 M (13:) s
+/Courier-Bold 10 10 SUF
+48 376 M
+(import) s
+/F-gs-font 10 10 SF
+84 376 M
+( org.junit.Test;) s
+24 365 M (14:) s
+/Courier-Bold 10 10 SUF
+48 365 M
+(import) s
+/F-gs-font 10 10 SF
+84 365 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 365 M
+(static) s
+/F-gs-font 10 10 SF
+126 365 M
+( org.junit.Assert.*;) s
+24 354 M (15:) s
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+(/**) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( *) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+( * @author eskandarpahlavaafshari) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+( */) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+/Courier-Bold 10 10 SUF
+48 299 M
+(public) s
+/F-gs-font 10 10 SF
+84 299 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 299 M
+(class) s
+/F-gs-font 10 10 SF
+120 299 M
+( ControllerTest {) s
+24 288 M (21:) s
+48 288 M
+(    ) s
+24 277 M (22:) s
+48 277 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 277 M
+(public) s
+/F-gs-font 10 10 SF
+108 277 M
+( ControllerTest\(\) {) s
+24 266 M (23:) s
+48 266 M
+(    }) s
+24 255 M (24:) s
+48 255 M
+(    ) s
+24 244 M (25:) s
+48 244 M
+(    @BeforeClass) s
+24 233 M (26:) s
+48 233 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 233 M
+(public) s
+/F-gs-font 10 10 SF
+108 233 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 233 M
+(static) s
+/F-gs-font 10 10 SF
+150 233 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 233 M
+(void) s
+/F-gs-font 10 10 SF
+180 233 M
+( setUpClass\(\) {) s
+24 222 M (27:) s
+48 222 M
+(    }) s
+24 211 M (28:) s
+48 211 M
+(    ) s
+24 200 M (29:) s
+48 200 M
+(    @AfterClass) s
+24 189 M (30:) s
+48 189 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 189 M
+(public) s
+/F-gs-font 10 10 SF
+108 189 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 189 M
+(static) s
+/F-gs-font 10 10 SF
+150 189 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 189 M
+(void) s
+/F-gs-font 10 10 SF
+180 189 M
+( tearDownClass\(\) {) s
+24 178 M (31:) s
+48 178 M
+(    }) s
+24 167 M (32:) s
+48 167 M
+(    ) s
+24 156 M (33:) s
+48 156 M
+(    @Before) s
+24 145 M (34:) s
+48 145 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 145 M
+(public) s
+/F-gs-font 10 10 SF
+108 145 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 145 M
+(void) s
+/F-gs-font 10 10 SF
+138 145 M
+( setUp\(\) {) s
+24 134 M (35:) s
+48 134 M
+(    }) s
+24 123 M (36:) s
+48 123 M
+(    ) s
+24 112 M (37:) s
+48 112 M
+(    @After) s
+24 101 M (38:) s
+48 101 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 101 M
+(public) s
+/F-gs-font 10 10 SF
+108 101 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 101 M
+(void) s
+/F-gs-font 10 10 SF
+138 101 M
+( tearDown\(\) {) s
+24 90 M (39:) s
+48 90 M
+(    }) s
+24 79 M (40:) s
+24 68 M (41:) s
+/Courier-Oblique 10 10 SUF
+48 68 M
+(//    /**) s
+/F-gs-font 10 10 SF
+24 57 M (42:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 57 M
+(//     * Test of main method, of class Controller.) s
+/F-gs-font 10 10 SF
+24 46 M (43:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 46 M
+(//     */) s
+/F-gs-font 10 10 SF
+24 35 M (44:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 35 M
+(//    @Test) s
+/F-gs-font 10 10 SF
+24 24 M (45:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 24 M
+(//    public void testMain\(\) {) s
+/F-gs-font 10 10 SF
+24 13 M (46:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 13 M
+(//        System.out.println\("main"\);) s
+/F-gs-font 10 10 SF
+24 2 M (47:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 2 M
+(//        String[] args = null;) s
+_R
+S
+%%Page: (2) 8
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (ControllerTest.java) def
+/fdir () def
+/ftail (ControllerTest.java) def
+/Courier-Oblique 10 10 SUF
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (5-2) def
+/user_header_p true def
+/user_header_left_str (ControllerTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (5-2/3\(8\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+/F-gs-font 10 10 SF
+24 508 M (48:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 508 M
+(//        Controller.main\(args\);) s
+/F-gs-font 10 10 SF
+24 497 M (49:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 497 M
+(//        // TODO review the generated test code and remove the default call to fail.) s
+/F-gs-font 10 10 SF
+24 486 M (50:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 486 M
+(//        //fail\("The test case is a prototype."\);) s
+/F-gs-font 10 10 SF
+24 475 M (51:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Oblique 10 10 SUF
+48 475 M
+(//    }) s
+/F-gs-font 10 10 SF
+24 464 M (52:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+24 453 M (53:) s
+48 453 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 453 M
+(/**) s
+/F-gs-font 10 10 SF
+24 442 M (54:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(     * Test of startGame method, of class Controller.) s
+/F-gs-font 10 10 SF
+24 431 M (55:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+(     */) s
+/F-gs-font 10 10 SF
+24 420 M (56:) s
+48 420 M
+(    @Test) s
+24 409 M (57:) s
+48 409 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 409 M
+(public) s
+/F-gs-font 10 10 SF
+108 409 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 409 M
+(void) s
+/F-gs-font 10 10 SF
+138 409 M
+( testStartGame\(\) {) s
+24 398 M (58:) s
+48 398 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 398 M
+("startGame") s
+/F-gs-font 10 10 SF
+276 398 M
+(\);) s
+24 387 M (59:) s
+48 387 M
+(        Controller instance = ) s
+/Courier-Bold 10 10 SUF
+228 387 M
+(new) s
+/F-gs-font 10 10 SF
+246 387 M
+( Controller\(\);) s
+24 376 M (60:) s
+48 376 M
+(        instance.startGame\(\);) s
+24 365 M (61:) s
+48 365 M
+(        Location expResult=instance.world.getLocations\(\).get\(0\);) s
+24 354 M (62:) s
+48 354 M
+(        Location result= instance.player1.getLocation\(\);) s
+24 343 M (63:) s
+48 343 M
+(        assertEquals\(expResult, result \);) s
+24 332 M (64:) s
+48 332 M
+(    ) s
+24 321 M (65:) s
+48 321 M
+(       ) s
+24 310 M (66:) s
+48 310 M
+(    }) s
+24 299 M (67:) s
+24 288 M (68:) s
+48 288 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 288 M
+(/**) s
+/F-gs-font 10 10 SF
+24 277 M (69:) s
+/Courier-Oblique 10 10 SUF
+48 277 M
+(     * Test of runGame method, of class Controller.) s
+/F-gs-font 10 10 SF
+24 266 M (70:) s
+/Courier-Oblique 10 10 SUF
+48 266 M
+(     */) s
+/F-gs-font 10 10 SF
+24 255 M (71:) s
+48 255 M
+(    @Test) s
+24 244 M (72:) s
+48 244 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 244 M
+(public) s
+/F-gs-font 10 10 SF
+108 244 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 244 M
+(void) s
+/F-gs-font 10 10 SF
+138 244 M
+( testRunGame\(\) {) s
+24 233 M (73:) s
+48 233 M
+(       ) s
+/Courier-Oblique 10 10 SUF
+90 233 M
+(// It's not possible to make a Junit test on this method at this point!) s
+/F-gs-font 10 10 SF
+24 222 M (74:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 222 M
+(    }) s
+24 211 M (75:) s
+24 200 M (76:) s
+48 200 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 200 M
+(/**) s
+/F-gs-font 10 10 SF
+24 189 M (77:) s
+/Courier-Oblique 10 10 SUF
+48 189 M
+(     * Test of userInput method, of class Controller.) s
+/F-gs-font 10 10 SF
+24 178 M (78:) s
+/Courier-Oblique 10 10 SUF
+48 178 M
+(     */) s
+/F-gs-font 10 10 SF
+24 167 M (79:) s
+48 167 M
+(    @Test) s
+24 156 M (80:) s
+48 156 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 156 M
+(public) s
+/F-gs-font 10 10 SF
+108 156 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 156 M
+(void) s
+/F-gs-font 10 10 SF
+138 156 M
+( testUserInput\(\) {) s
+24 145 M (81:) s
+48 145 M
+(     ) s
+/Courier-Oblique 10 10 SUF
+78 145 M
+(// It's not possible to make a Junit test on this method at this point!) s
+/F-gs-font 10 10 SF
+24 134 M (82:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 134 M
+(    }) s
+24 123 M (83:) s
+24 112 M (84:) s
+48 112 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 112 M
+(/**) s
+/F-gs-font 10 10 SF
+24 101 M (85:) s
+/Courier-Oblique 10 10 SUF
+48 101 M
+(     * Test of askRandomQuestion method, of class Controller.) s
+/F-gs-font 10 10 SF
+24 90 M (86:) s
+/Courier-Oblique 10 10 SUF
+48 90 M
+(     */) s
+/F-gs-font 10 10 SF
+24 79 M (87:) s
+48 79 M
+(    @Test) s
+24 68 M (88:) s
+48 68 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 68 M
+(public) s
+/F-gs-font 10 10 SF
+108 68 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 68 M
+(void) s
+/F-gs-font 10 10 SF
+138 68 M
+( testAskRandomQuestion\(\) {) s
+24 57 M (89:) s
+48 57 M
+(      ) s
+/Courier-Oblique 10 10 SUF
+84 57 M
+(// It's not possible to make a Junit test on this method at this point!) s
+/F-gs-font 10 10 SF
+24 46 M (90:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 46 M
+(    }) s
+24 35 M (91:) s
+24 24 M (92:) s
+48 24 M
+(  @Test) s
+24 13 M (93:) s
+48 13 M
+(  ) s
+/Courier-Bold 10 10 SUF
+60 13 M
+(public) s
+/F-gs-font 10 10 SF
+96 13 M
+( ) s
+/Courier-Bold 10 10 SUF
+102 13 M
+(void) s
+/F-gs-font 10 10 SF
+126 13 M
+( isInputValid\(\){) s
+24 2 M (94:) s
+48 2 M
+(      ) s
+_R
+S
+%%Page: (3) 9
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 3 def
+/fname (ControllerTest.java) def
+/fdir () def
+/ftail (ControllerTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (5-3) def
+/user_header_p true def
+/user_header_left_str (ControllerTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (5-3/3\(9\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (95:) s
+48 508 M
+(      Controller controller= ) s
+/Courier-Bold 10 10 SUF
+222 508 M
+(new) s
+/F-gs-font 10 10 SF
+240 508 M
+( Controller\(\);) s
+24 497 M (96:) s
+48 497 M
+(      ) s
+/Courier-Bold 10 10 SUF
+84 497 M
+(boolean) s
+/F-gs-font 10 10 SF
+126 497 M
+( result= controller.isInputValid\(6, 4\);) s
+24 486 M (97:) s
+48 486 M
+(      ) s
+/Courier-Bold 10 10 SUF
+84 486 M
+(boolean) s
+/F-gs-font 10 10 SF
+126 486 M
+( expResult= ) s
+/Courier-Bold 10 10 SUF
+198 486 M
+(false) s
+/F-gs-font 10 10 SF
+228 486 M
+(;) s
+24 475 M (98:) s
+48 475 M
+(      assertEquals\(result, expResult\);) s
+24 464 M (99:) s
+48 464 M
+(  }) s
+18 453 M (100:) s
+48 453 M
+(}) s
+_R
+S
+%%Page: (1) 10
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (GameObjectTest.java) def
+/fdir () def
+/ftail (GameObjectTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (6-1) def
+/user_header_p true def
+/user_header_left_str (GameObjectTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (6-1/1\(10\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( org.junit.After;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( org.junit.AfterClass;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( org.junit.Before;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( org.junit.BeforeClass;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( org.junit.Test;) s
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(import) s
+/F-gs-font 10 10 SF
+84 387 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 387 M
+(static) s
+/F-gs-font 10 10 SF
+126 387 M
+( org.junit.Assert.*;) s
+24 376 M (13:) s
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+(/**) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( *) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( * @author eskandarpahlavaafshari) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( */) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Bold 10 10 SUF
+48 321 M
+(public) s
+/F-gs-font 10 10 SF
+84 321 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 321 M
+(class) s
+/F-gs-font 10 10 SF
+120 321 M
+( GameObjectTest {) s
+24 310 M (19:) s
+48 310 M
+(    ) s
+24 299 M (20:) s
+48 299 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 299 M
+(public) s
+/F-gs-font 10 10 SF
+108 299 M
+( GameObjectTest\(\) {) s
+24 288 M (21:) s
+48 288 M
+(    }) s
+24 277 M (22:) s
+48 277 M
+(    ) s
+24 266 M (23:) s
+48 266 M
+(    @BeforeClass) s
+24 255 M (24:) s
+48 255 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 255 M
+(public) s
+/F-gs-font 10 10 SF
+108 255 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 255 M
+(static) s
+/F-gs-font 10 10 SF
+150 255 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 255 M
+(void) s
+/F-gs-font 10 10 SF
+180 255 M
+( setUpClass\(\) {) s
+24 244 M (25:) s
+48 244 M
+(    }) s
+24 233 M (26:) s
+48 233 M
+(    ) s
+24 222 M (27:) s
+48 222 M
+(    @AfterClass) s
+24 211 M (28:) s
+48 211 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 211 M
+(public) s
+/F-gs-font 10 10 SF
+108 211 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 211 M
+(static) s
+/F-gs-font 10 10 SF
+150 211 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 211 M
+(void) s
+/F-gs-font 10 10 SF
+180 211 M
+( tearDownClass\(\) {) s
+24 200 M (29:) s
+48 200 M
+(    }) s
+24 189 M (30:) s
+48 189 M
+(    ) s
+24 178 M (31:) s
+48 178 M
+(    @Before) s
+24 167 M (32:) s
+48 167 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 167 M
+(public) s
+/F-gs-font 10 10 SF
+108 167 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 167 M
+(void) s
+/F-gs-font 10 10 SF
+138 167 M
+( setUp\(\) {) s
+24 156 M (33:) s
+48 156 M
+(    }) s
+24 145 M (34:) s
+48 145 M
+(    ) s
+24 134 M (35:) s
+48 134 M
+(    @After) s
+24 123 M (36:) s
+48 123 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 123 M
+(public) s
+/F-gs-font 10 10 SF
+108 123 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 123 M
+(void) s
+/F-gs-font 10 10 SF
+138 123 M
+( tearDown\(\) {) s
+24 112 M (37:) s
+48 112 M
+(    }) s
+24 101 M (38:) s
+24 90 M (39:) s
+48 90 M
+(    @Test) s
+24 79 M (40:) s
+48 79 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 79 M
+(public) s
+/F-gs-font 10 10 SF
+108 79 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 79 M
+(void) s
+/F-gs-font 10 10 SF
+138 79 M
+( testSomeMethod\(\) {) s
+24 68 M (41:) s
+48 68 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 68 M
+(// TODO review the generated test code and remove the default call to fail.) s
+/F-gs-font 10 10 SF
+24 57 M (42:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 57 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 57 M
+(//fail\("The test case is a prototype."\);) s
+/F-gs-font 10 10 SF
+24 46 M (43:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 46 M
+(    }) s
+24 35 M (44:) s
+48 35 M
+(}) s
+_R
+S
+%%Page: (1) 11
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (LagkagehusetTest.java) def
+/fdir () def
+/ftail (LagkagehusetTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (7-1) def
+/user_header_p true def
+/user_header_left_str (LagkagehusetTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (7-1/2\(11\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( junit.framework.Assert;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( org.junit.After;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( org.junit.AfterClass;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( org.junit.Before;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( org.junit.BeforeClass;) s
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(import) s
+/F-gs-font 10 10 SF
+84 387 M
+( org.junit.Test;) s
+24 376 M (13:) s
+/Courier-Bold 10 10 SUF
+48 376 M
+(import) s
+/F-gs-font 10 10 SF
+84 376 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 376 M
+(static) s
+/F-gs-font 10 10 SF
+126 376 M
+( org.junit.Assert.*;) s
+24 365 M (14:) s
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+(/**) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( *) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( * @author eskandarpahlavaafshari) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+( */) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Bold 10 10 SUF
+48 310 M
+(public) s
+/F-gs-font 10 10 SF
+84 310 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 310 M
+(class) s
+/F-gs-font 10 10 SF
+120 310 M
+( LagkagehusetTest {) s
+24 299 M (20:) s
+48 299 M
+(    ) s
+24 288 M (21:) s
+48 288 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 288 M
+(public) s
+/F-gs-font 10 10 SF
+108 288 M
+( LagkagehusetTest\(\) {) s
+24 277 M (22:) s
+48 277 M
+(    }) s
+24 266 M (23:) s
+48 266 M
+(    ) s
+24 255 M (24:) s
+48 255 M
+(    @BeforeClass) s
+24 244 M (25:) s
+48 244 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 244 M
+(public) s
+/F-gs-font 10 10 SF
+108 244 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 244 M
+(static) s
+/F-gs-font 10 10 SF
+150 244 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 244 M
+(void) s
+/F-gs-font 10 10 SF
+180 244 M
+( setUpClass\(\) {) s
+24 233 M (26:) s
+48 233 M
+(    }) s
+24 222 M (27:) s
+48 222 M
+(    ) s
+24 211 M (28:) s
+48 211 M
+(    @AfterClass) s
+24 200 M (29:) s
+48 200 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 200 M
+(public) s
+/F-gs-font 10 10 SF
+108 200 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 200 M
+(static) s
+/F-gs-font 10 10 SF
+150 200 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 200 M
+(void) s
+/F-gs-font 10 10 SF
+180 200 M
+( tearDownClass\(\) {) s
+24 189 M (30:) s
+48 189 M
+(    }) s
+24 178 M (31:) s
+48 178 M
+(    ) s
+24 167 M (32:) s
+48 167 M
+(    @Before) s
+24 156 M (33:) s
+48 156 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 156 M
+(public) s
+/F-gs-font 10 10 SF
+108 156 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 156 M
+(void) s
+/F-gs-font 10 10 SF
+138 156 M
+( setUp\(\) {) s
+24 145 M (34:) s
+48 145 M
+(    }) s
+24 134 M (35:) s
+48 134 M
+(    ) s
+24 123 M (36:) s
+48 123 M
+(    @After) s
+24 112 M (37:) s
+48 112 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 112 M
+(public) s
+/F-gs-font 10 10 SF
+108 112 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 112 M
+(void) s
+/F-gs-font 10 10 SF
+138 112 M
+( tearDown\(\) {) s
+24 101 M (38:) s
+48 101 M
+(    }) s
+24 90 M (39:) s
+24 79 M (40:) s
+48 79 M
+(     @Test) s
+24 68 M (41:) s
+48 68 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 68 M
+(public) s
+/F-gs-font 10 10 SF
+108 68 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 68 M
+(void) s
+/F-gs-font 10 10 SF
+138 68 M
+( hasQuestions\(\){) s
+24 57 M (42:) s
+48 57 M
+(        ) s
+24 46 M (43:) s
+48 46 M
+(        Lagkagehuset newLagkagehuset = ) s
+/Courier-Bold 10 10 SUF
+282 46 M
+(new) s
+/F-gs-font 10 10 SF
+300 46 M
+( Lagkagehuset\(\);) s
+24 35 M (44:) s
+48 35 M
+(        ) s
+24 24 M (45:) s
+48 24 M
+(        ) s
+24 13 M (46:) s
+48 13 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 13 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 13 M
+( expected = ) s
+/Courier-Bold 10 10 SUF
+210 13 M
+(true) s
+/F-gs-font 10 10 SF
+234 13 M
+(;) s
+24 2 M (47:) s
+48 2 M
+(        ) s
+_R
+S
+%%Page: (2) 12
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (LagkagehusetTest.java) def
+/fdir () def
+/ftail (LagkagehusetTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (7-2) def
+/user_header_p true def
+/user_header_left_str (LagkagehusetTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (7-2/2\(12\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(        ) s
+24 497 M (49:) s
+48 497 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 497 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 497 M
+( actual = !newLagkagehuset.getQuestionList\(\).isEmpty\(\);) s
+24 486 M (50:) s
+48 486 M
+(        ) s
+24 475 M (51:) s
+48 475 M
+(        Assert.assertEquals\(expected, actual\); ) s
+24 464 M (52:) s
+48 464 M
+(    }) s
+24 453 M (53:) s
+48 453 M
+(    ) s
+24 442 M (54:) s
+48 442 M
+(    ) s
+24 431 M (55:) s
+48 431 M
+(}) s
+_R
+S
+%%Page: (1) 13
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (LePetiteEclaireTest.java) def
+/fdir () def
+/ftail (LePetiteEclaireTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (8-1) def
+/user_header_p true def
+/user_header_left_str (LePetiteEclaireTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (8-1/2\(13\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( junit.framework.Assert;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( org.junit.After;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( org.junit.AfterClass;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( org.junit.Before;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( org.junit.BeforeClass;) s
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(import) s
+/F-gs-font 10 10 SF
+84 387 M
+( org.junit.Test;) s
+24 376 M (13:) s
+/Courier-Bold 10 10 SUF
+48 376 M
+(import) s
+/F-gs-font 10 10 SF
+84 376 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 376 M
+(static) s
+/F-gs-font 10 10 SF
+126 376 M
+( org.junit.Assert.*;) s
+24 365 M (14:) s
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+(/**) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( *) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( * @author eskandarpahlavaafshari) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+( */) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Bold 10 10 SUF
+48 310 M
+(public) s
+/F-gs-font 10 10 SF
+84 310 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 310 M
+(class) s
+/F-gs-font 10 10 SF
+120 310 M
+( LePetiteEclaireTest {) s
+24 299 M (20:) s
+48 299 M
+(    ) s
+24 288 M (21:) s
+48 288 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 288 M
+(public) s
+/F-gs-font 10 10 SF
+108 288 M
+( LePetiteEclaireTest\(\) {) s
+24 277 M (22:) s
+48 277 M
+(    }) s
+24 266 M (23:) s
+48 266 M
+(    ) s
+24 255 M (24:) s
+48 255 M
+(    @BeforeClass) s
+24 244 M (25:) s
+48 244 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 244 M
+(public) s
+/F-gs-font 10 10 SF
+108 244 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 244 M
+(static) s
+/F-gs-font 10 10 SF
+150 244 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 244 M
+(void) s
+/F-gs-font 10 10 SF
+180 244 M
+( setUpClass\(\) {) s
+24 233 M (26:) s
+48 233 M
+(    }) s
+24 222 M (27:) s
+48 222 M
+(    ) s
+24 211 M (28:) s
+48 211 M
+(    @AfterClass) s
+24 200 M (29:) s
+48 200 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 200 M
+(public) s
+/F-gs-font 10 10 SF
+108 200 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 200 M
+(static) s
+/F-gs-font 10 10 SF
+150 200 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 200 M
+(void) s
+/F-gs-font 10 10 SF
+180 200 M
+( tearDownClass\(\) {) s
+24 189 M (30:) s
+48 189 M
+(    }) s
+24 178 M (31:) s
+48 178 M
+(    ) s
+24 167 M (32:) s
+48 167 M
+(    @Before) s
+24 156 M (33:) s
+48 156 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 156 M
+(public) s
+/F-gs-font 10 10 SF
+108 156 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 156 M
+(void) s
+/F-gs-font 10 10 SF
+138 156 M
+( setUp\(\) {) s
+24 145 M (34:) s
+48 145 M
+(    }) s
+24 134 M (35:) s
+48 134 M
+(    ) s
+24 123 M (36:) s
+48 123 M
+(    @After) s
+24 112 M (37:) s
+48 112 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 112 M
+(public) s
+/F-gs-font 10 10 SF
+108 112 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 112 M
+(void) s
+/F-gs-font 10 10 SF
+138 112 M
+( tearDown\(\) {) s
+24 101 M (38:) s
+48 101 M
+(    }) s
+24 90 M (39:) s
+24 79 M (40:) s
+48 79 M
+(     @Test) s
+24 68 M (41:) s
+48 68 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 68 M
+(public) s
+/F-gs-font 10 10 SF
+108 68 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 68 M
+(void) s
+/F-gs-font 10 10 SF
+138 68 M
+( hasQuestions\(\){) s
+24 57 M (42:) s
+48 57 M
+(        ) s
+24 46 M (43:) s
+48 46 M
+(        LePetiteEclaire newLePetiteEclaire = ) s
+/Courier-Bold 10 10 SUF
+318 46 M
+(new) s
+/F-gs-font 10 10 SF
+336 46 M
+( LePetiteEclaire\(\);) s
+24 35 M (44:) s
+48 35 M
+(        ) s
+24 24 M (45:) s
+48 24 M
+(        ) s
+24 13 M (46:) s
+48 13 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 13 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 13 M
+( expected = ) s
+/Courier-Bold 10 10 SUF
+210 13 M
+(true) s
+/F-gs-font 10 10 SF
+234 13 M
+(;) s
+24 2 M (47:) s
+48 2 M
+(        ) s
+_R
+S
+%%Page: (2) 14
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (LePetiteEclaireTest.java) def
+/fdir () def
+/ftail (LePetiteEclaireTest.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (8-2) def
+/user_header_p true def
+/user_header_left_str (LePetiteEclaireTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (8-2/2\(14\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(        ) s
+24 497 M (49:) s
+48 497 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 497 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 497 M
+( actual = !newLePetiteEclaire.getQuestionList\(\).isEmpty\(\);) s
+24 486 M (50:) s
+48 486 M
+(        ) s
+24 475 M (51:) s
+48 475 M
+(        Assert.assertEquals\(expected, actual\); ) s
+24 464 M (52:) s
+48 464 M
+(    }) s
+24 453 M (53:) s
+48 453 M
+(}) s
+_R
+S
+%%Page: (1) 15
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (SugarmanTest.java) def
+/fdir () def
+/ftail (SugarmanTest.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (9-1) def
+/user_header_p true def
+/user_header_left_str (SugarmanTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (9-1/4\(15\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( junit.framework.Assert;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( org.junit.After;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( org.junit.AfterClass;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( org.junit.Before;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( org.junit.BeforeClass;) s
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(import) s
+/F-gs-font 10 10 SF
+84 387 M
+( org.junit.Test;) s
+24 376 M (13:) s
+/Courier-Bold 10 10 SUF
+48 376 M
+(import) s
+/F-gs-font 10 10 SF
+84 376 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 376 M
+(static) s
+/F-gs-font 10 10 SF
+126 376 M
+( org.junit.Assert.*;) s
+24 365 M (14:) s
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+(/**) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( *) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( * @author nicolajdamfrederiksen) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+( */) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Bold 10 10 SUF
+48 310 M
+(public) s
+/F-gs-font 10 10 SF
+84 310 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 310 M
+(class) s
+/F-gs-font 10 10 SF
+120 310 M
+( SugarmanTest {) s
+24 299 M (20:) s
+24 288 M (21:) s
+48 288 M
+(    @BeforeClass) s
+24 277 M (22:) s
+48 277 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 277 M
+(public) s
+/F-gs-font 10 10 SF
+108 277 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 277 M
+(static) s
+/F-gs-font 10 10 SF
+150 277 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 277 M
+(void) s
+/F-gs-font 10 10 SF
+180 277 M
+( setUpClass\(\) ) s
+/Courier-Bold 10 10 SUF
+264 277 M
+(throws) s
+/F-gs-font 10 10 SF
+300 277 M
+( Exception {) s
+24 266 M (23:) s
+48 266 M
+(    }) s
+24 255 M (24:) s
+24 244 M (25:) s
+48 244 M
+(    @AfterClass) s
+24 233 M (26:) s
+48 233 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 233 M
+(public) s
+/F-gs-font 10 10 SF
+108 233 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 233 M
+(static) s
+/F-gs-font 10 10 SF
+150 233 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 233 M
+(void) s
+/F-gs-font 10 10 SF
+180 233 M
+( tearDownClass\(\) ) s
+/Courier-Bold 10 10 SUF
+282 233 M
+(throws) s
+/F-gs-font 10 10 SF
+318 233 M
+( Exception {) s
+24 222 M (27:) s
+48 222 M
+(    }) s
+24 211 M (28:) s
+24 200 M (29:) s
+48 200 M
+(    @Before) s
+24 189 M (30:) s
+48 189 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 189 M
+(public) s
+/F-gs-font 10 10 SF
+108 189 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 189 M
+(void) s
+/F-gs-font 10 10 SF
+138 189 M
+( setUp\(\) ) s
+/Courier-Bold 10 10 SUF
+192 189 M
+(throws) s
+/F-gs-font 10 10 SF
+228 189 M
+( Exception {) s
+24 178 M (31:) s
+48 178 M
+(    }) s
+24 167 M (32:) s
+24 156 M (33:) s
+48 156 M
+(    @After) s
+24 145 M (34:) s
+48 145 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 145 M
+(public) s
+/F-gs-font 10 10 SF
+108 145 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 145 M
+(void) s
+/F-gs-font 10 10 SF
+138 145 M
+( tearDown\(\) ) s
+/Courier-Bold 10 10 SUF
+210 145 M
+(throws) s
+/F-gs-font 10 10 SF
+246 145 M
+( Exception {) s
+24 134 M (35:) s
+48 134 M
+(    }) s
+24 123 M (36:) s
+24 112 M (37:) s
+48 112 M
+(    @Test) s
+24 101 M (38:) s
+48 101 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 101 M
+(public) s
+/F-gs-font 10 10 SF
+108 101 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 101 M
+(void) s
+/F-gs-font 10 10 SF
+138 101 M
+( isUserChoiceCorrect\(\) {) s
+24 90 M (39:) s
+24 79 M (40:) s
+48 79 M
+(        Sugarman newSugarman = ) s
+/Courier-Bold 10 10 SUF
+234 79 M
+(new) s
+/F-gs-font 10 10 SF
+252 79 M
+( Sugarman\(\);) s
+24 68 M (41:) s
+24 57 M (42:) s
+48 57 M
+(        Question q = createQuestion\(\);) s
+24 46 M (43:) s
+24 35 M (44:) s
+48 35 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 35 M
+(//Testing if correct answer returns true) s
+/F-gs-font 10 10 SF
+24 24 M (45:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+24 13 M (46:) s
+48 13 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 13 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 13 M
+( expected = ) s
+/Courier-Bold 10 10 SUF
+210 13 M
+(true) s
+/F-gs-font 10 10 SF
+234 13 M
+(;) s
+24 2 M (47:) s
+_R
+S
+%%Page: (2) 16
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (SugarmanTest.java) def
+/fdir () def
+/ftail (SugarmanTest.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (9-2) def
+/user_header_p true def
+/user_header_left_str (SugarmanTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (9-2/4\(16\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 508 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 508 M
+( actual = newSugarman.isAnswerCorrect\(q, 3\);) s
+24 497 M (49:) s
+24 486 M (50:) s
+48 486 M
+(        Assert.assertEquals\(expected, actual\);) s
+24 475 M (51:) s
+24 464 M (52:) s
+48 464 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 464 M
+(//Testing if wrong answer returns false) s
+/F-gs-font 10 10 SF
+24 453 M (53:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+24 442 M (54:) s
+48 442 M
+(        expected = ) s
+/Courier-Bold 10 10 SUF
+162 442 M
+(false) s
+/F-gs-font 10 10 SF
+192 442 M
+(;) s
+24 431 M (55:) s
+24 420 M (56:) s
+48 420 M
+(        actual = newSugarman.isAnswerCorrect\(q, 2\);) s
+24 409 M (57:) s
+24 398 M (58:) s
+48 398 M
+(        Assert.assertEquals\(expected, actual\);) s
+24 387 M (59:) s
+48 387 M
+(    }) s
+24 376 M (60:) s
+24 365 M (61:) s
+48 365 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 365 M
+(public) s
+/F-gs-font 10 10 SF
+108 365 M
+( Question createQuestion\(\) {) s
+24 354 M (62:) s
+24 343 M (63:) s
+48 343 M
+(        Question q1 = ) s
+/Courier-Bold 10 10 SUF
+180 343 M
+(new) s
+/F-gs-font 10 10 SF
+198 343 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 343 M
+("On which continent does Turkey lie?") s
+/F-gs-font 10 10 SF
+480 343 M
+(\);) s
+24 332 M (64:) s
+24 321 M (65:) s
+48 321 M
+(        Choice BQ1C1 = ) s
+/Courier-Bold 10 10 SUF
+186 321 M
+(new) s
+/F-gs-font 10 10 SF
+204 321 M
+( Choice\(\);) s
+24 310 M (66:) s
+48 310 M
+(        BQ1C1.choice = ) s
+/Courier-Bold 10 10 SUF
+186 310 M
+("Asia") s
+/F-gs-font 10 10 SF
+222 310 M
+(;) s
+24 299 M (67:) s
+48 299 M
+(        BQ1C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 299 M
+(false) s
+/F-gs-font 10 10 SF
+270 299 M
+(;) s
+24 288 M (68:) s
+24 277 M (69:) s
+48 277 M
+(        Choice BQ1C2 = ) s
+/Courier-Bold 10 10 SUF
+186 277 M
+(new) s
+/F-gs-font 10 10 SF
+204 277 M
+( Choice\(\);) s
+24 266 M (70:) s
+48 266 M
+(        BQ1C2.choice = ) s
+/Courier-Bold 10 10 SUF
+186 266 M
+("Europe") s
+/F-gs-font 10 10 SF
+234 266 M
+(;) s
+24 255 M (71:) s
+48 255 M
+(        BQ1C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 255 M
+(false) s
+/F-gs-font 10 10 SF
+270 255 M
+(;) s
+24 244 M (72:) s
+24 233 M (73:) s
+48 233 M
+(        Choice BQ1C3 = ) s
+/Courier-Bold 10 10 SUF
+186 233 M
+(new) s
+/F-gs-font 10 10 SF
+204 233 M
+( Choice\(\);) s
+24 222 M (74:) s
+48 222 M
+(        BQ1C3.choice = ) s
+/Courier-Bold 10 10 SUF
+186 222 M
+("Europe and Asia") s
+/F-gs-font 10 10 SF
+288 222 M
+(;) s
+24 211 M (75:) s
+48 211 M
+(        BQ1C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 211 M
+(true) s
+/F-gs-font 10 10 SF
+264 211 M
+(;) s
+24 200 M (76:) s
+24 189 M (77:) s
+48 189 M
+(        Choice BQ1C4 = ) s
+/Courier-Bold 10 10 SUF
+186 189 M
+(new) s
+/F-gs-font 10 10 SF
+204 189 M
+( Choice\(\);) s
+24 178 M (78:) s
+48 178 M
+(        BQ1C4.choice = ) s
+/Courier-Bold 10 10 SUF
+186 178 M
+("Middle East") s
+/F-gs-font 10 10 SF
+264 178 M
+(;) s
+24 167 M (79:) s
+48 167 M
+(        BQ1C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 167 M
+(false) s
+/F-gs-font 10 10 SF
+270 167 M
+(;) s
+24 156 M (80:) s
+24 145 M (81:) s
+48 145 M
+(        q1.choices.add\(BQ1C1\);) s
+24 134 M (82:) s
+48 134 M
+(        q1.choices.add\(BQ1C2\);) s
+24 123 M (83:) s
+48 123 M
+(        q1.choices.add\(BQ1C3\);) s
+24 112 M (84:) s
+48 112 M
+(        q1.choices.add\(BQ1C4\);) s
+24 101 M (85:) s
+24 90 M (86:) s
+48 90 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 90 M
+(return) s
+/F-gs-font 10 10 SF
+132 90 M
+( q1;) s
+24 79 M (87:) s
+24 68 M (88:) s
+48 68 M
+(    }) s
+24 57 M (89:) s
+24 46 M (90:) s
+48 46 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 46 M
+(/**) s
+/F-gs-font 10 10 SF
+24 35 M (91:) s
+/Courier-Oblique 10 10 SUF
+48 35 M
+(     * Test of hasSugarmanWon method, of class Sugarman.) s
+/F-gs-font 10 10 SF
+24 24 M (92:) s
+/Courier-Oblique 10 10 SUF
+48 24 M
+(     */) s
+/F-gs-font 10 10 SF
+24 13 M (93:) s
+48 13 M
+(    @Test) s
+24 2 M (94:) s
+48 2 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 2 M
+(public) s
+/F-gs-font 10 10 SF
+108 2 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 2 M
+(void) s
+/F-gs-font 10 10 SF
+138 2 M
+( testHasSugarmanWon\(\) {) s
+_R
+S
+%%Page: (3) 17
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 3 def
+/fname (SugarmanTest.java) def
+/fdir () def
+/ftail (SugarmanTest.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (9-3) def
+/user_header_p true def
+/user_header_left_str (SugarmanTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (9-3/4\(17\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (95:) s
+48 508 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 508 M
+("hasSugarmanWon") s
+/F-gs-font 10 10 SF
+306 508 M
+(\);) s
+24 497 M (96:) s
+48 497 M
+(        Sugarman instance = ) s
+/Courier-Bold 10 10 SUF
+216 497 M
+(new) s
+/F-gs-font 10 10 SF
+234 497 M
+( Sugarman\(\);) s
+24 486 M (97:) s
+48 486 M
+(        instance.changeSugarLevel\(100\);) s
+24 475 M (98:) s
+48 475 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 475 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 475 M
+( expResult = ) s
+/Courier-Bold 10 10 SUF
+216 475 M
+(true) s
+/F-gs-font 10 10 SF
+240 475 M
+(;) s
+24 464 M (99:) s
+48 464 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 464 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 464 M
+( result = instance.hasSugarmanWon\(\);) s
+18 453 M (100:) s
+48 453 M
+(        assertEquals\(expResult, result\);) s
+18 442 M (101:) s
+48 442 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 442 M
+(// TODO review the generated test code and remove the default call to fail.) s
+/F-gs-font 10 10 SF
+18 431 M (102:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 431 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 431 M
+(//fail\("The test case is a prototype."\);) s
+/F-gs-font 10 10 SF
+18 420 M (103:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 420 M
+(    }) s
+18 409 M (104:) s
+18 398 M (105:) s
+48 398 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 398 M
+(/**) s
+/F-gs-font 10 10 SF
+18 387 M (106:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+(     * Test of hasSugarmanLost method, of class Sugarman.) s
+/F-gs-font 10 10 SF
+18 376 M (107:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+(     */) s
+/F-gs-font 10 10 SF
+18 365 M (108:) s
+48 365 M
+(    @Test) s
+18 354 M (109:) s
+48 354 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 354 M
+(public) s
+/F-gs-font 10 10 SF
+108 354 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 354 M
+(void) s
+/F-gs-font 10 10 SF
+138 354 M
+( testHasSugarmanLost\(\) {) s
+18 343 M (110:) s
+48 343 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 343 M
+("hasSugarmanLost") s
+/F-gs-font 10 10 SF
+312 343 M
+(\);) s
+18 332 M (111:) s
+48 332 M
+(        Sugarman instance = ) s
+/Courier-Bold 10 10 SUF
+216 332 M
+(new) s
+/F-gs-font 10 10 SF
+234 332 M
+( Sugarman\(\);) s
+18 321 M (112:) s
+48 321 M
+(        instance.changeSugarLevel\(-100\);) s
+18 310 M (113:) s
+48 310 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 310 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 310 M
+( expResult = ) s
+/Courier-Bold 10 10 SUF
+216 310 M
+(true) s
+/F-gs-font 10 10 SF
+240 310 M
+(;) s
+18 299 M (114:) s
+48 299 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 299 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 299 M
+( result = instance.hasSugarmanLost\(\);) s
+18 288 M (115:) s
+48 288 M
+(        assertEquals\(expResult, result\);) s
+18 277 M (116:) s
+48 277 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 277 M
+(// TODO review the generated test code and remove the default call to fail.) s
+/F-gs-font 10 10 SF
+18 266 M (117:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 266 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 266 M
+(//fail\("The test case is a prototype."\);) s
+/F-gs-font 10 10 SF
+18 255 M (118:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 255 M
+(    }) s
+18 244 M (119:) s
+18 233 M (120:) s
+48 233 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 233 M
+(/**) s
+/F-gs-font 10 10 SF
+18 222 M (121:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     * Test of move method, of class Sugarman.) s
+/F-gs-font 10 10 SF
+18 211 M (122:) s
+/Courier-Oblique 10 10 SUF
+48 211 M
+(     */) s
+/F-gs-font 10 10 SF
+18 200 M (123:) s
+48 200 M
+(    @Test) s
+18 189 M (124:) s
+48 189 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 189 M
+(public) s
+/F-gs-font 10 10 SF
+108 189 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 189 M
+(void) s
+/F-gs-font 10 10 SF
+138 189 M
+( testMove\(\) {) s
+18 178 M (125:) s
+48 178 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 178 M
+("move") s
+/F-gs-font 10 10 SF
+246 178 M
+(\);) s
+18 167 M (126:) s
+18 156 M (127:) s
+48 156 M
+(        Baklavaci baklavaci = ) s
+/Courier-Bold 10 10 SUF
+228 156 M
+(new) s
+/F-gs-font 10 10 SF
+246 156 M
+( Baklavaci\(\);) s
+18 145 M (128:) s
+48 145 M
+(        Sugarman instance = ) s
+/Courier-Bold 10 10 SUF
+216 145 M
+(new) s
+/F-gs-font 10 10 SF
+234 145 M
+( Sugarman\(\);) s
+18 134 M (129:) s
+48 134 M
+(        instance.move\(baklavaci\);) s
+18 123 M (130:) s
+48 123 M
+(        Location location = instance.getLocation\(\);) s
+18 112 M (131:) s
+18 101 M (132:) s
+48 101 M
+(        Location result = location;) s
+18 90 M (133:) s
+48 90 M
+(        Location expResult = baklavaci;) s
+18 79 M (134:) s
+48 79 M
+(        assertEquals\(result, expResult\);) s
+18 68 M (135:) s
+18 57 M (136:) s
+48 57 M
+(    }) s
+18 46 M (137:) s
+18 35 M (138:) s
+48 35 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 35 M
+(/**) s
+/F-gs-font 10 10 SF
+18 24 M (139:) s
+/Courier-Oblique 10 10 SUF
+48 24 M
+(     * Test of changeSugarLevel method, of class Sugarman.) s
+/F-gs-font 10 10 SF
+18 13 M (140:) s
+/Courier-Oblique 10 10 SUF
+48 13 M
+(     */) s
+/F-gs-font 10 10 SF
+18 2 M (141:) s
+48 2 M
+(    @Test) s
+_R
+S
+%%Page: (4) 18
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 4 def
+/fname (SugarmanTest.java) def
+/fdir () def
+/ftail (SugarmanTest.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (9-4) def
+/user_header_p true def
+/user_header_left_str (SugarmanTest.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (9-4/4\(18\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+18 508 M (142:) s
+48 508 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 508 M
+(public) s
+/F-gs-font 10 10 SF
+108 508 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 508 M
+(void) s
+/F-gs-font 10 10 SF
+138 508 M
+( testCurrentSugarLevelAndChangeSugarLevel\(\) {) s
+18 497 M (143:) s
+48 497 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 497 M
+("changeSugarLevel") s
+/F-gs-font 10 10 SF
+318 497 M
+(\);) s
+18 486 M (144:) s
+18 475 M (145:) s
+48 475 M
+(        Sugarman instance = ) s
+/Courier-Bold 10 10 SUF
+216 475 M
+(new) s
+/F-gs-font 10 10 SF
+234 475 M
+( Sugarman\(\);) s
+18 464 M (146:) s
+48 464 M
+(        instance.getSugarlevel\(\);) s
+18 453 M (147:) s
+48 453 M
+(        instance.changeSugarLevel\(20\);) s
+18 442 M (148:) s
+18 431 M (149:) s
+48 431 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 431 M
+(int) s
+/F-gs-font 10 10 SF
+114 431 M
+( result = instance.getSugarlevel\(\);) s
+18 420 M (150:) s
+48 420 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 420 M
+(int) s
+/F-gs-font 10 10 SF
+114 420 M
+( expResult = 70;) s
+18 409 M (151:) s
+48 409 M
+(        assertEquals\(result, expResult\);) s
+18 398 M (152:) s
+18 387 M (153:) s
+48 387 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 387 M
+(// TODO review the generated test code and remove the default call to fail.) s
+/F-gs-font 10 10 SF
+18 376 M (154:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 376 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 376 M
+(//fail\("The test case is a prototype."\);) s
+/F-gs-font 10 10 SF
+18 365 M (155:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 365 M
+(    }) s
+18 354 M (156:) s
+48 354 M
+(}) s
+_R
+S
+%%Page: (-1) 19
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum -1 def
+/fname (Table of Contents) def
+/fdir () def
+/ftail (Table of Contents) def
+% User defined strings:
+/fmodstr (Tue May 14 23:12:34 2013) def
+/pagenumstr (-1) def
+/user_header_p true def
+/user_header_left_str (Table of Contents) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (-1/1\(19\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 508 M
+(  1 BaklavaciTest.java                         2 pages   52 lines  13/05/13 12:40:54) s
+5 497 M
+(  2 CakeTest.java                              1 pages   44 lines  13/05/13 12:40:54) s
+5 486 M
+(  3 CakistanTest.java                          2 pages   73 lines  13/05/13 12:40:54) s
+5 475 M
+(  4 ChoiceTest.java                            1 pages   44 lines  13/05/13 12:40:54) s
+5 464 M
+(  5 ControllerTest.java                        3 pages  100 lines  13/05/13 12:40:54) s
+5 453 M
+(  6 GameObjectTest.java                        1 pages   44 lines  13/05/13 12:40:54) s
+5 442 M
+(  7 LagkagehusetTest.java                      2 pages   55 lines  13/05/13 12:40:54) s
+5 431 M
+(  8 LePetiteEclaireTest.java                   2 pages   53 lines  13/05/13 12:40:54) s
+5 420 M
+(  9 SugarmanTest.java                          4 pages  156 lines  13/05/14 14:24:22) s
+_R
+S
+%%Trailer
+%%Pages: 19
+%%DocumentNeededResources: font Courier-Oblique Courier-Bold Courier 
+%%EOF

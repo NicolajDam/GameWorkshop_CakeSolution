@@ -55,7 +55,7 @@ public class View {
     public void printToMoveOrToStay(String currentLocation, String neighborLocation) {
         System.out.println("Do you wanna stay here in " + currentLocation
                 + " and answer questions or move on to " + neighborLocation
-                + "Type in 1 to stay or 2 to move on or 3 to exit game");
+                + "Type in 1 to stay or 2 to move on to next location or 3 to exit game");
 
     }
 

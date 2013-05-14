@@ -1,0 +1,9837 @@
+%!PS-Adobe-3.0
+%%BoundingBox: 38 24 574 768
+%%Title: Enscript Output
+%%For: Signe Bernhard
+%%Creator: GNU enscript 1.6.4
+%%CreationDate: Tue May 14 23:11:19 2013
+%%Orientation: Landscape
+%%Pages: (atend)
+%%DocumentMedia: Letter 612 792 0 () ()
+%%DocumentNeededResources: (atend)
+%%EndComments
+%%BeginProlog
+%%BeginResource: procset Enscript-Prolog 1.6 4
+%
+% Procedures.
+%
+
+/_S {	% save current state
+  /_s save def
+} def
+/_R {	% restore from saved state
+  _s restore
+} def
+
+/S {	% showpage protecting gstate
+  gsave
+  showpage
+  grestore
+} bind def
+
+/MF {	% fontname newfontname -> -	make a new encoded font
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  % insert only valid encoding vectors
+  encoding_vector length 256 eq {
+    newfont /Encoding encoding_vector put
+  } if
+
+  newfontname newfont definefont pop
+} def
+
+/MF_PS { % fontname newfontname -> -	make a new font preserving its enc
+  /newfontname exch def
+  /fontname exch def
+
+  /fontdict fontname findfont def
+  /newfont fontdict maxlength dict def
+
+  fontdict {
+    exch
+    dup /FID eq {
+      % skip FID pair
+      pop pop
+    } {
+      % copy to the new font dictionary
+      exch newfont 3 1 roll put
+    } ifelse
+  } forall
+
+  newfont /FontName newfontname put
+
+  newfontname newfont definefont pop
+} def
+
+/SF { % fontname width height -> -	set a new font
+  /height exch def
+  /width exch def
+
+  findfont
+  [width 0 0 height 0 0] makefont setfont
+} def
+
+/SUF { % fontname width height -> -	set a new user font
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF
+  /F-gs-user-font width height SF
+} def
+
+/SUF_PS { % fontname width height -> -	set a new user font preserving its enc
+  /height exch def
+  /width exch def
+
+  /F-gs-user-font MF_PS
+  /F-gs-user-font width height SF
+} def
+
+/M {moveto} bind def
+/s {show} bind def
+
+/Box {	% x y w h -> -			define box path
+  /d_h exch def /d_w exch def /d_y exch def /d_x exch def
+  d_x d_y  moveto
+  d_w 0 rlineto
+  0 d_h rlineto
+  d_w neg 0 rlineto
+  closepath
+} def
+
+/bgs {	% x y height blskip gray str -> -	show string with bg color
+  /str exch def
+  /gray exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    gray setgray
+    fill
+  grestore
+  x y M str s
+} def
+
+/bgcs { % x y height blskip red green blue str -> -  show string with bg color
+  /str exch def
+  /blue exch def
+  /green exch def
+  /red exch def
+  /blskip exch def
+  /height exch def
+  /y exch def
+  /x exch def
+
+  gsave
+    x y blskip sub str stringwidth pop height Box
+    red green blue setrgbcolor
+    fill
+  grestore
+  x y M str s
+} def
+
+% Highlight bars.
+/highlight_bars {	% nlines lineheight output_y_margin gray -> -
+  gsave
+    setgray
+    /ymarg exch def
+    /lineheight exch def
+    /nlines exch def
+
+    % This 2 is just a magic number to sync highlight lines to text.
+    0 d_header_y ymarg sub 2 sub translate
+
+    /cw d_output_w cols div def
+    /nrows d_output_h ymarg 2 mul sub lineheight div cvi def
+
+    % for each column
+    0 1 cols 1 sub {
+      cw mul /xp exch def
+
+      % for each rows
+      0 1 nrows 1 sub {
+        /rn exch def
+        rn lineheight mul neg /yp exch def
+        rn nlines idiv 2 mod 0 eq {
+	  % Draw highlight bar.  4 is just a magic indentation.
+	  xp 4 add yp cw 8 sub lineheight neg Box fill
+	} if
+      } for
+    } for
+
+  grestore
+} def
+
+% Line highlight bar.
+/line_highlight {	% x y width height gray -> -
+  gsave
+    /gray exch def
+    Box gray setgray fill
+  grestore
+} def
+
+% Column separator lines.
+/column_lines {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h translate
+    /cw d_output_w cols div def
+    1 1 cols 1 sub {
+      cw mul 0 moveto
+      0 d_output_h rlineto stroke
+    } for
+  grestore
+} def
+
+% Column borders.
+/column_borders {
+  gsave
+    .1 setlinewidth
+    0 d_footer_h moveto
+    0 d_output_h rlineto
+    d_output_w 0 rlineto
+    0 d_output_h neg rlineto
+    closepath stroke
+  grestore
+} def
+
+% Do the actual underlay drawing
+/draw_underlay {
+  ul_style 0 eq {
+    ul_str true charpath stroke
+  } {
+    ul_str show
+  } ifelse
+} def
+
+% Underlay
+/underlay {	% - -> -
+  gsave
+    0 d_page_h translate
+    d_page_h neg d_page_w atan rotate
+
+    ul_gray setgray
+    ul_font setfont
+    /dw d_page_h dup mul d_page_w dup mul add sqrt def
+    ul_str stringwidth pop dw exch sub 2 div ul_h_ptsize -2 div moveto
+    draw_underlay
+  grestore
+} def
+
+/user_underlay {	% - -> -
+  gsave
+    ul_x ul_y translate
+    ul_angle rotate
+    ul_gray setgray
+    ul_font setfont
+    0 0 ul_h_ptsize 2 div sub moveto
+    draw_underlay
+  grestore
+} def
+
+% Page prefeed
+/page_prefeed {		% bool -> -
+  statusdict /prefeed known {
+    statusdict exch /prefeed exch put
+  } {
+    pop
+  } ifelse
+} def
+
+% Wrapped line markers
+/wrapped_line_mark {	% x y charwith charheight type -> -
+  /type exch def
+  /h exch def
+  /w exch def
+  /y exch def
+  /x exch def
+
+  type 2 eq {
+    % Black boxes (like TeX does)
+    gsave
+      0 setlinewidth
+      x w 4 div add y M
+      0 h rlineto w 2 div 0 rlineto 0 h neg rlineto
+      closepath fill
+    grestore
+  } {
+    type 3 eq {
+      % Small arrows
+      gsave
+        .2 setlinewidth
+        x w 2 div add y h 2 div add M
+        w 4 div 0 rlineto
+        x w 4 div add y lineto stroke
+
+        x w 4 div add w 8 div add y h 4 div add M
+        x w 4 div add y lineto
+	w 4 div h 8 div rlineto stroke
+      grestore
+    } {
+      % do nothing
+    } ifelse
+  } ifelse
+} def
+
+% EPSF import.
+
+/BeginEPSF {
+  /b4_Inc_state save def    		% Save state for cleanup
+  /dict_count countdictstack def	% Count objects on dict stack
+  /op_count count 1 sub def		% Count objects on operand stack
+  userdict begin
+  /showpage { } def
+  0 setgray 0 setlinecap
+  1 setlinewidth 0 setlinejoin
+  10 setmiterlimit [ ] 0 setdash newpath
+  /languagelevel where {
+    pop languagelevel
+    1 ne {
+      false setstrokeadjust false setoverprint
+    } if
+  } if
+} bind def
+
+/EndEPSF {
+  count op_count sub { pos } repeat	% Clean up stacks
+  countdictstack dict_count sub { end } repeat
+  b4_Inc_state restore
+} bind def
+
+% Check PostScript language level.
+/languagelevel where {
+  pop /gs_languagelevel languagelevel def
+} {
+  /gs_languagelevel 1 def
+} ifelse
+%%EndResource
+%%BeginResource: procset Enscript-Encoding-88591 1.6 4
+/encoding_vector [
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclam       	/quotedbl     	/numbersign   	
+/dollar       	/percent      	/ampersand    	/quoteright   	
+/parenleft    	/parenright   	/asterisk     	/plus         	
+/comma        	/hyphen       	/period       	/slash        	
+/zero         	/one          	/two          	/three        	
+/four         	/five         	/six          	/seven        	
+/eight        	/nine         	/colon        	/semicolon    	
+/less         	/equal        	/greater      	/question     	
+/at           	/A            	/B            	/C            	
+/D            	/E            	/F            	/G            	
+/H            	/I            	/J            	/K            	
+/L            	/M            	/N            	/O            	
+/P            	/Q            	/R            	/S            	
+/T            	/U            	/V            	/W            	
+/X            	/Y            	/Z            	/bracketleft  	
+/backslash    	/bracketright 	/asciicircum  	/underscore   	
+/quoteleft    	/a            	/b            	/c            	
+/d            	/e            	/f            	/g            	
+/h            	/i            	/j            	/k            	
+/l            	/m            	/n            	/o            	
+/p            	/q            	/r            	/s            	
+/t            	/u            	/v            	/w            	
+/x            	/y            	/z            	/braceleft    	
+/bar          	/braceright   	/tilde        	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/.notdef      	/.notdef      	/.notdef      	/.notdef      	
+/space        	/exclamdown   	/cent         	/sterling     	
+/currency     	/yen          	/brokenbar    	/section      	
+/dieresis     	/copyright    	/ordfeminine  	/guillemotleft	
+/logicalnot   	/hyphen       	/registered   	/macron       	
+/degree       	/plusminus    	/twosuperior  	/threesuperior	
+/acute        	/mu           	/paragraph    	/bullet       	
+/cedilla      	/onesuperior  	/ordmasculine 	/guillemotright	
+/onequarter   	/onehalf      	/threequarters	/questiondown 	
+/Agrave       	/Aacute       	/Acircumflex  	/Atilde       	
+/Adieresis    	/Aring        	/AE           	/Ccedilla     	
+/Egrave       	/Eacute       	/Ecircumflex  	/Edieresis    	
+/Igrave       	/Iacute       	/Icircumflex  	/Idieresis    	
+/Eth          	/Ntilde       	/Ograve       	/Oacute       	
+/Ocircumflex  	/Otilde       	/Odieresis    	/multiply     	
+/Oslash       	/Ugrave       	/Uacute       	/Ucircumflex  	
+/Udieresis    	/Yacute       	/Thorn        	/germandbls   	
+/agrave       	/aacute       	/acircumflex  	/atilde       	
+/adieresis    	/aring        	/ae           	/ccedilla     	
+/egrave       	/eacute       	/ecircumflex  	/edieresis    	
+/igrave       	/iacute       	/icircumflex  	/idieresis    	
+/eth          	/ntilde       	/ograve       	/oacute       	
+/ocircumflex  	/otilde       	/odieresis    	/divide       	
+/oslash       	/ugrave       	/uacute       	/ucircumflex  	
+/udieresis    	/yacute       	/thorn        	/ydieresis    	
+] def
+%%EndResource
+%%EndProlog
+%%BeginSetup
+%%IncludeResource: font Courier-Bold
+%%IncludeResource: font Courier
+/HFpt_w 10 def
+/HFpt_h 10 def
+/Courier-Bold /HF-gs-font MF
+/HF /HF-gs-font findfont [HFpt_w 0 0 HFpt_h 0 0] makefont def
+/Courier /F-gs-font MF
+/F-gs-font 10 10 SF
+/#copies 1 def
+% Pagedevice definitions:
+gs_languagelevel 1 gt {
+  <<
+    /PageSize [612 792] 
+  >> setpagedevice
+} if
+%%BeginResource: procset Enscript-Header-simple 1.6 4
+
+/do_header {	% print default simple header
+  gsave
+    d_header_x d_header_y HFpt_h 3 div add translate
+
+    HF setfont
+    user_header_p {
+      5 0 moveto user_header_left_str show
+
+      d_header_w user_header_center_str stringwidth pop sub 2 div
+      0 moveto user_header_center_str show
+
+      d_header_w user_header_right_str stringwidth pop sub 5 sub
+      0 moveto user_header_right_str show
+    } {
+      5 0 moveto fname show
+      45 0 rmoveto fmodstr show
+      45 0 rmoveto pagenumstr show
+    } ifelse
+
+  grestore
+} def
+%%EndResource
+/d_page_w 744 def
+/d_page_h 536 def
+/d_header_x 0 def
+/d_header_y 521 def
+/d_header_w 744 def
+/d_header_h 15 def
+/d_footer_x 0 def
+/d_footer_y 0 def
+/d_footer_w 744 def
+/d_footer_h 0 def
+/d_output_w 744 def
+/d_output_h 521 def
+/cols 1 def
+%%EndSetup
+%%Page: (1) 1
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Baklavaci.java) def
+/fdir () def
+/ftail (Baklavaci.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (1-1) def
+/user_header_p true def
+/user_header_left_str (Baklavaci.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (1-1/4\(1\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+30 497 M (2:) s
+/Courier-Bold 10 10 SUF
+48 497 M
+(package) s
+/F-gs-font 10 10 SF
+90 497 M
+( cakesolutioncorrectversion;) s
+30 486 M (3:) s
+30 475 M (4:) s
+/Courier-Bold 10 10 SUF
+48 475 M
+(import) s
+/F-gs-font 10 10 SF
+84 475 M
+( java.util.ArrayList;) s
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(import) s
+/F-gs-font 10 10 SF
+84 464 M
+( java.util.List;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(/**) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( *) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( *) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( * Class Baklavaci extends a superclass SuperLocation which that class) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * implements the interface Location. This class represents one of the locations) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * of the game. it initializes questionList of its own, and it has a description) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * of which world the player is at.) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( *) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( * @author Cakesolutiongroup) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( * @since \( 01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+( */) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Bold 10 10 SUF
+48 310 M
+(public) s
+/F-gs-font 10 10 SF
+84 310 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 310 M
+(class) s
+/F-gs-font 10 10 SF
+120 310 M
+( Baklavaci ) s
+/Courier-Bold 10 10 SUF
+186 310 M
+(extends) s
+/F-gs-font 10 10 SF
+228 310 M
+( SuperLocation {) s
+24 299 M (20:) s
+24 288 M (21:) s
+48 288 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 288 M
+(/**) s
+/F-gs-font 10 10 SF
+24 277 M (22:) s
+/Courier-Oblique 10 10 SUF
+48 277 M
+(     * getDescription method that returns the name of the world the player is) s
+/F-gs-font 10 10 SF
+24 266 M (23:) s
+/Courier-Oblique 10 10 SUF
+48 266 M
+(     * at.) s
+/F-gs-font 10 10 SF
+24 255 M (24:) s
+/Courier-Oblique 10 10 SUF
+48 255 M
+(     *) s
+/F-gs-font 10 10 SF
+24 244 M (25:) s
+/Courier-Oblique 10 10 SUF
+48 244 M
+(     * @return String "Baklavaci" - the name of the world where the player is) s
+/F-gs-font 10 10 SF
+24 233 M (26:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     * at.) s
+/F-gs-font 10 10 SF
+24 222 M (27:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     */) s
+/F-gs-font 10 10 SF
+24 211 M (28:) s
+48 211 M
+(    @Override) s
+24 200 M (29:) s
+48 200 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 200 M
+(public) s
+/F-gs-font 10 10 SF
+108 200 M
+( String getDescription\(\) {) s
+24 189 M (30:) s
+48 189 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 189 M
+(return) s
+/F-gs-font 10 10 SF
+132 189 M
+( ) s
+/Courier-Bold 10 10 SUF
+138 189 M
+("Baklavaci") s
+/F-gs-font 10 10 SF
+204 189 M
+(;) s
+24 178 M (31:) s
+48 178 M
+(    }) s
+24 167 M (32:) s
+24 156 M (33:) s
+48 156 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 156 M
+(/**) s
+/F-gs-font 10 10 SF
+24 145 M (34:) s
+/Courier-Oblique 10 10 SUF
+48 145 M
+(     * Method initializeBQ that generates questions and choices for the world,) s
+/F-gs-font 10 10 SF
+24 134 M (35:) s
+/Courier-Oblique 10 10 SUF
+48 134 M
+(     * Baklavaci.) s
+/F-gs-font 10 10 SF
+24 123 M (36:) s
+/Courier-Oblique 10 10 SUF
+48 123 M
+(     * @return Null) s
+/F-gs-font 10 10 SF
+24 112 M (37:) s
+/Courier-Oblique 10 10 SUF
+48 112 M
+(     * @param Null) s
+/F-gs-font 10 10 SF
+24 101 M (38:) s
+/Courier-Oblique 10 10 SUF
+48 101 M
+(     *) s
+/F-gs-font 10 10 SF
+24 90 M (39:) s
+/Courier-Oblique 10 10 SUF
+48 90 M
+(     */) s
+/F-gs-font 10 10 SF
+24 79 M (40:) s
+48 79 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 79 M
+(public) s
+/F-gs-font 10 10 SF
+108 79 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 79 M
+(void) s
+/F-gs-font 10 10 SF
+138 79 M
+( initializeQuestionList\(\) {) s
+24 68 M (41:) s
+24 57 M (42:) s
+48 57 M
+(        Question q1 = ) s
+/Courier-Bold 10 10 SUF
+180 57 M
+(new) s
+/F-gs-font 10 10 SF
+198 57 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 57 M
+("On which continent does Turkey lie?") s
+/F-gs-font 10 10 SF
+480 57 M
+(\);) s
+24 46 M (43:) s
+24 35 M (44:) s
+48 35 M
+(        Choice bQ1C1 = ) s
+/Courier-Bold 10 10 SUF
+186 35 M
+(new) s
+/F-gs-font 10 10 SF
+204 35 M
+( Choice\(\);) s
+24 24 M (45:) s
+48 24 M
+(        bQ1C1.choice = ) s
+/Courier-Bold 10 10 SUF
+186 24 M
+("Asia") s
+/F-gs-font 10 10 SF
+222 24 M
+(;) s
+24 13 M (46:) s
+48 13 M
+(        bQ1C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 13 M
+(false) s
+/F-gs-font 10 10 SF
+270 13 M
+(;) s
+24 2 M (47:) s
+_R
+S
+%%Page: (2) 2
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (Baklavaci.java) def
+/fdir () def
+/ftail (Baklavaci.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (1-2) def
+/user_header_p true def
+/user_header_left_str (Baklavaci.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (1-2/4\(2\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(        Choice bQ1C2 = ) s
+/Courier-Bold 10 10 SUF
+186 508 M
+(new) s
+/F-gs-font 10 10 SF
+204 508 M
+( Choice\(\);) s
+24 497 M (49:) s
+48 497 M
+(        bQ1C2.choice = ) s
+/Courier-Bold 10 10 SUF
+186 497 M
+("Europe") s
+/F-gs-font 10 10 SF
+234 497 M
+(;) s
+24 486 M (50:) s
+48 486 M
+(        bQ1C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 486 M
+(false) s
+/F-gs-font 10 10 SF
+270 486 M
+(;) s
+24 475 M (51:) s
+24 464 M (52:) s
+48 464 M
+(        Choice bQ1C3 = ) s
+/Courier-Bold 10 10 SUF
+186 464 M
+(new) s
+/F-gs-font 10 10 SF
+204 464 M
+( Choice\(\);) s
+24 453 M (53:) s
+48 453 M
+(        bQ1C3.choice = ) s
+/Courier-Bold 10 10 SUF
+186 453 M
+("Europe and Asia") s
+/F-gs-font 10 10 SF
+288 453 M
+(;) s
+24 442 M (54:) s
+48 442 M
+(        bQ1C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 442 M
+(true) s
+/F-gs-font 10 10 SF
+264 442 M
+(;) s
+24 431 M (55:) s
+24 420 M (56:) s
+48 420 M
+(        Choice bQ1C4 = ) s
+/Courier-Bold 10 10 SUF
+186 420 M
+(new) s
+/F-gs-font 10 10 SF
+204 420 M
+( Choice\(\);) s
+24 409 M (57:) s
+48 409 M
+(        bQ1C4.choice = ) s
+/Courier-Bold 10 10 SUF
+186 409 M
+("Middle East") s
+/F-gs-font 10 10 SF
+264 409 M
+(;) s
+24 398 M (58:) s
+48 398 M
+(        bQ1C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 398 M
+(false) s
+/F-gs-font 10 10 SF
+270 398 M
+(;) s
+24 387 M (59:) s
+24 376 M (60:) s
+48 376 M
+(        questionList.add\(q1\);) s
+24 365 M (61:) s
+48 365 M
+(        q1.choices.add\(bQ1C1\);) s
+24 354 M (62:) s
+48 354 M
+(        q1.choices.add\(bQ1C2\);) s
+24 343 M (63:) s
+48 343 M
+(        q1.choices.add\(bQ1C3\);) s
+24 332 M (64:) s
+48 332 M
+(        q1.choices.add\(bQ1C4\);) s
+24 321 M (65:) s
+24 310 M (66:) s
+48 310 M
+(        Question q2 = ) s
+/Courier-Bold 10 10 SUF
+180 310 M
+(new) s
+/F-gs-font 10 10 SF
+198 310 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 310 M
+("What is the name of the Turkish capital?") s
+/F-gs-font 10 10 SF
+510 310 M
+(\);) s
+24 299 M (67:) s
+24 288 M (68:) s
+48 288 M
+(        Choice bQ2C1 = ) s
+/Courier-Bold 10 10 SUF
+186 288 M
+(new) s
+/F-gs-font 10 10 SF
+204 288 M
+( Choice\(\);) s
+24 277 M (69:) s
+48 277 M
+(        bQ2C1.choice = ) s
+/Courier-Bold 10 10 SUF
+186 277 M
+("Istanbul") s
+/F-gs-font 10 10 SF
+246 277 M
+(;) s
+24 266 M (70:) s
+48 266 M
+(        bQ2C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 266 M
+(false) s
+/F-gs-font 10 10 SF
+270 266 M
+(;) s
+24 255 M (71:) s
+24 244 M (72:) s
+48 244 M
+(        Choice bQ2C2 = ) s
+/Courier-Bold 10 10 SUF
+186 244 M
+(new) s
+/F-gs-font 10 10 SF
+204 244 M
+( Choice\(\);) s
+24 233 M (73:) s
+48 233 M
+(        bQ2C2.choice = ) s
+/Courier-Bold 10 10 SUF
+186 233 M
+("Ankara") s
+/F-gs-font 10 10 SF
+234 233 M
+(;) s
+24 222 M (74:) s
+48 222 M
+(        bQ2C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 222 M
+(true) s
+/F-gs-font 10 10 SF
+264 222 M
+(;) s
+24 211 M (75:) s
+24 200 M (76:) s
+48 200 M
+(        Choice bQ2C3 = ) s
+/Courier-Bold 10 10 SUF
+186 200 M
+(new) s
+/F-gs-font 10 10 SF
+204 200 M
+( Choice\(\);) s
+24 189 M (77:) s
+48 189 M
+(        bQ2C3.choice = ) s
+/Courier-Bold 10 10 SUF
+186 189 M
+("Marmaris") s
+/F-gs-font 10 10 SF
+246 189 M
+(;) s
+24 178 M (78:) s
+48 178 M
+(        bQ2C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 178 M
+(false) s
+/F-gs-font 10 10 SF
+270 178 M
+(;) s
+24 167 M (79:) s
+24 156 M (80:) s
+48 156 M
+(        Choice bQ2C4 = ) s
+/Courier-Bold 10 10 SUF
+186 156 M
+(new) s
+/F-gs-font 10 10 SF
+204 156 M
+( Choice\(\);) s
+24 145 M (81:) s
+48 145 M
+(        bQ2C4.choice = ) s
+/Courier-Bold 10 10 SUF
+186 145 M
+("Izmir") s
+/F-gs-font 10 10 SF
+228 145 M
+(;) s
+24 134 M (82:) s
+48 134 M
+(        bQ2C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 134 M
+(false) s
+/F-gs-font 10 10 SF
+270 134 M
+(;) s
+24 123 M (83:) s
+24 112 M (84:) s
+48 112 M
+(        questionList.add\(q2\);) s
+24 101 M (85:) s
+48 101 M
+(        q2.choices.add\(bQ2C1\);) s
+24 90 M (86:) s
+48 90 M
+(        q2.choices.add\(bQ2C2\);) s
+24 79 M (87:) s
+48 79 M
+(        q2.choices.add\(bQ2C3\);) s
+24 68 M (88:) s
+48 68 M
+(        q2.choices.add\(bQ2C4\);) s
+24 57 M (89:) s
+24 46 M (90:) s
+48 46 M
+(        Question q3 = ) s
+/Courier-Bold 10 10 SUF
+180 46 M
+(new) s
+/F-gs-font 10 10 SF
+198 46 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 46 M
+("What is Hamam?") s
+/F-gs-font 10 10 SF
+354 46 M
+(\);) s
+24 35 M (91:) s
+24 24 M (92:) s
+48 24 M
+(        Choice bQ3C1 = ) s
+/Courier-Bold 10 10 SUF
+186 24 M
+(new) s
+/F-gs-font 10 10 SF
+204 24 M
+( Choice\(\);) s
+24 13 M (93:) s
+48 13 M
+(        bQ3C1.choice = ) s
+/Courier-Bold 10 10 SUF
+186 13 M
+("Turkish bath") s
+/F-gs-font 10 10 SF
+270 13 M
+(;) s
+24 2 M (94:) s
+48 2 M
+(        bQ3C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 2 M
+(true) s
+/F-gs-font 10 10 SF
+264 2 M
+(;) s
+_R
+S
+%%Page: (3) 3
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 3 def
+/fname (Baklavaci.java) def
+/fdir () def
+/ftail (Baklavaci.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (1-3) def
+/user_header_p true def
+/user_header_left_str (Baklavaci.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (1-3/4\(3\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (95:) s
+24 497 M (96:) s
+48 497 M
+(        Choice bQ3C2 = ) s
+/Courier-Bold 10 10 SUF
+186 497 M
+(new) s
+/F-gs-font 10 10 SF
+204 497 M
+( Choice\(\);) s
+24 486 M (97:) s
+48 486 M
+(        bQ3C2.choice = ) s
+/Courier-Bold 10 10 SUF
+186 486 M
+("A dessert") s
+/F-gs-font 10 10 SF
+252 486 M
+(;) s
+24 475 M (98:) s
+48 475 M
+(        bQ3C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 475 M
+(false) s
+/F-gs-font 10 10 SF
+270 475 M
+(;) s
+24 464 M (99:) s
+18 453 M (100:) s
+48 453 M
+(        Choice bQ3C3 = ) s
+/Courier-Bold 10 10 SUF
+186 453 M
+(new) s
+/F-gs-font 10 10 SF
+204 453 M
+( Choice\(\);) s
+18 442 M (101:) s
+48 442 M
+(        bQ3C3.choice = ) s
+/Courier-Bold 10 10 SUF
+186 442 M
+("A sport discipline") s
+/F-gs-font 10 10 SF
+306 442 M
+(;) s
+18 431 M (102:) s
+48 431 M
+(        bQ3C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 431 M
+(false) s
+/F-gs-font 10 10 SF
+270 431 M
+(;) s
+18 420 M (103:) s
+18 409 M (104:) s
+48 409 M
+(        Choice bQ3C4 = ) s
+/Courier-Bold 10 10 SUF
+186 409 M
+(new) s
+/F-gs-font 10 10 SF
+204 409 M
+( Choice\(\);) s
+18 398 M (105:) s
+48 398 M
+(        bQ3C4.choice = ) s
+/Courier-Bold 10 10 SUF
+186 398 M
+("A casserole dish") s
+/F-gs-font 10 10 SF
+294 398 M
+(;) s
+18 387 M (106:) s
+48 387 M
+(        bQ3C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 387 M
+(false) s
+/F-gs-font 10 10 SF
+270 387 M
+(;) s
+18 376 M (107:) s
+18 365 M (108:) s
+48 365 M
+(        questionList.add\(q3\);) s
+18 354 M (109:) s
+48 354 M
+(        q3.choices.add\(bQ3C1\);) s
+18 343 M (110:) s
+48 343 M
+(        q3.choices.add\(bQ3C2\);) s
+18 332 M (111:) s
+48 332 M
+(        q3.choices.add\(bQ3C3\);) s
+18 321 M (112:) s
+48 321 M
+(        q3.choices.add\(bQ3C4\);) s
+18 310 M (113:) s
+48 310 M
+(        ) s
+18 299 M (114:) s
+48 299 M
+(        Question q4 = ) s
+/Courier-Bold 10 10 SUF
+180 299 M
+(new) s
+/F-gs-font 10 10 SF
+198 299 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 299 M
+("What is baklava?") s
+/F-gs-font 10 10 SF
+366 299 M
+(\);) s
+18 288 M (115:) s
+48 288 M
+(        ) s
+18 277 M (116:) s
+48 277 M
+(        Choice bQ4C1 = ) s
+/Courier-Bold 10 10 SUF
+186 277 M
+(new) s
+/F-gs-font 10 10 SF
+204 277 M
+( Choice\(\);) s
+18 266 M (117:) s
+48 266 M
+(        bQ4C1.choice = ) s
+/Courier-Bold 10 10 SUF
+186 266 M
+("A sweet dessert") s
+/F-gs-font 10 10 SF
+288 266 M
+(;) s
+18 255 M (118:) s
+48 255 M
+(        bQ4C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 255 M
+(true) s
+/F-gs-font 10 10 SF
+264 255 M
+(;) s
+18 244 M (119:) s
+48 244 M
+(        ) s
+18 233 M (120:) s
+48 233 M
+(        Choice bQ4C2 = ) s
+/Courier-Bold 10 10 SUF
+186 233 M
+(new) s
+/F-gs-font 10 10 SF
+204 233 M
+( Choice\(\);) s
+18 222 M (121:) s
+48 222 M
+(        bQ4C2.choice = ) s
+/Courier-Bold 10 10 SUF
+186 222 M
+("A strong and bitter coffee") s
+/F-gs-font 10 10 SF
+354 222 M
+(;) s
+18 211 M (122:) s
+48 211 M
+(        bQ4C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 211 M
+(false) s
+/F-gs-font 10 10 SF
+270 211 M
+(;) s
+18 200 M (123:) s
+48 200 M
+(        ) s
+18 189 M (124:) s
+48 189 M
+(        Choice bQ4C3 = ) s
+/Courier-Bold 10 10 SUF
+186 189 M
+(new) s
+/F-gs-font 10 10 SF
+204 189 M
+( Choice\(\);) s
+18 178 M (125:) s
+48 178 M
+(        bQ4C3.choice = ) s
+/Courier-Bold 10 10 SUF
+186 178 M
+("A spicy alcoholic drink") s
+/F-gs-font 10 10 SF
+336 178 M
+(;) s
+18 167 M (126:) s
+48 167 M
+(        bQ4C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 167 M
+(false) s
+/F-gs-font 10 10 SF
+270 167 M
+(;) s
+18 156 M (127:) s
+48 156 M
+(        ) s
+18 145 M (128:) s
+48 145 M
+(        Choice bQ4C4 = ) s
+/Courier-Bold 10 10 SUF
+186 145 M
+(new) s
+/F-gs-font 10 10 SF
+204 145 M
+( Choice\(\);) s
+18 134 M (129:) s
+48 134 M
+(        bQ4C4.choice = ) s
+/Courier-Bold 10 10 SUF
+186 134 M
+("A tangy breakfast treat") s
+/F-gs-font 10 10 SF
+336 134 M
+(;) s
+18 123 M (130:) s
+48 123 M
+(        bQ4C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 123 M
+(false) s
+/F-gs-font 10 10 SF
+270 123 M
+(;) s
+18 112 M (131:) s
+48 112 M
+(        ) s
+18 101 M (132:) s
+48 101 M
+(        questionList.add\(q4\);) s
+18 90 M (133:) s
+48 90 M
+(        q4.choices.add\(bQ4C1\);) s
+18 79 M (134:) s
+48 79 M
+(        q4.choices.add\(bQ4C2\);) s
+18 68 M (135:) s
+48 68 M
+(        q4.choices.add\(bQ4C3\);) s
+18 57 M (136:) s
+48 57 M
+(        q4.choices.add\(bQ4C4\);) s
+18 46 M (137:) s
+48 46 M
+(        ) s
+18 35 M (138:) s
+48 35 M
+(        Question q5 = ) s
+/Courier-Bold 10 10 SUF
+180 35 M
+(new) s
+/F-gs-font 10 10 SF
+198 35 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 35 M
+("What is the national sport of Turkey?") s
+/F-gs-font 10 10 SF
+492 35 M
+(\);) s
+18 24 M (139:) s
+48 24 M
+(        ) s
+18 13 M (140:) s
+48 13 M
+(        Choice bQ5C1 = ) s
+/Courier-Bold 10 10 SUF
+186 13 M
+(new) s
+/F-gs-font 10 10 SF
+204 13 M
+( Choice\(\);) s
+18 2 M (141:) s
+48 2 M
+(        bQ5C1.choice = ) s
+/Courier-Bold 10 10 SUF
+186 2 M
+("Football") s
+/F-gs-font 10 10 SF
+246 2 M
+(;) s
+_R
+S
+%%Page: (4) 4
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 4 def
+/fname (Baklavaci.java) def
+/fdir () def
+/ftail (Baklavaci.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (1-4) def
+/user_header_p true def
+/user_header_left_str (Baklavaci.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (1-4/4\(4\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+18 508 M (142:) s
+48 508 M
+(        bQ5C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 508 M
+(false) s
+/F-gs-font 10 10 SF
+270 508 M
+(;) s
+18 497 M (143:) s
+48 497 M
+(        ) s
+18 486 M (144:) s
+48 486 M
+(        Choice bQ5C2 = ) s
+/Courier-Bold 10 10 SUF
+186 486 M
+(new) s
+/F-gs-font 10 10 SF
+204 486 M
+( Choice\(\);) s
+18 475 M (145:) s
+48 475 M
+(        bQ5C2.choice = ) s
+/Courier-Bold 10 10 SUF
+186 475 M
+("Oil wrestling") s
+/F-gs-font 10 10 SF
+276 475 M
+(;) s
+18 464 M (146:) s
+48 464 M
+(        bQ5C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 464 M
+(true) s
+/F-gs-font 10 10 SF
+264 464 M
+(;) s
+18 453 M (147:) s
+48 453 M
+(        ) s
+18 442 M (148:) s
+48 442 M
+(        Choice bQ5C3 = ) s
+/Courier-Bold 10 10 SUF
+186 442 M
+(new) s
+/F-gs-font 10 10 SF
+204 442 M
+( Choice\(\);) s
+18 431 M (149:) s
+48 431 M
+(        bQ5C3.choice = ) s
+/Courier-Bold 10 10 SUF
+186 431 M
+("Weightlifting") s
+/F-gs-font 10 10 SF
+276 431 M
+(;) s
+18 420 M (150:) s
+48 420 M
+(        bQ5C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 420 M
+(false) s
+/F-gs-font 10 10 SF
+270 420 M
+(;) s
+18 409 M (151:) s
+48 409 M
+(        ) s
+18 398 M (152:) s
+48 398 M
+(        Choice bQ5C4 = ) s
+/Courier-Bold 10 10 SUF
+186 398 M
+(new) s
+/F-gs-font 10 10 SF
+204 398 M
+( Choice\(\);) s
+18 387 M (153:) s
+48 387 M
+(        bQ5C4.choice = ) s
+/Courier-Bold 10 10 SUF
+186 387 M
+("Football") s
+/F-gs-font 10 10 SF
+246 387 M
+(;) s
+18 376 M (154:) s
+48 376 M
+(        bQ5C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 376 M
+(false) s
+/F-gs-font 10 10 SF
+270 376 M
+(;) s
+18 365 M (155:) s
+48 365 M
+(        ) s
+18 354 M (156:) s
+48 354 M
+(        questionList.add\(q5\);) s
+18 343 M (157:) s
+48 343 M
+(        q5.choices.add\(bQ5C1\);) s
+18 332 M (158:) s
+48 332 M
+(        q5.choices.add\(bQ5C2\);) s
+18 321 M (159:) s
+48 321 M
+(        q5.choices.add\(bQ5C3\);) s
+18 310 M (160:) s
+48 310 M
+(        q5.choices.add\(bQ5C4\);) s
+18 299 M (161:) s
+48 299 M
+(        ) s
+18 288 M (162:) s
+48 288 M
+(        Question q6 = ) s
+/Courier-Bold 10 10 SUF
+180 288 M
+(new) s
+/F-gs-font 10 10 SF
+198 288 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 288 M
+("When was the Republic of Turkey founded?") s
+/F-gs-font 10 10 SF
+510 288 M
+(\);) s
+18 277 M (163:) s
+48 277 M
+(        ) s
+18 266 M (164:) s
+48 266 M
+(        Choice bQ6C1 = ) s
+/Courier-Bold 10 10 SUF
+186 266 M
+(new) s
+/F-gs-font 10 10 SF
+204 266 M
+( Choice\(\);) s
+18 255 M (165:) s
+48 255 M
+(        bQ6C1.choice = ) s
+/Courier-Bold 10 10 SUF
+186 255 M
+("1823") s
+/F-gs-font 10 10 SF
+222 255 M
+(;) s
+18 244 M (166:) s
+48 244 M
+(        bQ6C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 244 M
+(false) s
+/F-gs-font 10 10 SF
+270 244 M
+(;) s
+18 233 M (167:) s
+48 233 M
+(        ) s
+18 222 M (168:) s
+48 222 M
+(        Choice bQ6C2 = ) s
+/Courier-Bold 10 10 SUF
+186 222 M
+(new) s
+/F-gs-font 10 10 SF
+204 222 M
+( Choice\(\);) s
+18 211 M (169:) s
+48 211 M
+(        bQ6C2.choice = ) s
+/Courier-Bold 10 10 SUF
+186 211 M
+("1868") s
+/F-gs-font 10 10 SF
+222 211 M
+(;) s
+18 200 M (170:) s
+48 200 M
+(        bQ6C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 200 M
+(false) s
+/F-gs-font 10 10 SF
+270 200 M
+(;) s
+18 189 M (171:) s
+48 189 M
+(        ) s
+18 178 M (172:) s
+48 178 M
+(        Choice bQ6C3 = ) s
+/Courier-Bold 10 10 SUF
+186 178 M
+(new) s
+/F-gs-font 10 10 SF
+204 178 M
+( Choice\(\);) s
+18 167 M (173:) s
+48 167 M
+(        bQ6C3.choice = ) s
+/Courier-Bold 10 10 SUF
+186 167 M
+("1923") s
+/F-gs-font 10 10 SF
+222 167 M
+(;) s
+18 156 M (174:) s
+48 156 M
+(        bQ6C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 156 M
+(true) s
+/F-gs-font 10 10 SF
+264 156 M
+(;) s
+18 145 M (175:) s
+48 145 M
+(        ) s
+18 134 M (176:) s
+48 134 M
+(        Choice bQ6C4 = ) s
+/Courier-Bold 10 10 SUF
+186 134 M
+(new) s
+/F-gs-font 10 10 SF
+204 134 M
+( Choice\(\);) s
+18 123 M (177:) s
+48 123 M
+(        bQ6C4.choice = ) s
+/Courier-Bold 10 10 SUF
+186 123 M
+("1945") s
+/F-gs-font 10 10 SF
+222 123 M
+(;) s
+18 112 M (178:) s
+48 112 M
+(        bQ6C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+240 112 M
+(false) s
+/F-gs-font 10 10 SF
+270 112 M
+(;) s
+18 101 M (179:) s
+48 101 M
+(        ) s
+18 90 M (180:) s
+48 90 M
+(        questionList.add\(q6\);) s
+18 79 M (181:) s
+48 79 M
+(        q6.choices.add\(bQ6C1\);) s
+18 68 M (182:) s
+48 68 M
+(        q6.choices.add\(bQ6C2\);) s
+18 57 M (183:) s
+48 57 M
+(        q6.choices.add\(bQ6C3\);) s
+18 46 M (184:) s
+48 46 M
+(        q6.choices.add\(bQ6C4\);) s
+18 35 M (185:) s
+18 24 M (186:) s
+48 24 M
+(    }) s
+18 13 M (187:) s
+48 13 M
+(}) s
+_R
+S
+%%Page: (1) 5
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Cake.java) def
+/fdir () def
+/ftail (Cake.java) def
+% User defined strings:
+/fmodstr (Thu May 09 10:00:34 2013) def
+/pagenumstr (2-1) def
+/user_header_p true def
+/user_header_left_str (Cake.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (2-1/1\(5\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Bold 10 10 SUF
+48 508 M
+(package) s
+/F-gs-font 10 10 SF
+90 508 M
+( cakesolutioncorrectversion;) s
+30 497 M (2:) s
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+(/**) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( *) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+( * This class just holds the sugarLevel.) s
+/F-gs-font 10 10 SF
+30 453 M (6:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+( *) s
+/F-gs-font 10 10 SF
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( *) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( */) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(public) s
+/F-gs-font 10 10 SF
+84 387 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 387 M
+(class) s
+/F-gs-font 10 10 SF
+120 387 M
+( Cake {) s
+24 376 M (13:) s
+24 365 M (14:) s
+48 365 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 365 M
+(int) s
+/F-gs-font 10 10 SF
+90 365 M
+( sugarLevel = 10;) s
+24 354 M (15:) s
+48 354 M
+(}) s
+_R
+S
+%%Page: (1) 6
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Cakistan.java) def
+/fdir () def
+/ftail (Cakistan.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (3-1) def
+/user_header_p true def
+/user_header_left_str (Cakistan.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (3-1/2\(6\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Bold 10 10 SUF
+48 508 M
+(package) s
+/F-gs-font 10 10 SF
+90 508 M
+( cakesolutioncorrectversion;) s
+30 497 M (2:) s
+30 486 M (3:) s
+/Courier-Bold 10 10 SUF
+48 486 M
+(import) s
+/F-gs-font 10 10 SF
+84 486 M
+( cakesolutioncorrectversion.Location;) s
+30 475 M (4:) s
+/Courier-Bold 10 10 SUF
+48 475 M
+(import) s
+/F-gs-font 10 10 SF
+84 475 M
+( java.util.ArrayList;) s
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(import) s
+/F-gs-font 10 10 SF
+84 464 M
+( java.util.List;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(/**) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * This class generates an arrayList called myLocations which adds all existing) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * locations in the game. i.e : Baklavaci The class also implements the) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( * interface World.) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( *) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( */) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Bold 10 10 SUF
+48 354 M
+(public) s
+/F-gs-font 10 10 SF
+84 354 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 354 M
+(class) s
+/F-gs-font 10 10 SF
+120 354 M
+( Cakistan ) s
+/Courier-Bold 10 10 SUF
+180 354 M
+(implements) s
+/F-gs-font 10 10 SF
+240 354 M
+( World {) s
+24 343 M (16:) s
+24 332 M (17:) s
+48 332 M
+(    List<Location> myLocations = ) s
+/Courier-Bold 10 10 SUF
+246 332 M
+(new) s
+/F-gs-font 10 10 SF
+264 332 M
+( ArrayList<Location>\(\);) s
+24 321 M (18:) s
+24 310 M (19:) s
+48 310 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 310 M
+(/**) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+/Courier-Oblique 10 10 SUF
+48 299 M
+(     * This creates a list of all the locations and connects to World) s
+/F-gs-font 10 10 SF
+24 288 M (21:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+(     *) s
+/F-gs-font 10 10 SF
+24 277 M (22:) s
+/Courier-Oblique 10 10 SUF
+48 277 M
+(     */) s
+/F-gs-font 10 10 SF
+24 266 M (23:) s
+48 266 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 266 M
+(public) s
+/F-gs-font 10 10 SF
+108 266 M
+( Cakistan\(\) {) s
+24 255 M (24:) s
+48 255 M
+(        Location baklavaci = ) s
+/Courier-Bold 10 10 SUF
+222 255 M
+(new) s
+/F-gs-font 10 10 SF
+240 255 M
+( Baklavaci\(\);) s
+24 244 M (25:) s
+48 244 M
+(        Location lagkagehuset = ) s
+/Courier-Bold 10 10 SUF
+240 244 M
+(new) s
+/F-gs-font 10 10 SF
+258 244 M
+( Lagkagehuset\(\);) s
+24 233 M (26:) s
+48 233 M
+(        Location lePetiteEclaire = ) s
+/Courier-Bold 10 10 SUF
+258 233 M
+(new) s
+/F-gs-font 10 10 SF
+276 233 M
+( LePetiteEclaire\(\);) s
+24 222 M (27:) s
+48 222 M
+(        myLocations.add\(baklavaci\);) s
+24 211 M (28:) s
+48 211 M
+(        myLocations.add\(lagkagehuset\);) s
+24 200 M (29:) s
+48 200 M
+(        myLocations.add\(lePetiteEclaire\);) s
+24 189 M (30:) s
+24 178 M (31:) s
+48 178 M
+(        baklavaci.setNeighbor\(lagkagehuset\);) s
+24 167 M (32:) s
+48 167 M
+(        lagkagehuset.setNeighbor\(lePetiteEclaire\);) s
+24 156 M (33:) s
+48 156 M
+(        lePetiteEclaire.setNeighbor\(baklavaci\);) s
+24 145 M (34:) s
+24 134 M (35:) s
+48 134 M
+(    }) s
+24 123 M (36:) s
+24 112 M (37:) s
+48 112 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 112 M
+(/**) s
+/F-gs-font 10 10 SF
+24 101 M (38:) s
+/Courier-Oblique 10 10 SUF
+48 101 M
+(     * Method getLocations that returns arrayList myLocations.) s
+/F-gs-font 10 10 SF
+24 90 M (39:) s
+/Courier-Oblique 10 10 SUF
+48 90 M
+(     *) s
+/F-gs-font 10 10 SF
+24 79 M (40:) s
+/Courier-Oblique 10 10 SUF
+48 79 M
+(     * @return myLocations of type arrayList) s
+/F-gs-font 10 10 SF
+24 68 M (41:) s
+/Courier-Oblique 10 10 SUF
+48 68 M
+(     */) s
+/F-gs-font 10 10 SF
+24 57 M (42:) s
+48 57 M
+(    @Override) s
+24 46 M (43:) s
+48 46 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 46 M
+(public) s
+/F-gs-font 10 10 SF
+108 46 M
+( List<Location> getLocations\(\) {) s
+24 35 M (44:) s
+48 35 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 35 M
+(return) s
+/F-gs-font 10 10 SF
+132 35 M
+( myLocations;) s
+24 24 M (45:) s
+48 24 M
+(    }) s
+24 13 M (46:) s
+24 2 M (47:) s
+48 2 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 2 M
+(/**) s
+_R
+S
+%%Page: (2) 7
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (Cakistan.java) def
+/fdir () def
+/ftail (Cakistan.java) def
+/Courier-Oblique 10 10 SUF
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (3-2) def
+/user_header_p true def
+/user_header_left_str (Cakistan.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (3-2/2\(7\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+/F-gs-font 10 10 SF
+24 508 M (48:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(     * This method has a for loop that goes through all 3 locations and) s
+/F-gs-font 10 10 SF
+24 497 M (49:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+(     * determines if the QuestionList in each location is empty or not, meaning) s
+/F-gs-font 10 10 SF
+24 486 M (50:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+(     * that the questions are all asked or not.) s
+/F-gs-font 10 10 SF
+24 475 M (51:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+(     *) s
+/F-gs-font 10 10 SF
+24 464 M (52:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+(     * @return true/ false) s
+/F-gs-font 10 10 SF
+24 453 M (53:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+(     */) s
+/F-gs-font 10 10 SF
+24 442 M (54:) s
+48 442 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 442 M
+(public) s
+/F-gs-font 10 10 SF
+108 442 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 442 M
+(boolean) s
+/F-gs-font 10 10 SF
+156 442 M
+( isOutOfQuestions\(\) {) s
+24 431 M (55:) s
+24 420 M (56:) s
+48 420 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 420 M
+(for) s
+/F-gs-font 10 10 SF
+114 420 M
+( \() s
+/Courier-Bold 10 10 SUF
+126 420 M
+(int) s
+/F-gs-font 10 10 SF
+144 420 M
+( i = 0; i < myLocations.size\(\); i++\) {) s
+24 409 M (57:) s
+24 398 M (58:) s
+48 398 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 398 M
+(boolean) s
+/F-gs-font 10 10 SF
+162 398 M
+( isEmpty = myLocations.get\(i\).getQuestionList\(\).isEmpty\(\);) s
+24 387 M (59:) s
+48 387 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 387 M
+(if) s
+/F-gs-font 10 10 SF
+132 387 M
+( \(!isEmpty\) {) s
+24 376 M (60:) s
+48 376 M
+(                ) s
+/Courier-Bold 10 10 SUF
+144 376 M
+(return) s
+/F-gs-font 10 10 SF
+180 376 M
+( ) s
+/Courier-Bold 10 10 SUF
+186 376 M
+(false) s
+/F-gs-font 10 10 SF
+216 376 M
+(;) s
+24 365 M (61:) s
+48 365 M
+(            }) s
+24 354 M (62:) s
+48 354 M
+(        }) s
+24 343 M (63:) s
+48 343 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 343 M
+(return) s
+/F-gs-font 10 10 SF
+132 343 M
+( ) s
+/Courier-Bold 10 10 SUF
+138 343 M
+(true) s
+/F-gs-font 10 10 SF
+162 343 M
+(;) s
+24 332 M (64:) s
+48 332 M
+(    }) s
+24 321 M (65:) s
+48 321 M
+(}) s
+_R
+S
+%%Page: (1) 8
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Choice.java) def
+/fdir () def
+/ftail (Choice.java) def
+% User defined strings:
+/fmodstr (Thu May 09 12:23:39 2013) def
+/pagenumstr (4-1) def
+/user_header_p true def
+/user_header_left_str (Choice.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (4-1/1\(8\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Bold 10 10 SUF
+48 508 M
+(package) s
+/F-gs-font 10 10 SF
+90 508 M
+( cakesolutioncorrectversion;) s
+30 497 M (2:) s
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+(/**) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( * This class has String choice, and a boolean isCorrectChoice, which is used in) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+( * initializeBQ, initializeQuestions, initializeLPEQ.) s
+/F-gs-font 10 10 SF
+30 453 M (6:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+( *) s
+/F-gs-font 10 10 SF
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( */) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(public) s
+/F-gs-font 10 10 SF
+84 398 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 398 M
+(class) s
+/F-gs-font 10 10 SF
+120 398 M
+( Choice {) s
+24 387 M (12:) s
+24 376 M (13:) s
+48 376 M
+(    String choice;) s
+24 365 M (14:) s
+48 365 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 365 M
+(boolean) s
+/F-gs-font 10 10 SF
+114 365 M
+( isCorrectChoice;) s
+24 354 M (15:) s
+48 354 M
+(}) s
+_R
+S
+%%Page: (1) 9
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Controller.java) def
+/fdir () def
+/ftail (Controller.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:48:26 2013) def
+/pagenumstr (5-1) def
+/user_header_p true def
+/user_header_left_str (Controller.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (5-1/5\(9\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Bold 10 10 SUF
+48 508 M
+(package) s
+/F-gs-font 10 10 SF
+90 508 M
+( cakesolutioncorrectversion;) s
+30 497 M (2:) s
+30 486 M (3:) s
+/Courier-Bold 10 10 SUF
+48 486 M
+(import) s
+/F-gs-font 10 10 SF
+84 486 M
+( java.util.ArrayList;) s
+30 475 M (4:) s
+/Courier-Bold 10 10 SUF
+48 475 M
+(import) s
+/F-gs-font 10 10 SF
+84 475 M
+( java.util.InputMismatchException;) s
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(import) s
+/F-gs-font 10 10 SF
+84 464 M
+( java.util.List;) s
+30 453 M (6:) s
+/Courier-Bold 10 10 SUF
+48 453 M
+(import) s
+/F-gs-font 10 10 SF
+84 453 M
+( java.util.Scanner;) s
+30 442 M (7:) s
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+(/**) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * This class is the Controller part of MVC \(Model View Controller\). It controls) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( * the actions in the game. Class Controller declares "world" of type Cakistan,) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * "player1" of type Sugarman, "the view" of type View and "r" of type Random.) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( *) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( */) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Bold 10 10 SUF
+48 332 M
+(public) s
+/F-gs-font 10 10 SF
+84 332 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 332 M
+(class) s
+/F-gs-font 10 10 SF
+120 332 M
+( Controller {) s
+24 321 M (18:) s
+24 310 M (19:) s
+48 310 M
+(    World world;) s
+24 299 M (20:) s
+48 299 M
+(    Sugarman player1;) s
+24 288 M (21:) s
+48 288 M
+(    View theView;) s
+24 277 M (22:) s
+24 266 M (23:) s
+48 266 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 266 M
+(/**) s
+/F-gs-font 10 10 SF
+24 255 M (24:) s
+/Courier-Oblique 10 10 SUF
+48 255 M
+(     * Method main instantiate game of type Controller. declares method) s
+/F-gs-font 10 10 SF
+24 244 M (25:) s
+/Courier-Oblique 10 10 SUF
+48 244 M
+(     * startGame and runGame from game.) s
+/F-gs-font 10 10 SF
+24 233 M (26:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     *) s
+/F-gs-font 10 10 SF
+24 222 M (27:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     * @param args) s
+/F-gs-font 10 10 SF
+24 211 M (28:) s
+/Courier-Oblique 10 10 SUF
+48 211 M
+(     */) s
+/F-gs-font 10 10 SF
+24 200 M (29:) s
+48 200 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 200 M
+(public) s
+/F-gs-font 10 10 SF
+108 200 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 200 M
+(static) s
+/F-gs-font 10 10 SF
+150 200 M
+( ) s
+/Courier-Bold 10 10 SUF
+156 200 M
+(void) s
+/F-gs-font 10 10 SF
+180 200 M
+( main\(String[] args\) {) s
+24 189 M (30:) s
+24 178 M (31:) s
+48 178 M
+(        Controller game = ) s
+/Courier-Bold 10 10 SUF
+204 178 M
+(new) s
+/F-gs-font 10 10 SF
+222 178 M
+( Controller\(\);) s
+24 167 M (32:) s
+48 167 M
+(        game.startGame\(\);) s
+24 156 M (33:) s
+48 156 M
+(        game.runGame\(\);) s
+24 145 M (34:) s
+24 134 M (35:) s
+48 134 M
+(    }) s
+24 123 M (36:) s
+24 112 M (37:) s
+48 112 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 112 M
+(/**) s
+/F-gs-font 10 10 SF
+24 101 M (38:) s
+/Courier-Oblique 10 10 SUF
+48 101 M
+(     * Method startGame instantiate world, player1 and the view. It gets the) s
+/F-gs-font 10 10 SF
+24 90 M (39:) s
+/Courier-Oblique 10 10 SUF
+48 90 M
+(     * location from class Cakistan, and set the starting point from the first) s
+/F-gs-font 10 10 SF
+24 79 M (40:) s
+/Courier-Oblique 10 10 SUF
+48 79 M
+(     * element in Location arrayList, which is Baklavaci.) s
+/F-gs-font 10 10 SF
+24 68 M (41:) s
+/Courier-Oblique 10 10 SUF
+48 68 M
+(     */) s
+/F-gs-font 10 10 SF
+24 57 M (42:) s
+48 57 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 57 M
+(public) s
+/F-gs-font 10 10 SF
+108 57 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 57 M
+(void) s
+/F-gs-font 10 10 SF
+138 57 M
+( startGame\(\) {) s
+24 46 M (43:) s
+24 35 M (44:) s
+24 24 M (45:) s
+48 24 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 24 M
+(// Creates worlds ) s
+/F-gs-font 10 10 SF
+24 13 M (46:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 13 M
+(        world = ) s
+/Courier-Bold 10 10 SUF
+144 13 M
+(new) s
+/F-gs-font 10 10 SF
+162 13 M
+( Cakistan\(\);) s
+24 2 M (47:) s
+_R
+S
+%%Page: (2) 10
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (Controller.java) def
+/fdir () def
+/ftail (Controller.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:48:26 2013) def
+/pagenumstr (5-2) def
+/user_header_p true def
+/user_header_left_str (Controller.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (5-2/5\(10\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 508 M
+(// Creates player) s
+/F-gs-font 10 10 SF
+24 497 M (49:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 497 M
+(        player1 = ) s
+/Courier-Bold 10 10 SUF
+156 497 M
+(new) s
+/F-gs-font 10 10 SF
+174 497 M
+( Sugarman\(\);) s
+24 486 M (50:) s
+24 475 M (51:) s
+48 475 M
+(        theView = ) s
+/Courier-Bold 10 10 SUF
+156 475 M
+(new) s
+/F-gs-font 10 10 SF
+174 475 M
+( View\(\);) s
+24 464 M (52:) s
+24 453 M (53:) s
+24 442 M (54:) s
+48 442 M
+(        ) s
+/Courier-Oblique 10 10 SUF
+96 442 M
+(//get starting location from world) s
+/F-gs-font 10 10 SF
+24 431 M (55:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 431 M
+(        List<Location> locations = world.getLocations\(\);) s
+24 420 M (56:) s
+48 420 M
+(        Location start = locations.get\(0\);) s
+24 409 M (57:) s
+24 398 M (58:) s
+48 398 M
+(        player1.setLocation\(start\);) s
+24 387 M (59:) s
+24 376 M (60:) s
+48 376 M
+(    }) s
+24 365 M (61:) s
+24 354 M (62:) s
+48 354 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 354 M
+(/**) s
+/F-gs-font 10 10 SF
+24 343 M (63:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+(     * This method randomizes questions for each location and if the answer to) s
+/F-gs-font 10 10 SF
+24 332 M (64:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+(     * the question was right award the user with a cake, which is equal to 10) s
+/F-gs-font 10 10 SF
+24 321 M (65:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+(     * points.) s
+/F-gs-font 10 10 SF
+24 310 M (66:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+(     *) s
+/F-gs-font 10 10 SF
+24 299 M (67:) s
+/Courier-Oblique 10 10 SUF
+48 299 M
+(     * @param null) s
+/F-gs-font 10 10 SF
+24 288 M (68:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+(     *) s
+/F-gs-font 10 10 SF
+24 277 M (69:) s
+/Courier-Oblique 10 10 SUF
+48 277 M
+(     */) s
+/F-gs-font 10 10 SF
+24 266 M (70:) s
+48 266 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 266 M
+(public) s
+/F-gs-font 10 10 SF
+108 266 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 266 M
+(void) s
+/F-gs-font 10 10 SF
+138 266 M
+( askRandomQuestion\(\) {) s
+24 255 M (71:) s
+24 244 M (72:) s
+48 244 M
+(        Question q = player1.getLocation\(\).getRandomQuestion\(\);) s
+24 233 M (73:) s
+48 233 M
+(        theView.printOutQuestion\(q\);) s
+24 222 M (74:) s
+48 222 M
+(        theView.printEnterAnswer\(\);) s
+24 211 M (75:) s
+48 211 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 211 M
+(int) s
+/F-gs-font 10 10 SF
+114 211 M
+( answer = userInput\(q.choices.size\(\)\);) s
+24 200 M (76:) s
+48 200 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 200 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 200 M
+( wasCorrectAnswer = player1.isAnswerCorrect\(q, answer\);) s
+24 189 M (77:) s
+24 178 M (78:) s
+48 178 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 178 M
+(if) s
+/F-gs-font 10 10 SF
+108 178 M
+( \(wasCorrectAnswer\) {) s
+24 167 M (79:) s
+48 167 M
+(            theView.printYouGotACake\(\);) s
+24 156 M (80:) s
+48 156 M
+(        } ) s
+/Courier-Bold 10 10 SUF
+108 156 M
+(else) s
+/F-gs-font 10 10 SF
+132 156 M
+( {) s
+24 145 M (81:) s
+48 145 M
+(            theView.printNoCake\(\);) s
+24 134 M (82:) s
+48 134 M
+(        }) s
+24 123 M (83:) s
+24 112 M (84:) s
+48 112 M
+(    }) s
+24 101 M (85:) s
+24 90 M (86:) s
+48 90 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 90 M
+(/**) s
+/F-gs-font 10 10 SF
+24 79 M (87:) s
+/Courier-Oblique 10 10 SUF
+48 79 M
+(     * This method is a boolean which returns true, if either Sugarman has lost,) s
+/F-gs-font 10 10 SF
+24 68 M (88:) s
+/Courier-Oblique 10 10 SUF
+48 68 M
+(     * or won or all locations are out of questions[all questions are asked].) s
+/F-gs-font 10 10 SF
+24 57 M (89:) s
+/Courier-Oblique 10 10 SUF
+48 57 M
+(     *) s
+/F-gs-font 10 10 SF
+24 46 M (90:) s
+/Courier-Oblique 10 10 SUF
+48 46 M
+(     * @return true) s
+/F-gs-font 10 10 SF
+24 35 M (91:) s
+/Courier-Oblique 10 10 SUF
+48 35 M
+(     */) s
+/F-gs-font 10 10 SF
+24 24 M (92:) s
+48 24 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 24 M
+(private) s
+/F-gs-font 10 10 SF
+114 24 M
+( ) s
+/Courier-Bold 10 10 SUF
+120 24 M
+(boolean) s
+/F-gs-font 10 10 SF
+162 24 M
+( isGameOver\(\) {) s
+24 13 M (93:) s
+24 2 M (94:) s
+48 2 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 2 M
+(return) s
+/F-gs-font 10 10 SF
+132 2 M
+( player1.hasSugarmanLost\(\) || player1.hasSugarmanWon\(\) || world.isOutOfQuestions\(\);) s
+_R
+S
+%%Page: (3) 11
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 3 def
+/fname (Controller.java) def
+/fdir () def
+/ftail (Controller.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:48:26 2013) def
+/pagenumstr (5-3) def
+/user_header_p true def
+/user_header_left_str (Controller.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (5-3/5\(11\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (95:) s
+24 497 M (96:) s
+48 497 M
+(    }) s
+24 486 M (97:) s
+24 475 M (98:) s
+48 475 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 475 M
+(/**) s
+/F-gs-font 10 10 SF
+24 464 M (99:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+(     * a method of type boolean which returns false if user's input is less than) s
+/F-gs-font 10 10 SF
+18 453 M (100:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+(     * 1 or it's greater than max. otherwise returns true.) s
+/F-gs-font 10 10 SF
+18 442 M (101:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(     *) s
+/F-gs-font 10 10 SF
+18 431 M (102:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+(     * @param input) s
+/F-gs-font 10 10 SF
+18 420 M (103:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+(     * @param max) s
+/F-gs-font 10 10 SF
+18 409 M (104:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+(     * @return true/ false) s
+/F-gs-font 10 10 SF
+18 398 M (105:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+(     */) s
+/F-gs-font 10 10 SF
+18 387 M (106:) s
+48 387 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 387 M
+(public) s
+/F-gs-font 10 10 SF
+108 387 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 387 M
+(boolean) s
+/F-gs-font 10 10 SF
+156 387 M
+( isInputValid\() s
+/Courier-Bold 10 10 SUF
+240 387 M
+(int) s
+/F-gs-font 10 10 SF
+258 387 M
+( input, ) s
+/Courier-Bold 10 10 SUF
+306 387 M
+(int) s
+/F-gs-font 10 10 SF
+324 387 M
+( max\) {) s
+18 376 M (107:) s
+18 365 M (108:) s
+48 365 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 365 M
+(if) s
+/F-gs-font 10 10 SF
+108 365 M
+( \(input < 1 || input > max\) {) s
+18 354 M (109:) s
+48 354 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 354 M
+(return) s
+/F-gs-font 10 10 SF
+156 354 M
+( ) s
+/Courier-Bold 10 10 SUF
+162 354 M
+(false) s
+/F-gs-font 10 10 SF
+192 354 M
+(;) s
+18 343 M (110:) s
+48 343 M
+(        }) s
+18 332 M (111:) s
+48 332 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 332 M
+(return) s
+/F-gs-font 10 10 SF
+132 332 M
+( ) s
+/Courier-Bold 10 10 SUF
+138 332 M
+(true) s
+/F-gs-font 10 10 SF
+162 332 M
+(;) s
+18 321 M (112:) s
+48 321 M
+(    }) s
+18 310 M (113:) s
+18 299 M (114:) s
+48 299 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 299 M
+(/**) s
+/F-gs-font 10 10 SF
+18 288 M (115:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+(     * This method just calls the view for printing messages in case of:) s
+/F-gs-font 10 10 SF
+18 277 M (116:) s
+/Courier-Oblique 10 10 SUF
+48 277 M
+(     * Sugarman lost, Sugarman won or locations are out of questions.) s
+/F-gs-font 10 10 SF
+18 266 M (117:) s
+/Courier-Oblique 10 10 SUF
+48 266 M
+(     *) s
+/F-gs-font 10 10 SF
+18 255 M (118:) s
+/Courier-Oblique 10 10 SUF
+48 255 M
+(     * @param null) s
+/F-gs-font 10 10 SF
+18 244 M (119:) s
+/Courier-Oblique 10 10 SUF
+48 244 M
+(     * @return null) s
+/F-gs-font 10 10 SF
+18 233 M (120:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     */) s
+/F-gs-font 10 10 SF
+18 222 M (121:) s
+48 222 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 222 M
+(public) s
+/F-gs-font 10 10 SF
+108 222 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 222 M
+(void) s
+/F-gs-font 10 10 SF
+138 222 M
+( printGameOver\(\) {) s
+18 211 M (122:) s
+18 200 M (123:) s
+48 200 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 200 M
+(if) s
+/F-gs-font 10 10 SF
+108 200 M
+( \(player1.hasSugarmanLost\(\)\) {) s
+18 189 M (124:) s
+48 189 M
+(            theView.printSugarmanLost\(\);) s
+18 178 M (125:) s
+48 178 M
+(        } ) s
+/Courier-Bold 10 10 SUF
+108 178 M
+(else) s
+/F-gs-font 10 10 SF
+132 178 M
+( ) s
+/Courier-Bold 10 10 SUF
+138 178 M
+(if) s
+/F-gs-font 10 10 SF
+150 178 M
+( \(player1.hasSugarmanWon\(\)\) {) s
+18 167 M (126:) s
+48 167 M
+(            theView.printSugarmanWon\(\);) s
+18 156 M (127:) s
+48 156 M
+(        } ) s
+/Courier-Bold 10 10 SUF
+108 156 M
+(else) s
+/F-gs-font 10 10 SF
+132 156 M
+( {) s
+18 145 M (128:) s
+48 145 M
+(            theView.printRanOutOfQuestions\(\);) s
+18 134 M (129:) s
+48 134 M
+(        }) s
+18 123 M (130:) s
+18 112 M (131:) s
+48 112 M
+(    }) s
+18 101 M (132:) s
+18 90 M (133:) s
+48 90 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 90 M
+(/**) s
+/F-gs-font 10 10 SF
+18 79 M (134:) s
+/Courier-Oblique 10 10 SUF
+48 79 M
+(     * Method runGame run the game for as long as the player hasn't won or hasn't) s
+/F-gs-font 10 10 SF
+18 68 M (135:) s
+/Courier-Oblique 10 10 SUF
+48 68 M
+(     * lost or hasn't run out of questions in the game or hasn't exited the game.) s
+/F-gs-font 10 10 SF
+18 57 M (136:) s
+/Courier-Oblique 10 10 SUF
+48 57 M
+(     *) s
+/F-gs-font 10 10 SF
+18 46 M (137:) s
+/Courier-Oblique 10 10 SUF
+48 46 M
+(     *) s
+/F-gs-font 10 10 SF
+18 35 M (138:) s
+/Courier-Oblique 10 10 SUF
+48 35 M
+(     */) s
+/F-gs-font 10 10 SF
+18 24 M (139:) s
+48 24 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 24 M
+(public) s
+/F-gs-font 10 10 SF
+108 24 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 24 M
+(void) s
+/F-gs-font 10 10 SF
+138 24 M
+( runGame\(\) {) s
+18 13 M (140:) s
+48 13 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 13 M
+(while) s
+/F-gs-font 10 10 SF
+126 13 M
+( \(!isGameOver\(\)\) {) s
+18 2 M (141:) s
+48 2 M
+(            theView.playerStatus\(player1\);) s
+_R
+S
+%%Page: (4) 12
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 4 def
+/fname (Controller.java) def
+/fdir () def
+/ftail (Controller.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:48:26 2013) def
+/pagenumstr (5-4) def
+/user_header_p true def
+/user_header_left_str (Controller.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (5-4/5\(12\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+18 508 M (142:) s
+48 508 M
+(            theView.printToMoveOrToStay\(player1.getLocation\(\).getDescription\(\),) s
+18 497 M (143:) s
+48 497 M
+(                    player1.getLocation\(\).getNeighbor\(\).getDescription\(\)\);) s
+18 486 M (144:) s
+48 486 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 486 M
+(int) s
+/F-gs-font 10 10 SF
+138 486 M
+( decision = userInput\(3\);) s
+18 475 M (145:) s
+48 475 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 475 M
+(if) s
+/F-gs-font 10 10 SF
+132 475 M
+( \(decision == 1\) { ) s
+/Courier-Oblique 10 10 SUF
+246 475 M
+(//user chose to stay and answer questions) s
+/F-gs-font 10 10 SF
+18 464 M (146:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+18 453 M (147:) s
+48 453 M
+(                ArrayList<Question> currentQuestionList = player1.getLocation\(\).getQuestionList\(\);) s
+18 442 M (148:) s
+48 442 M
+(                ) s
+/Courier-Bold 10 10 SUF
+144 442 M
+(if) s
+/F-gs-font 10 10 SF
+156 442 M
+( \(currentQuestionList.isEmpty\(\)\) {) s
+18 431 M (149:) s
+48 431 M
+(                    theView.printNoQuestionsLeft\(\);) s
+18 420 M (150:) s
+48 420 M
+(                    ) s
+/Courier-Bold 10 10 SUF
+168 420 M
+(continue) s
+/F-gs-font 10 10 SF
+216 420 M
+(;) s
+18 409 M (151:) s
+48 409 M
+(                }) s
+18 398 M (152:) s
+18 387 M (153:) s
+48 387 M
+(                askRandomQuestion\(\);) s
+18 376 M (154:) s
+18 365 M (155:) s
+48 365 M
+(            } ) s
+/Courier-Bold 10 10 SUF
+132 365 M
+(else) s
+/F-gs-font 10 10 SF
+156 365 M
+( ) s
+/Courier-Bold 10 10 SUF
+162 365 M
+(if) s
+/F-gs-font 10 10 SF
+174 365 M
+( \(decision == 2\) { ) s
+/Courier-Oblique 10 10 SUF
+288 365 M
+(//user chose to move to next location) s
+/F-gs-font 10 10 SF
+18 354 M (156:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 354 M
+(                player1.move\(player1.getLocation\(\).getNeighbor\(\)\);) s
+18 343 M (157:) s
+48 343 M
+(            }) s
+18 332 M (158:) s
+48 332 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 332 M
+(else) s
+/F-gs-font 10 10 SF
+144 332 M
+( ) s
+/Courier-Bold 10 10 SUF
+150 332 M
+(if) s
+/F-gs-font 10 10 SF
+162 332 M
+( \(decision == 3\){ ) s
+/Courier-Oblique 10 10 SUF
+270 332 M
+(//user chose to exit the game) s
+/F-gs-font 10 10 SF
+18 321 M (159:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 321 M
+(                theView.printExitGame\(\);) s
+18 310 M (160:) s
+48 310 M
+(                System.exit\(1\);) s
+18 299 M (161:) s
+48 299 M
+(            }) s
+18 288 M (162:) s
+48 288 M
+(        } ) s
+/Courier-Oblique 10 10 SUF
+108 288 M
+(//end of while loop) s
+/F-gs-font 10 10 SF
+18 277 M (163:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 277 M
+(        printGameOver\(\);) s
+18 266 M (164:) s
+48 266 M
+(    }) s
+18 255 M (165:) s
+18 244 M (166:) s
+48 244 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 244 M
+(/**) s
+/F-gs-font 10 10 SF
+18 233 M (167:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     * Scans the user's input and checks if it's valid or not.) s
+/F-gs-font 10 10 SF
+18 222 M (168:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     *) s
+/F-gs-font 10 10 SF
+18 211 M (169:) s
+/Courier-Oblique 10 10 SUF
+48 211 M
+(     * @param max of type integer) s
+/F-gs-font 10 10 SF
+18 200 M (170:) s
+/Courier-Oblique 10 10 SUF
+48 200 M
+(     * @return user's input of type integer) s
+/F-gs-font 10 10 SF
+18 189 M (171:) s
+/Courier-Oblique 10 10 SUF
+48 189 M
+(     */) s
+/F-gs-font 10 10 SF
+18 178 M (172:) s
+48 178 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 178 M
+(public) s
+/F-gs-font 10 10 SF
+108 178 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 178 M
+(int) s
+/F-gs-font 10 10 SF
+132 178 M
+( userInput\() s
+/Courier-Bold 10 10 SUF
+198 178 M
+(int) s
+/F-gs-font 10 10 SF
+216 178 M
+( max\) {) s
+18 167 M (173:) s
+18 156 M (174:) s
+18 145 M (175:) s
+48 145 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 145 M
+(while) s
+/F-gs-font 10 10 SF
+126 145 M
+( \() s
+/Courier-Bold 10 10 SUF
+138 145 M
+(true) s
+/F-gs-font 10 10 SF
+162 145 M
+(\) {) s
+18 134 M (176:) s
+18 123 M (177:) s
+48 123 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 123 M
+(int) s
+/F-gs-font 10 10 SF
+138 123 M
+( input = 0;) s
+18 112 M (178:) s
+48 112 M
+(            Scanner userInput = ) s
+/Courier-Bold 10 10 SUF
+240 112 M
+(new) s
+/F-gs-font 10 10 SF
+258 112 M
+( Scanner\(System.in\);) s
+18 101 M (179:) s
+18 90 M (180:) s
+48 90 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 90 M
+(try) s
+/F-gs-font 10 10 SF
+138 90 M
+( {) s
+18 79 M (181:) s
+18 68 M (182:) s
+48 68 M
+(                input = userInput.nextInt\(\);) s
+18 57 M (183:) s
+48 57 M
+(            } ) s
+/Courier-Bold 10 10 SUF
+132 57 M
+(catch) s
+/F-gs-font 10 10 SF
+162 57 M
+( \(InputMismatchException ex\) {) s
+18 46 M (184:) s
+48 46 M
+(                theView.printRetypeInput\(max\);) s
+18 35 M (185:) s
+48 35 M
+(                ) s
+/Courier-Bold 10 10 SUF
+144 35 M
+(continue) s
+/F-gs-font 10 10 SF
+192 35 M
+(;) s
+18 24 M (186:) s
+48 24 M
+(            }) s
+18 13 M (187:) s
+18 2 M (188:) s
+48 2 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 2 M
+(if) s
+/F-gs-font 10 10 SF
+132 2 M
+( \(isInputValid\(input, max\)\) {) s
+_R
+S
+%%Page: (5) 13
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 5 def
+/fname (Controller.java) def
+/fdir () def
+/ftail (Controller.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:48:26 2013) def
+/pagenumstr (5-5) def
+/user_header_p true def
+/user_header_left_str (Controller.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (5-5/5\(13\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+18 508 M (189:) s
+18 497 M (190:) s
+48 497 M
+(                ) s
+/Courier-Bold 10 10 SUF
+144 497 M
+(return) s
+/F-gs-font 10 10 SF
+180 497 M
+( input;) s
+18 486 M (191:) s
+18 475 M (192:) s
+48 475 M
+(            } ) s
+/Courier-Bold 10 10 SUF
+132 475 M
+(else) s
+/F-gs-font 10 10 SF
+156 475 M
+( {) s
+18 464 M (193:) s
+48 464 M
+(                theView.printRetypeInput\(max\);) s
+18 453 M (194:) s
+48 453 M
+(            }) s
+18 442 M (195:) s
+48 442 M
+(        }) s
+18 431 M (196:) s
+18 420 M (197:) s
+18 409 M (198:) s
+48 409 M
+(    }) s
+18 398 M (199:) s
+48 398 M
+(}) s
+_R
+S
+%%Page: (1) 14
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (GameObject.java) def
+/fdir () def
+/ftail (GameObject.java) def
+% User defined strings:
+/fmodstr (Thu May 09 10:00:34 2013) def
+/pagenumstr (6-1) def
+/user_header_p true def
+/user_header_left_str (GameObject.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (6-1/1\(14\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+30 497 M (2:) s
+/Courier-Bold 10 10 SUF
+48 497 M
+(package) s
+/F-gs-font 10 10 SF
+90 497 M
+( cakesolutioncorrectversion;) s
+30 486 M (3:) s
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+(/**) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+( *Class GameObject extends the interface Localizable.) s
+/F-gs-font 10 10 SF
+30 453 M (6:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+( * The class used to hold a boolean variable declared as 'canBeTaken'.) s
+/F-gs-font 10 10 SF
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+( * This class was created for the initial PacMan layer, where the idea was that ) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * the player was able to go around and take cakes. So canBeTaken would have ) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * returned true, once the player have answered the question correctly.) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( *) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( *) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( */) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Bold 10 10 SUF
+48 343 M
+(public) s
+/F-gs-font 10 10 SF
+84 343 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 343 M
+(interface) s
+/F-gs-font 10 10 SF
+144 343 M
+( GameObject ) s
+/Courier-Bold 10 10 SUF
+216 343 M
+(extends) s
+/F-gs-font 10 10 SF
+258 343 M
+( Localizable {) s
+24 332 M (17:) s
+48 332 M
+(    ) s
+24 321 M (18:) s
+48 321 M
+(    ) s
+24 310 M (19:) s
+48 310 M
+(    ) s
+24 299 M (20:) s
+48 299 M
+(}) s
+_R
+S
+%%Page: (1) 15
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Lagkagehuset.java) def
+/fdir () def
+/ftail (Lagkagehuset.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (7-1) def
+/user_header_p true def
+/user_header_left_str (Lagkagehuset.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (7-1/6\(15\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Bold 10 10 SUF
+48 508 M
+(package) s
+/F-gs-font 10 10 SF
+90 508 M
+( cakesolutioncorrectversion;) s
+30 497 M (2:) s
+30 486 M (3:) s
+/Courier-Bold 10 10 SUF
+48 486 M
+(import) s
+/F-gs-font 10 10 SF
+84 486 M
+( java.util.ArrayList;) s
+30 475 M (4:) s
+/Courier-Bold 10 10 SUF
+48 475 M
+(import) s
+/F-gs-font 10 10 SF
+84 475 M
+( java.util.List;) s
+30 464 M (5:) s
+30 453 M (6:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+(/**) s
+/F-gs-font 10 10 SF
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+( * Class Lagkagehuset extends a superclass SuperLocation, which implements the) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * interface Location. Lagkagehuset initializes a questionList and has a) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * description of which location the player is at.) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( *) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( */) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Bold 10 10 SUF
+48 354 M
+(public) s
+/F-gs-font 10 10 SF
+84 354 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 354 M
+(class) s
+/F-gs-font 10 10 SF
+120 354 M
+( Lagkagehuset ) s
+/Courier-Bold 10 10 SUF
+204 354 M
+(extends) s
+/F-gs-font 10 10 SF
+246 354 M
+( SuperLocation {) s
+24 343 M (16:) s
+24 332 M (17:) s
+48 332 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 332 M
+(/**) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+(     * This is the description of the location Lagkagehuset.) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+(     *) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+/Courier-Oblique 10 10 SUF
+48 299 M
+(     * @param Null) s
+/F-gs-font 10 10 SF
+24 288 M (21:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+(     * @return String Lagkagehuset.) s
+/F-gs-font 10 10 SF
+24 277 M (22:) s
+/Courier-Oblique 10 10 SUF
+48 277 M
+(     */) s
+/F-gs-font 10 10 SF
+24 266 M (23:) s
+48 266 M
+(    @Override) s
+24 255 M (24:) s
+48 255 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 255 M
+(public) s
+/F-gs-font 10 10 SF
+108 255 M
+( String getDescription\(\) {) s
+24 244 M (25:) s
+48 244 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 244 M
+(return) s
+/F-gs-font 10 10 SF
+132 244 M
+( ) s
+/Courier-Bold 10 10 SUF
+138 244 M
+("Lagkagehuset") s
+/F-gs-font 10 10 SF
+222 244 M
+(;) s
+24 233 M (26:) s
+48 233 M
+(    }) s
+24 222 M (27:) s
+24 211 M (28:) s
+48 211 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 211 M
+(/**) s
+/F-gs-font 10 10 SF
+24 200 M (29:) s
+/Courier-Oblique 10 10 SUF
+48 200 M
+(     * Method initializeQuestions that generates questions and choices for the) s
+/F-gs-font 10 10 SF
+24 189 M (30:) s
+/Courier-Oblique 10 10 SUF
+48 189 M
+(     * world, Lagkagehuset.) s
+/F-gs-font 10 10 SF
+24 178 M (31:) s
+/Courier-Oblique 10 10 SUF
+48 178 M
+(     *) s
+/F-gs-font 10 10 SF
+24 167 M (32:) s
+/Courier-Oblique 10 10 SUF
+48 167 M
+(     * @return Null) s
+/F-gs-font 10 10 SF
+24 156 M (33:) s
+/Courier-Oblique 10 10 SUF
+48 156 M
+(     * @param Null) s
+/F-gs-font 10 10 SF
+24 145 M (34:) s
+/Courier-Oblique 10 10 SUF
+48 145 M
+(     *) s
+/F-gs-font 10 10 SF
+24 134 M (35:) s
+/Courier-Oblique 10 10 SUF
+48 134 M
+(     */) s
+/F-gs-font 10 10 SF
+24 123 M (36:) s
+48 123 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 123 M
+(public) s
+/F-gs-font 10 10 SF
+108 123 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 123 M
+(void) s
+/F-gs-font 10 10 SF
+138 123 M
+( initializeQuestionList\(\) {) s
+24 112 M (37:) s
+24 101 M (38:) s
+48 101 M
+(        Question q1 = ) s
+/Courier-Bold 10 10 SUF
+180 101 M
+(new) s
+/F-gs-font 10 10 SF
+198 101 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 101 M
+("What is the name of the current Queen of Denmark?") s
+/F-gs-font 10 10 SF
+564 101 M
+(\);) s
+24 90 M (39:) s
+24 79 M (40:) s
+48 79 M
+(        Choice lkhQ1C1 = ) s
+/Courier-Bold 10 10 SUF
+198 79 M
+(new) s
+/F-gs-font 10 10 SF
+216 79 M
+( Choice\(\);) s
+24 68 M (41:) s
+48 68 M
+(        lkhQ1C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 68 M
+("Margrethe") s
+/F-gs-font 10 10 SF
+264 68 M
+(;) s
+24 57 M (42:) s
+48 57 M
+(        lkhQ1C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 57 M
+(true) s
+/F-gs-font 10 10 SF
+276 57 M
+(;) s
+24 46 M (43:) s
+24 35 M (44:) s
+48 35 M
+(        Choice lkhQ1C2 = ) s
+/Courier-Bold 10 10 SUF
+198 35 M
+(new) s
+/F-gs-font 10 10 SF
+216 35 M
+( Choice\(\);) s
+24 24 M (45:) s
+48 24 M
+(        lkhQ1C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 24 M
+("Ingrid") s
+/F-gs-font 10 10 SF
+246 24 M
+(;) s
+24 13 M (46:) s
+48 13 M
+(        lkhQ1C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 13 M
+(false) s
+/F-gs-font 10 10 SF
+282 13 M
+(;) s
+24 2 M (47:) s
+_R
+S
+%%Page: (2) 16
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (Lagkagehuset.java) def
+/fdir () def
+/ftail (Lagkagehuset.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (7-2) def
+/user_header_p true def
+/user_header_left_str (Lagkagehuset.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (7-2/6\(16\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(        Choice lkhQ1C3 = ) s
+/Courier-Bold 10 10 SUF
+198 508 M
+(new) s
+/F-gs-font 10 10 SF
+216 508 M
+( Choice\(\);) s
+24 497 M (49:) s
+48 497 M
+(        lkhQ1C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 497 M
+("Beatrice") s
+/F-gs-font 10 10 SF
+258 497 M
+(;) s
+24 486 M (50:) s
+48 486 M
+(        lkhQ1C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 486 M
+(false) s
+/F-gs-font 10 10 SF
+282 486 M
+(;) s
+24 475 M (51:) s
+24 464 M (52:) s
+48 464 M
+(        Choice lkhQ1C4 = ) s
+/Courier-Bold 10 10 SUF
+198 464 M
+(new) s
+/F-gs-font 10 10 SF
+216 464 M
+( Choice\(\);) s
+24 453 M (53:) s
+48 453 M
+(        lkhQ1C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 453 M
+("Mary") s
+/F-gs-font 10 10 SF
+234 453 M
+(;) s
+24 442 M (54:) s
+48 442 M
+(        lkhQ1C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 442 M
+(false) s
+/F-gs-font 10 10 SF
+282 442 M
+(;) s
+24 431 M (55:) s
+24 420 M (56:) s
+48 420 M
+(        questionList.add\(q1\);) s
+24 409 M (57:) s
+48 409 M
+(        q1.choices.add\(lkhQ1C1\);) s
+24 398 M (58:) s
+48 398 M
+(        q1.choices.add\(lkhQ1C2\);) s
+24 387 M (59:) s
+48 387 M
+(        q1.choices.add\(lkhQ1C3\);) s
+24 376 M (60:) s
+48 376 M
+(        q1.choices.add\(lkhQ1C4\);) s
+24 365 M (61:) s
+24 354 M (62:) s
+24 343 M (63:) s
+48 343 M
+(        Question q2 = ) s
+/Courier-Bold 10 10 SUF
+180 343 M
+(new) s
+/F-gs-font 10 10 SF
+198 343 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 343 M
+("What is the national dish of Denmark?") s
+/F-gs-font 10 10 SF
+492 343 M
+(\);) s
+24 332 M (64:) s
+24 321 M (65:) s
+48 321 M
+(        Choice lkhQ2C1 = ) s
+/Courier-Bold 10 10 SUF
+198 321 M
+(new) s
+/F-gs-font 10 10 SF
+216 321 M
+( Choice\(\);) s
+24 310 M (66:) s
+48 310 M
+(        lkhQ2C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 310 M
+("A Danish") s
+/F-gs-font 10 10 SF
+258 310 M
+(;) s
+24 299 M (67:) s
+48 299 M
+(        lkhQ2C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 299 M
+(false) s
+/F-gs-font 10 10 SF
+282 299 M
+(;) s
+24 288 M (68:) s
+24 277 M (69:) s
+48 277 M
+(        Choice lkhQ2C2 = ) s
+/Courier-Bold 10 10 SUF
+198 277 M
+(new) s
+/F-gs-font 10 10 SF
+216 277 M
+( Choice\(\);) s
+24 266 M (70:) s
+48 266 M
+(        lkhQ2C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 266 M
+("Shooting Star") s
+/F-gs-font 10 10 SF
+288 266 M
+(;) s
+24 255 M (71:) s
+48 255 M
+(        lkhQ2C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 255 M
+(false) s
+/F-gs-font 10 10 SF
+282 255 M
+(;) s
+24 244 M (72:) s
+24 233 M (73:) s
+48 233 M
+(        Choice lkhQ2C3 = ) s
+/Courier-Bold 10 10 SUF
+198 233 M
+(new) s
+/F-gs-font 10 10 SF
+216 233 M
+( Choice\(\);) s
+24 222 M (74:) s
+48 222 M
+(        lkhQ2C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 222 M
+("Meatballs") s
+/F-gs-font 10 10 SF
+264 222 M
+(;) s
+24 211 M (75:) s
+48 211 M
+(        lkhQ2C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 211 M
+(true) s
+/F-gs-font 10 10 SF
+276 211 M
+(;) s
+24 200 M (76:) s
+24 189 M (77:) s
+48 189 M
+(        Choice lkhQ2C4 = ) s
+/Courier-Bold 10 10 SUF
+198 189 M
+(new) s
+/F-gs-font 10 10 SF
+216 189 M
+( Choice\(\);) s
+24 178 M (78:) s
+48 178 M
+(        lkhQ2C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 178 M
+("Open-faced sandwiches") s
+/F-gs-font 10 10 SF
+336 178 M
+(;) s
+24 167 M (79:) s
+48 167 M
+(        lkhQ2C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 167 M
+(false) s
+/F-gs-font 10 10 SF
+282 167 M
+(;) s
+24 156 M (80:) s
+24 145 M (81:) s
+48 145 M
+(        questionList.add\(q2\);) s
+24 134 M (82:) s
+48 134 M
+(        q2.choices.add\(lkhQ2C1\);) s
+24 123 M (83:) s
+48 123 M
+(        q2.choices.add\(lkhQ2C2\);) s
+24 112 M (84:) s
+48 112 M
+(        q2.choices.add\(lkhQ2C3\);) s
+24 101 M (85:) s
+48 101 M
+(        q2.choices.add\(lkhQ2C4\);) s
+24 90 M (86:) s
+24 79 M (87:) s
+48 79 M
+(        Question q3 = ) s
+/Courier-Bold 10 10 SUF
+180 79 M
+(new) s
+/F-gs-font 10 10 SF
+198 79 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 79 M
+("Which island is the biggest in Denmark?") s
+/F-gs-font 10 10 SF
+504 79 M
+(\);) s
+24 68 M (88:) s
+24 57 M (89:) s
+48 57 M
+(        Choice lkhQ3C1 = ) s
+/Courier-Bold 10 10 SUF
+198 57 M
+(new) s
+/F-gs-font 10 10 SF
+216 57 M
+( Choice\(\);) s
+24 46 M (90:) s
+48 46 M
+(        lkhQ3C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 46 M
+("Greenland") s
+/F-gs-font 10 10 SF
+264 46 M
+(;) s
+24 35 M (91:) s
+48 35 M
+(        lkhQ3C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 35 M
+(false) s
+/F-gs-font 10 10 SF
+282 35 M
+(;) s
+24 24 M (92:) s
+24 13 M (93:) s
+48 13 M
+(        Choice lkhQ3C2 = ) s
+/Courier-Bold 10 10 SUF
+198 13 M
+(new) s
+/F-gs-font 10 10 SF
+216 13 M
+( Choice\(\);) s
+24 2 M (94:) s
+48 2 M
+(        lkhQ3C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 2 M
+("Zealand") s
+/F-gs-font 10 10 SF
+252 2 M
+(;) s
+_R
+S
+%%Page: (3) 17
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 3 def
+/fname (Lagkagehuset.java) def
+/fdir () def
+/ftail (Lagkagehuset.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (7-3) def
+/user_header_p true def
+/user_header_left_str (Lagkagehuset.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (7-3/6\(17\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (95:) s
+48 508 M
+(        lkhQ3C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 508 M
+(true) s
+/F-gs-font 10 10 SF
+276 508 M
+(;) s
+24 497 M (96:) s
+24 486 M (97:) s
+48 486 M
+(        Choice lkhQ3C3 = ) s
+/Courier-Bold 10 10 SUF
+198 486 M
+(new) s
+/F-gs-font 10 10 SF
+216 486 M
+( Choice\(\);) s
+24 475 M (98:) s
+48 475 M
+(        lkhQ3C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 475 M
+("Funen") s
+/F-gs-font 10 10 SF
+240 475 M
+(;) s
+24 464 M (99:) s
+48 464 M
+(        lkhQ3C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 464 M
+(false) s
+/F-gs-font 10 10 SF
+282 464 M
+(;) s
+18 453 M (100:) s
+18 442 M (101:) s
+48 442 M
+(        Choice lkhQ3C4 = ) s
+/Courier-Bold 10 10 SUF
+198 442 M
+(new) s
+/F-gs-font 10 10 SF
+216 442 M
+( Choice\(\);) s
+18 431 M (102:) s
+48 431 M
+(        lkhQ3C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 431 M
+("Vendsyssel-Thy") s
+/F-gs-font 10 10 SF
+294 431 M
+(;) s
+18 420 M (103:) s
+48 420 M
+(        lkhQ3C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 420 M
+(false) s
+/F-gs-font 10 10 SF
+282 420 M
+(;) s
+18 409 M (104:) s
+18 398 M (105:) s
+48 398 M
+(        questionList.add\(q3\);) s
+18 387 M (106:) s
+48 387 M
+(        q3.choices.add\(lkhQ3C1\);) s
+18 376 M (107:) s
+48 376 M
+(        q3.choices.add\(lkhQ3C2\);) s
+18 365 M (108:) s
+48 365 M
+(        q3.choices.add\(lkhQ3C3\);) s
+18 354 M (109:) s
+48 354 M
+(        q3.choices.add\(lkhQ3C4\);) s
+18 343 M (110:) s
+18 332 M (111:) s
+48 332 M
+(        Question q4 = ) s
+/Courier-Bold 10 10 SUF
+180 332 M
+(new) s
+/F-gs-font 10 10 SF
+198 332 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 332 M
+("Which bird is the Danish national bird?") s
+/F-gs-font 10 10 SF
+504 332 M
+(\);) s
+18 321 M (112:) s
+18 310 M (113:) s
+48 310 M
+(        Choice lkhQ4C1 = ) s
+/Courier-Bold 10 10 SUF
+198 310 M
+(new) s
+/F-gs-font 10 10 SF
+216 310 M
+( Choice\(\);) s
+18 299 M (114:) s
+48 299 M
+(        lkhQ4C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 299 M
+("The alaudidae lark") s
+/F-gs-font 10 10 SF
+318 299 M
+(;) s
+18 288 M (115:) s
+48 288 M
+(        lkhQ4C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 288 M
+(false) s
+/F-gs-font 10 10 SF
+282 288 M
+(;) s
+18 277 M (116:) s
+18 266 M (117:) s
+48 266 M
+(        Choice lkhQ4C2 = ) s
+/Courier-Bold 10 10 SUF
+198 266 M
+(new) s
+/F-gs-font 10 10 SF
+216 266 M
+( Choice\(\);) s
+18 255 M (118:) s
+48 255 M
+(        lkhQ4C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 255 M
+("the mute swan") s
+/F-gs-font 10 10 SF
+288 255 M
+(;) s
+18 244 M (119:) s
+48 244 M
+(        lkhQ4C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 244 M
+(true) s
+/F-gs-font 10 10 SF
+276 244 M
+(;) s
+18 233 M (120:) s
+18 222 M (121:) s
+48 222 M
+(        Choice lkhQ4C3 = ) s
+/Courier-Bold 10 10 SUF
+198 222 M
+(new) s
+/F-gs-font 10 10 SF
+216 222 M
+( Choice\(\);) s
+18 211 M (122:) s
+48 211 M
+(        lkhQ4C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 211 M
+("the shiny blackbird") s
+/F-gs-font 10 10 SF
+324 211 M
+(;) s
+18 200 M (123:) s
+48 200 M
+(        lkhQ4C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 200 M
+(false) s
+/F-gs-font 10 10 SF
+282 200 M
+(;) s
+18 189 M (124:) s
+18 178 M (125:) s
+48 178 M
+(        Choice lkhQ4C4 = ) s
+/Courier-Bold 10 10 SUF
+198 178 M
+(new) s
+/F-gs-font 10 10 SF
+216 178 M
+( Choice\(\);) s
+18 167 M (126:) s
+48 167 M
+(        lkhQ4C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 167 M
+("the red swallow") s
+/F-gs-font 10 10 SF
+300 167 M
+(;) s
+18 156 M (127:) s
+48 156 M
+(        lkhQ4C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 156 M
+(false) s
+/F-gs-font 10 10 SF
+282 156 M
+(;) s
+18 145 M (128:) s
+18 134 M (129:) s
+48 134 M
+(        questionList.add\(q4\);) s
+18 123 M (130:) s
+48 123 M
+(        q4.choices.add\(lkhQ4C1\);) s
+18 112 M (131:) s
+48 112 M
+(        q4.choices.add\(lkhQ4C2\);) s
+18 101 M (132:) s
+48 101 M
+(        q4.choices.add\(lkhQ4C3\);) s
+18 90 M (133:) s
+48 90 M
+(        q4.choices.add\(lkhQ4C4\);) s
+18 79 M (134:) s
+18 68 M (135:) s
+48 68 M
+(        Question q5 = ) s
+/Courier-Bold 10 10 SUF
+180 68 M
+(new) s
+/F-gs-font 10 10 SF
+198 68 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 68 M
+("When was Denmark liberated after WW2?") s
+/F-gs-font 10 10 SF
+492 68 M
+(\);) s
+18 57 M (136:) s
+18 46 M (137:) s
+48 46 M
+(        Choice lkhQ5C1 = ) s
+/Courier-Bold 10 10 SUF
+198 46 M
+(new) s
+/F-gs-font 10 10 SF
+216 46 M
+( Choice\(\);) s
+18 35 M (138:) s
+48 35 M
+(        lkhQ5C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 35 M
+("may 4th 1945") s
+/F-gs-font 10 10 SF
+282 35 M
+(;) s
+18 24 M (139:) s
+48 24 M
+(        lkhQ5C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 24 M
+(false) s
+/F-gs-font 10 10 SF
+282 24 M
+(;) s
+18 13 M (140:) s
+18 2 M (141:) s
+48 2 M
+(        Choice lkhQ5C2 = ) s
+/Courier-Bold 10 10 SUF
+198 2 M
+(new) s
+/F-gs-font 10 10 SF
+216 2 M
+( Choice\(\);) s
+_R
+S
+%%Page: (4) 18
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 4 def
+/fname (Lagkagehuset.java) def
+/fdir () def
+/ftail (Lagkagehuset.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (7-4) def
+/user_header_p true def
+/user_header_left_str (Lagkagehuset.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (7-4/6\(18\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+18 508 M (142:) s
+48 508 M
+(        lkhQ5C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 508 M
+("july 18th 1945") s
+/F-gs-font 10 10 SF
+294 508 M
+(;) s
+18 497 M (143:) s
+48 497 M
+(        lkhQ5C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 497 M
+(false) s
+/F-gs-font 10 10 SF
+282 497 M
+(;) s
+18 486 M (144:) s
+18 475 M (145:) s
+48 475 M
+(        Choice lkhQ5C3 = ) s
+/Courier-Bold 10 10 SUF
+198 475 M
+(new) s
+/F-gs-font 10 10 SF
+216 475 M
+( Choice\(\);) s
+18 464 M (146:) s
+48 464 M
+(        lkhQ5C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 464 M
+("june 7th 1945") s
+/F-gs-font 10 10 SF
+288 464 M
+(;) s
+18 453 M (147:) s
+48 453 M
+(        lkhQ5C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 453 M
+(false) s
+/F-gs-font 10 10 SF
+282 453 M
+(;) s
+18 442 M (148:) s
+18 431 M (149:) s
+48 431 M
+(        Choice lkhQ5C4 = ) s
+/Courier-Bold 10 10 SUF
+198 431 M
+(new) s
+/F-gs-font 10 10 SF
+216 431 M
+( Choice\(\);) s
+18 420 M (150:) s
+48 420 M
+(        lkhQ5C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 420 M
+("may 5th 1945") s
+/F-gs-font 10 10 SF
+282 420 M
+(;) s
+18 409 M (151:) s
+48 409 M
+(        lkhQ5C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 409 M
+(true) s
+/F-gs-font 10 10 SF
+276 409 M
+(;) s
+18 398 M (152:) s
+18 387 M (153:) s
+48 387 M
+(        questionList.add\(q5\);) s
+18 376 M (154:) s
+48 376 M
+(        q5.choices.add\(lkhQ5C1\);) s
+18 365 M (155:) s
+48 365 M
+(        q5.choices.add\(lkhQ5C2\);) s
+18 354 M (156:) s
+48 354 M
+(        q5.choices.add\(lkhQ5C3\);) s
+18 343 M (157:) s
+48 343 M
+(        q5.choices.add\(lkhQ5C4\);) s
+18 332 M (158:) s
+48 332 M
+(        ) s
+18 321 M (159:) s
+48 321 M
+(        Question q6 = ) s
+/Courier-Bold 10 10 SUF
+180 321 M
+(new) s
+/F-gs-font 10 10 SF
+198 321 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 321 M
+("When did Copenhagen become the capital of Denmark?") s
+/F-gs-font 10 10 SF
+570 321 M
+(\);) s
+18 310 M (160:) s
+48 310 M
+(        ) s
+18 299 M (161:) s
+48 299 M
+(        Choice lkhQ6C1 = ) s
+/Courier-Bold 10 10 SUF
+198 299 M
+(new) s
+/F-gs-font 10 10 SF
+216 299 M
+( Choice\(\);) s
+18 288 M (162:) s
+48 288 M
+(        lkhQ6C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 288 M
+("Mid 14th century") s
+/F-gs-font 10 10 SF
+306 288 M
+(;) s
+18 277 M (163:) s
+48 277 M
+(        lkhQ6C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 277 M
+(false) s
+/F-gs-font 10 10 SF
+282 277 M
+(;) s
+18 266 M (164:) s
+48 266 M
+(        ) s
+18 255 M (165:) s
+48 255 M
+(        Choice lkhQ6C2 = ) s
+/Courier-Bold 10 10 SUF
+198 255 M
+(new) s
+/F-gs-font 10 10 SF
+216 255 M
+( Choice\(\);) s
+18 244 M (166:) s
+48 244 M
+(        lkhQ6C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 244 M
+("Mid 15th century") s
+/F-gs-font 10 10 SF
+306 244 M
+(;) s
+18 233 M (167:) s
+48 233 M
+(        lkhQ6C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 233 M
+(true) s
+/F-gs-font 10 10 SF
+276 233 M
+(;) s
+18 222 M (168:) s
+48 222 M
+(        ) s
+18 211 M (169:) s
+48 211 M
+(        Choice lkhQ6C3 = ) s
+/Courier-Bold 10 10 SUF
+198 211 M
+(new) s
+/F-gs-font 10 10 SF
+216 211 M
+( Choice\(\);) s
+18 200 M (170:) s
+48 200 M
+(        lkhQ6C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 200 M
+("Mid 16th century") s
+/F-gs-font 10 10 SF
+306 200 M
+(;) s
+18 189 M (171:) s
+48 189 M
+(        lkhQ6C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 189 M
+(false) s
+/F-gs-font 10 10 SF
+282 189 M
+(;) s
+18 178 M (172:) s
+48 178 M
+(        ) s
+18 167 M (173:) s
+48 167 M
+(        Choice lkhQ6C4 = ) s
+/Courier-Bold 10 10 SUF
+198 167 M
+(new) s
+/F-gs-font 10 10 SF
+216 167 M
+( Choice\(\);) s
+18 156 M (174:) s
+48 156 M
+(        lkhQ6C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 156 M
+("Mid 17th century") s
+/F-gs-font 10 10 SF
+306 156 M
+(;) s
+18 145 M (175:) s
+48 145 M
+(        lkhQ6C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 145 M
+(false) s
+/F-gs-font 10 10 SF
+282 145 M
+(;) s
+18 134 M (176:) s
+48 134 M
+(        ) s
+18 123 M (177:) s
+48 123 M
+(        questionList.add\(q6\);) s
+18 112 M (178:) s
+48 112 M
+(        q6.choices.add\(lkhQ6C1\);) s
+18 101 M (179:) s
+48 101 M
+(        q6.choices.add\(lkhQ6C2\);) s
+18 90 M (180:) s
+48 90 M
+(        q6.choices.add\(lkhQ6C3\);) s
+18 79 M (181:) s
+48 79 M
+(        q6.choices.add\(lkhQ6C4\);) s
+18 68 M (182:) s
+48 68 M
+(        ) s
+18 57 M (183:) s
+48 57 M
+(        Question q7 = ) s
+/Courier-Bold 10 10 SUF
+180 57 M
+(new) s
+/F-gs-font 10 10 SF
+198 57 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 57 M
+("Why did hamlet say that \\"something was rotten in the State of Denmark\\"? ") s
+/F-gs-font 10 10 SF
+714 57 M
+(\);) s
+18 46 M (184:) s
+48 46 M
+(        ) s
+18 35 M (185:) s
+48 35 M
+(        Choice lkhQ7C1 = ) s
+/Courier-Bold 10 10 SUF
+198 35 M
+(new) s
+/F-gs-font 10 10 SF
+216 35 M
+( Choice\(\);) s
+18 24 M (186:) s
+48 24 M
+(        lkhQ7C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 24 M
+("He disliked the smell of fish") s
+/F-gs-font 10 10 SF
+384 24 M
+(;) s
+18 13 M (187:) s
+48 13 M
+(        lkhQ7C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 13 M
+(false) s
+/F-gs-font 10 10 SF
+282 13 M
+(;) s
+18 2 M (188:) s
+48 2 M
+(        ) s
+_R
+S
+%%Page: (5) 19
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 5 def
+/fname (Lagkagehuset.java) def
+/fdir () def
+/ftail (Lagkagehuset.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (7-5) def
+/user_header_p true def
+/user_header_left_str (Lagkagehuset.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (7-5/6\(19\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+18 508 M (189:) s
+48 508 M
+(        Choice lkhQ7C2 = ) s
+/Courier-Bold 10 10 SUF
+198 508 M
+(new) s
+/F-gs-font 10 10 SF
+216 508 M
+( Choice\(\);) s
+18 497 M (190:) s
+48 497 M
+(        lkhQ7C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 497 M
+("All was not well at the top of the political hierarchy") s
+/F-gs-font 10 10 SF
+534 497 M
+(;) s
+18 486 M (191:) s
+48 486 M
+(        lkhQ7C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 486 M
+(true) s
+/F-gs-font 10 10 SF
+276 486 M
+(;) s
+18 475 M (192:) s
+48 475 M
+(        ) s
+18 464 M (193:) s
+48 464 M
+(        Choice lkhQ7C3 = ) s
+/Courier-Bold 10 10 SUF
+198 464 M
+(new) s
+/F-gs-font 10 10 SF
+216 464 M
+( Choice\(\);) s
+18 453 M (194:) s
+48 453 M
+(        lkhQ7C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 453 M
+("He wanted a warmer climate") s
+/F-gs-font 10 10 SF
+366 453 M
+(;) s
+18 442 M (195:) s
+48 442 M
+(        lkhQ7C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 442 M
+(false) s
+/F-gs-font 10 10 SF
+282 442 M
+(;) s
+18 431 M (196:) s
+48 431 M
+(        ) s
+18 420 M (197:) s
+48 420 M
+(        Choice lkhQ7C4 = ) s
+/Courier-Bold 10 10 SUF
+198 420 M
+(new) s
+/F-gs-font 10 10 SF
+216 420 M
+( Choice\(\);) s
+18 409 M (198:) s
+48 409 M
+(        lkhQ7C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 409 M
+("He was no fan of bacon") s
+/F-gs-font 10 10 SF
+342 409 M
+(;) s
+18 398 M (199:) s
+48 398 M
+(        lkhQ7C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 398 M
+(false) s
+/F-gs-font 10 10 SF
+282 398 M
+(;) s
+18 387 M (200:) s
+48 387 M
+(        ) s
+18 376 M (201:) s
+48 376 M
+(        questionList.add\(q7\);) s
+18 365 M (202:) s
+48 365 M
+(        q7.choices.add\(lkhQ7C1\);) s
+18 354 M (203:) s
+48 354 M
+(        q7.choices.add\(lkhQ7C2\);) s
+18 343 M (204:) s
+48 343 M
+(        q7.choices.add\(lkhQ7C3\);) s
+18 332 M (205:) s
+48 332 M
+(        q7.choices.add\(lkhQ7C4\);) s
+18 321 M (206:) s
+48 321 M
+(        ) s
+18 310 M (207:) s
+48 310 M
+(        Question q8 = ) s
+/Courier-Bold 10 10 SUF
+180 310 M
+(new) s
+/F-gs-font 10 10 SF
+198 310 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 310 M
+("When was H. C. Andersen born?") s
+/F-gs-font 10 10 SF
+444 310 M
+(\);) s
+18 299 M (208:) s
+48 299 M
+(        ) s
+18 288 M (209:) s
+48 288 M
+(        Choice lkhQ8C1 = ) s
+/Courier-Bold 10 10 SUF
+198 288 M
+(new) s
+/F-gs-font 10 10 SF
+216 288 M
+( Choice\(\);) s
+18 277 M (210:) s
+48 277 M
+(        lkhQ8C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 277 M
+("1792") s
+/F-gs-font 10 10 SF
+234 277 M
+(;) s
+18 266 M (211:) s
+48 266 M
+(        lkhQ8C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 266 M
+(false) s
+/F-gs-font 10 10 SF
+282 266 M
+(;) s
+18 255 M (212:) s
+48 255 M
+(        ) s
+18 244 M (213:) s
+48 244 M
+(        Choice lkhQ8C2 = ) s
+/Courier-Bold 10 10 SUF
+198 244 M
+(new) s
+/F-gs-font 10 10 SF
+216 244 M
+( Choice\(\);) s
+18 233 M (214:) s
+48 233 M
+(        lkhQ8C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 233 M
+("1802") s
+/F-gs-font 10 10 SF
+234 233 M
+(;) s
+18 222 M (215:) s
+48 222 M
+(        lkhQ8C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 222 M
+(true) s
+/F-gs-font 10 10 SF
+276 222 M
+(;) s
+18 211 M (216:) s
+48 211 M
+(        ) s
+18 200 M (217:) s
+48 200 M
+(        Choice lkhQ8C3 = ) s
+/Courier-Bold 10 10 SUF
+198 200 M
+(new) s
+/F-gs-font 10 10 SF
+216 200 M
+( Choice\(\);) s
+18 189 M (218:) s
+48 189 M
+(        lkhQ8C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 189 M
+("1812") s
+/F-gs-font 10 10 SF
+234 189 M
+(;) s
+18 178 M (219:) s
+48 178 M
+(        lkhQ8C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 178 M
+(false) s
+/F-gs-font 10 10 SF
+282 178 M
+(;) s
+18 167 M (220:) s
+48 167 M
+(        ) s
+18 156 M (221:) s
+48 156 M
+(        Choice lkhQ8C4 = ) s
+/Courier-Bold 10 10 SUF
+198 156 M
+(new) s
+/F-gs-font 10 10 SF
+216 156 M
+( Choice\(\);) s
+18 145 M (222:) s
+48 145 M
+(        lkhQ8C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 145 M
+("1822") s
+/F-gs-font 10 10 SF
+234 145 M
+(;) s
+18 134 M (223:) s
+48 134 M
+(        lkhQ8C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 134 M
+(false) s
+/F-gs-font 10 10 SF
+282 134 M
+(;) s
+18 123 M (224:) s
+48 123 M
+(        ) s
+18 112 M (225:) s
+48 112 M
+(        questionList.add\(q8\);) s
+18 101 M (226:) s
+48 101 M
+(        q8.choices.add\(lkhQ8C1\);) s
+18 90 M (227:) s
+48 90 M
+(        q8.choices.add\(lkhQ8C2\);) s
+18 79 M (228:) s
+48 79 M
+(        q8.choices.add\(lkhQ8C3\);) s
+18 68 M (229:) s
+48 68 M
+(        q8.choices.add\(lkhQ8C4\);) s
+18 57 M (230:) s
+48 57 M
+(        ) s
+18 46 M (231:) s
+48 46 M
+(        Question q9 = ) s
+/Courier-Bold 10 10 SUF
+180 46 M
+(new) s
+/F-gs-font 10 10 SF
+198 46 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 46 M
+("Which programming language was invented by the Dane Bjarne Stroustrup?") s
+/F-gs-font 10 10 SF
+690 46 M
+(\);) s
+18 35 M (232:) s
+48 35 M
+(        ) s
+18 24 M (233:) s
+48 24 M
+(        Choice lkhQ9C1 = ) s
+/Courier-Bold 10 10 SUF
+198 24 M
+(new) s
+/F-gs-font 10 10 SF
+216 24 M
+( Choice\(\);) s
+18 13 M (234:) s
+48 13 M
+(        lkhQ9C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 13 M
+("PHP") s
+/F-gs-font 10 10 SF
+228 13 M
+(;) s
+18 2 M (235:) s
+48 2 M
+(        lkhQ9C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 2 M
+(false) s
+/F-gs-font 10 10 SF
+282 2 M
+(;) s
+_R
+S
+%%Page: (6) 20
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 6 def
+/fname (Lagkagehuset.java) def
+/fdir () def
+/ftail (Lagkagehuset.java) def
+% User defined strings:
+/fmodstr (Mon May 13 12:40:54 2013) def
+/pagenumstr (7-6) def
+/user_header_p true def
+/user_header_left_str (Lagkagehuset.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (7-6/6\(20\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+18 508 M (236:) s
+48 508 M
+(        ) s
+18 497 M (237:) s
+48 497 M
+(        Choice lkhQ9C2 = ) s
+/Courier-Bold 10 10 SUF
+198 497 M
+(new) s
+/F-gs-font 10 10 SF
+216 497 M
+( Choice\(\);) s
+18 486 M (238:) s
+48 486 M
+(        lkhQ9C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 486 M
+("C++") s
+/F-gs-font 10 10 SF
+228 486 M
+(;) s
+18 475 M (239:) s
+48 475 M
+(        lkhQ9C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 475 M
+(true) s
+/F-gs-font 10 10 SF
+276 475 M
+(;) s
+18 464 M (240:) s
+48 464 M
+(        ) s
+18 453 M (241:) s
+48 453 M
+(        Choice lkhQ9C3 = ) s
+/Courier-Bold 10 10 SUF
+198 453 M
+(new) s
+/F-gs-font 10 10 SF
+216 453 M
+( Choice\(\);) s
+18 442 M (242:) s
+48 442 M
+(        lkhQ9C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 442 M
+("C#") s
+/F-gs-font 10 10 SF
+222 442 M
+(;) s
+18 431 M (243:) s
+48 431 M
+(        lkhQ9C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 431 M
+(false) s
+/F-gs-font 10 10 SF
+282 431 M
+(;) s
+18 420 M (244:) s
+48 420 M
+(        ) s
+18 409 M (245:) s
+48 409 M
+(        Choice lkhQ9C4 = ) s
+/Courier-Bold 10 10 SUF
+198 409 M
+(new) s
+/F-gs-font 10 10 SF
+216 409 M
+( Choice\(\);) s
+18 398 M (246:) s
+48 398 M
+(        lkhQ9C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 398 M
+("Perl") s
+/F-gs-font 10 10 SF
+234 398 M
+(;) s
+18 387 M (247:) s
+48 387 M
+(        lkhQ9C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 387 M
+(false) s
+/F-gs-font 10 10 SF
+282 387 M
+(;) s
+18 376 M (248:) s
+48 376 M
+(        ) s
+18 365 M (249:) s
+48 365 M
+(        questionList.add\(q9\);) s
+18 354 M (250:) s
+48 354 M
+(        q9.choices.add\(lkhQ9C1\);) s
+18 343 M (251:) s
+48 343 M
+(        q9.choices.add\(lkhQ9C2\);) s
+18 332 M (252:) s
+48 332 M
+(        q9.choices.add\(lkhQ9C3\);) s
+18 321 M (253:) s
+48 321 M
+(        q9.choices.add\(lkhQ9C4\);) s
+18 310 M (254:) s
+48 310 M
+(        ) s
+18 299 M (255:) s
+48 299 M
+(    }) s
+18 288 M (256:) s
+48 288 M
+(}) s
+_R
+S
+%%Page: (1) 21
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (LePetiteEclaire.java) def
+/fdir () def
+/ftail (LePetiteEclaire.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (8-1) def
+/user_header_p true def
+/user_header_left_str (LePetiteEclaire.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (8-1/4\(21\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Bold 10 10 SUF
+48 508 M
+(package) s
+/F-gs-font 10 10 SF
+90 508 M
+( cakesolutioncorrectversion;) s
+30 497 M (2:) s
+30 486 M (3:) s
+/Courier-Bold 10 10 SUF
+48 486 M
+(import) s
+/F-gs-font 10 10 SF
+84 486 M
+( java.util.List;) s
+30 475 M (4:) s
+/Courier-Bold 10 10 SUF
+48 475 M
+(import) s
+/F-gs-font 10 10 SF
+84 475 M
+( java.util.ArrayList;) s
+30 464 M (5:) s
+30 453 M (6:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+(/**) s
+/F-gs-font 10 10 SF
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+( * Class LePetiteEclaire extends a superclass SuperLocation which that class) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * implements the interface Location. This class initializes questionList of its) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * own, and it has a description of which world the player is at.) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( *) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( */) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Bold 10 10 SUF
+48 354 M
+(public) s
+/F-gs-font 10 10 SF
+84 354 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 354 M
+(class) s
+/F-gs-font 10 10 SF
+120 354 M
+( LePetiteEclaire ) s
+/Courier-Bold 10 10 SUF
+222 354 M
+(extends) s
+/F-gs-font 10 10 SF
+264 354 M
+( SuperLocation {) s
+24 343 M (16:) s
+24 332 M (17:) s
+48 332 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 332 M
+(/**) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+(     * This is the description of the location LePetiteEclaire) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+(     *) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+/Courier-Oblique 10 10 SUF
+48 299 M
+(     * @return String Le petite Eclaire.) s
+/F-gs-font 10 10 SF
+24 288 M (21:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+(     */) s
+/F-gs-font 10 10 SF
+24 277 M (22:) s
+48 277 M
+(    @Override) s
+24 266 M (23:) s
+48 266 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 266 M
+(public) s
+/F-gs-font 10 10 SF
+108 266 M
+( String getDescription\(\) {) s
+24 255 M (24:) s
+48 255 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 255 M
+(return) s
+/F-gs-font 10 10 SF
+132 255 M
+( ) s
+/Courier-Bold 10 10 SUF
+138 255 M
+("Le Petite Eclaire") s
+/F-gs-font 10 10 SF
+252 255 M
+(;) s
+24 244 M (25:) s
+48 244 M
+(    }) s
+24 233 M (26:) s
+24 222 M (27:) s
+48 222 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 222 M
+(/**) s
+/F-gs-font 10 10 SF
+24 211 M (28:) s
+/Courier-Oblique 10 10 SUF
+48 211 M
+(     * Method initializeLPEQ that generates questions and choices for the world,) s
+/F-gs-font 10 10 SF
+24 200 M (29:) s
+/Courier-Oblique 10 10 SUF
+48 200 M
+(     * LePetiteEclaire.) s
+/F-gs-font 10 10 SF
+24 189 M (30:) s
+/Courier-Oblique 10 10 SUF
+48 189 M
+(     *@return Null) s
+/F-gs-font 10 10 SF
+24 178 M (31:) s
+/Courier-Oblique 10 10 SUF
+48 178 M
+(     * @param Null) s
+/F-gs-font 10 10 SF
+24 167 M (32:) s
+/Courier-Oblique 10 10 SUF
+48 167 M
+(     */) s
+/F-gs-font 10 10 SF
+24 156 M (33:) s
+48 156 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 156 M
+(public) s
+/F-gs-font 10 10 SF
+108 156 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 156 M
+(void) s
+/F-gs-font 10 10 SF
+138 156 M
+( initializeQuestionList\(\) {) s
+24 145 M (34:) s
+24 134 M (35:) s
+48 134 M
+(        Question q1 = ) s
+/Courier-Bold 10 10 SUF
+180 134 M
+(new) s
+/F-gs-font 10 10 SF
+198 134 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 134 M
+("What is the name of the current French republic?") s
+/F-gs-font 10 10 SF
+558 134 M
+(\);) s
+24 123 M (36:) s
+24 112 M (37:) s
+48 112 M
+(        Choice lpeQ1C1 = ) s
+/Courier-Bold 10 10 SUF
+198 112 M
+(new) s
+/F-gs-font 10 10 SF
+216 112 M
+( Choice\(\);) s
+24 101 M (38:) s
+48 101 M
+(        lpeQ1C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 101 M
+("The Third Republic") s
+/F-gs-font 10 10 SF
+318 101 M
+(;) s
+24 90 M (39:) s
+48 90 M
+(        lpeQ1C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 90 M
+(false) s
+/F-gs-font 10 10 SF
+282 90 M
+(;) s
+24 79 M (40:) s
+24 68 M (41:) s
+48 68 M
+(        Choice lpeQ1C2 = ) s
+/Courier-Bold 10 10 SUF
+198 68 M
+(new) s
+/F-gs-font 10 10 SF
+216 68 M
+( Choice\(\);) s
+24 57 M (42:) s
+48 57 M
+(        lpeQ1C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 57 M
+("The Fourth Republic") s
+/F-gs-font 10 10 SF
+324 57 M
+(;) s
+24 46 M (43:) s
+48 46 M
+(        lpeQ1C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 46 M
+(false) s
+/F-gs-font 10 10 SF
+282 46 M
+(;) s
+24 35 M (44:) s
+24 24 M (45:) s
+48 24 M
+(        Choice lpeQ1C3 = ) s
+/Courier-Bold 10 10 SUF
+198 24 M
+(new) s
+/F-gs-font 10 10 SF
+216 24 M
+( Choice\(\);) s
+24 13 M (46:) s
+48 13 M
+(        lpeQ1C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 13 M
+("The Fifth Republic") s
+/F-gs-font 10 10 SF
+318 13 M
+(;) s
+24 2 M (47:) s
+48 2 M
+(        lpeQ1C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 2 M
+(true) s
+/F-gs-font 10 10 SF
+276 2 M
+(;) s
+_R
+S
+%%Page: (2) 22
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (LePetiteEclaire.java) def
+/fdir () def
+/ftail (LePetiteEclaire.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (8-2) def
+/user_header_p true def
+/user_header_left_str (LePetiteEclaire.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (8-2/4\(22\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+24 497 M (49:) s
+48 497 M
+(        Choice lpeQ1C4 = ) s
+/Courier-Bold 10 10 SUF
+198 497 M
+(new) s
+/F-gs-font 10 10 SF
+216 497 M
+( Choice\(\);) s
+24 486 M (50:) s
+48 486 M
+(        lpeQ1C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 486 M
+("The Sixth Republic") s
+/F-gs-font 10 10 SF
+318 486 M
+(;) s
+24 475 M (51:) s
+48 475 M
+(        lpeQ1C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 475 M
+(false) s
+/F-gs-font 10 10 SF
+282 475 M
+(;) s
+24 464 M (52:) s
+24 453 M (53:) s
+48 453 M
+(        questionList.add\(q1\);) s
+24 442 M (54:) s
+48 442 M
+(        q1.choices.add\(lpeQ1C1\);) s
+24 431 M (55:) s
+48 431 M
+(        q1.choices.add\(lpeQ1C2\);) s
+24 420 M (56:) s
+48 420 M
+(        q1.choices.add\(lpeQ1C3\);) s
+24 409 M (57:) s
+48 409 M
+(        q1.choices.add\(lpeQ1C4\);) s
+24 398 M (58:) s
+24 387 M (59:) s
+24 376 M (60:) s
+48 376 M
+(        Question q2 = ) s
+/Courier-Bold 10 10 SUF
+180 376 M
+(new) s
+/F-gs-font 10 10 SF
+198 376 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 376 M
+("What is the Bastille Day?") s
+/F-gs-font 10 10 SF
+420 376 M
+(\);) s
+24 365 M (61:) s
+24 354 M (62:) s
+48 354 M
+(        Choice lpeQ2C1 = ) s
+/Courier-Bold 10 10 SUF
+198 354 M
+(new) s
+/F-gs-font 10 10 SF
+216 354 M
+( Choice\(\);) s
+24 343 M (63:) s
+48 343 M
+(        lpeQ2C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 343 M
+("The National Day") s
+/F-gs-font 10 10 SF
+306 343 M
+(;) s
+24 332 M (64:) s
+48 332 M
+(        lpeQ2C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 332 M
+(true) s
+/F-gs-font 10 10 SF
+276 332 M
+(;) s
+24 321 M (65:) s
+24 310 M (66:) s
+48 310 M
+(        Choice lpeQ2C2 = ) s
+/Courier-Bold 10 10 SUF
+198 310 M
+(new) s
+/F-gs-font 10 10 SF
+216 310 M
+( Choice\(\);) s
+24 299 M (67:) s
+48 299 M
+(        lpeQ2C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 299 M
+("An extended shopping day") s
+/F-gs-font 10 10 SF
+354 299 M
+(;) s
+24 288 M (68:) s
+48 288 M
+(        lpeQ2C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 288 M
+(false) s
+/F-gs-font 10 10 SF
+282 288 M
+(;) s
+24 277 M (69:) s
+24 266 M (70:) s
+48 266 M
+(        Choice lpeQ2C3 = ) s
+/Courier-Bold 10 10 SUF
+198 266 M
+(new) s
+/F-gs-font 10 10 SF
+216 266 M
+( Choice\(\);) s
+24 255 M (71:) s
+48 255 M
+(        lpeQ2C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 255 M
+("The liberation of France in WW2") s
+/F-gs-font 10 10 SF
+396 255 M
+(;) s
+24 244 M (72:) s
+48 244 M
+(        lpeQ2C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 244 M
+(false) s
+/F-gs-font 10 10 SF
+282 244 M
+(;) s
+24 233 M (73:) s
+24 222 M (74:) s
+48 222 M
+(        Choice lpeQ2C4 = ) s
+/Courier-Bold 10 10 SUF
+198 222 M
+(new) s
+/F-gs-font 10 10 SF
+216 222 M
+( Choice\(\);) s
+24 211 M (75:) s
+48 211 M
+(        lpeQ2C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 211 M
+("The occupation of France in WW2") s
+/F-gs-font 10 10 SF
+396 211 M
+(;) s
+24 200 M (76:) s
+48 200 M
+(        lpeQ2C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 200 M
+(false) s
+/F-gs-font 10 10 SF
+282 200 M
+(;) s
+24 189 M (77:) s
+24 178 M (78:) s
+48 178 M
+(        questionList.add\(q2\);) s
+24 167 M (79:) s
+48 167 M
+(        q2.choices.add\(lpeQ2C1\);) s
+24 156 M (80:) s
+48 156 M
+(        q2.choices.add\(lpeQ2C2\);) s
+24 145 M (81:) s
+48 145 M
+(        q2.choices.add\(lpeQ2C3\);) s
+24 134 M (82:) s
+48 134 M
+(        q2.choices.add\(lpeQ2C4\);) s
+24 123 M (83:) s
+24 112 M (84:) s
+24 101 M (85:) s
+48 101 M
+(        Question q3 = ) s
+/Courier-Bold 10 10 SUF
+180 101 M
+(new) s
+/F-gs-font 10 10 SF
+198 101 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 101 M
+("How many regional languages is there in France?") s
+/F-gs-font 10 10 SF
+552 101 M
+(\);) s
+24 90 M (86:) s
+24 79 M (87:) s
+48 79 M
+(        Choice lpeQ3C1 = ) s
+/Courier-Bold 10 10 SUF
+198 79 M
+(new) s
+/F-gs-font 10 10 SF
+216 79 M
+( Choice\(\);) s
+24 68 M (88:) s
+48 68 M
+(        lpeQ3C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 68 M
+("2") s
+/F-gs-font 10 10 SF
+216 68 M
+(;) s
+24 57 M (89:) s
+48 57 M
+(        lpeQ3C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 57 M
+(false) s
+/F-gs-font 10 10 SF
+282 57 M
+(;) s
+24 46 M (90:) s
+24 35 M (91:) s
+48 35 M
+(        Choice lpeQ3C2 = ) s
+/Courier-Bold 10 10 SUF
+198 35 M
+(new) s
+/F-gs-font 10 10 SF
+216 35 M
+( Choice\(\);) s
+24 24 M (92:) s
+48 24 M
+(        lpeQ3C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 24 M
+("5") s
+/F-gs-font 10 10 SF
+216 24 M
+(;) s
+24 13 M (93:) s
+48 13 M
+(        lpeQ3C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 13 M
+(false) s
+/F-gs-font 10 10 SF
+282 13 M
+(;) s
+24 2 M (94:) s
+_R
+S
+%%Page: (3) 23
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 3 def
+/fname (LePetiteEclaire.java) def
+/fdir () def
+/ftail (LePetiteEclaire.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (8-3) def
+/user_header_p true def
+/user_header_left_str (LePetiteEclaire.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (8-3/4\(23\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (95:) s
+48 508 M
+(        Choice lpeQ3C3 = ) s
+/Courier-Bold 10 10 SUF
+198 508 M
+(new) s
+/F-gs-font 10 10 SF
+216 508 M
+( Choice\(\);) s
+24 497 M (96:) s
+48 497 M
+(        lpeQ3C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 497 M
+("7") s
+/F-gs-font 10 10 SF
+216 497 M
+(;) s
+24 486 M (97:) s
+48 486 M
+(        lpeQ3C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 486 M
+(true) s
+/F-gs-font 10 10 SF
+276 486 M
+(;) s
+24 475 M (98:) s
+24 464 M (99:) s
+48 464 M
+(        Choice lpeQ3C4 = ) s
+/Courier-Bold 10 10 SUF
+198 464 M
+(new) s
+/F-gs-font 10 10 SF
+216 464 M
+( Choice\(\);) s
+18 453 M (100:) s
+48 453 M
+(        lpeQ3C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 453 M
+("9") s
+/F-gs-font 10 10 SF
+216 453 M
+(;) s
+18 442 M (101:) s
+48 442 M
+(        lpeQ3C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 442 M
+(false) s
+/F-gs-font 10 10 SF
+282 442 M
+(;) s
+18 431 M (102:) s
+18 420 M (103:) s
+48 420 M
+(        questionList.add\(q3\);) s
+18 409 M (104:) s
+48 409 M
+(        q3.choices.add\(lpeQ3C1\);) s
+18 398 M (105:) s
+48 398 M
+(        q3.choices.add\(lpeQ3C2\);) s
+18 387 M (106:) s
+48 387 M
+(        q3.choices.add\(lpeQ3C3\);) s
+18 376 M (107:) s
+48 376 M
+(        q3.choices.add\(lpeQ3C4\);) s
+18 365 M (108:) s
+18 354 M (109:) s
+48 354 M
+(        Question q4 = ) s
+/Courier-Bold 10 10 SUF
+180 354 M
+(new) s
+/F-gs-font 10 10 SF
+198 354 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 354 M
+("The population of France is roughly: ") s
+/F-gs-font 10 10 SF
+492 354 M
+(\);) s
+18 343 M (110:) s
+18 332 M (111:) s
+48 332 M
+(        Choice lpeQ4C1 = ) s
+/Courier-Bold 10 10 SUF
+198 332 M
+(new) s
+/F-gs-font 10 10 SF
+216 332 M
+( Choice\(\);) s
+18 321 M (112:) s
+48 321 M
+(        lpeQ4C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 321 M
+("52 million") s
+/F-gs-font 10 10 SF
+270 321 M
+(;) s
+18 310 M (113:) s
+48 310 M
+(        lpeQ4C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 310 M
+(false) s
+/F-gs-font 10 10 SF
+282 310 M
+(;) s
+18 299 M (114:) s
+18 288 M (115:) s
+48 288 M
+(        Choice lpeQ4C2 = ) s
+/Courier-Bold 10 10 SUF
+198 288 M
+(new) s
+/F-gs-font 10 10 SF
+216 288 M
+( Choice\(\);) s
+18 277 M (116:) s
+48 277 M
+(        lpeQ4C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 277 M
+("65 million") s
+/F-gs-font 10 10 SF
+270 277 M
+(;) s
+18 266 M (117:) s
+48 266 M
+(        lpeQ4C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 266 M
+(true) s
+/F-gs-font 10 10 SF
+276 266 M
+(;) s
+18 255 M (118:) s
+18 244 M (119:) s
+48 244 M
+(        Choice lpeQ4C3 = ) s
+/Courier-Bold 10 10 SUF
+198 244 M
+(new) s
+/F-gs-font 10 10 SF
+216 244 M
+( Choice\(\);) s
+18 233 M (120:) s
+48 233 M
+(        lpeQ4C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 233 M
+("78 million") s
+/F-gs-font 10 10 SF
+270 233 M
+(;) s
+18 222 M (121:) s
+48 222 M
+(        lpeQ4C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 222 M
+(false) s
+/F-gs-font 10 10 SF
+282 222 M
+(;) s
+18 211 M (122:) s
+18 200 M (123:) s
+48 200 M
+(        Choice lpeQ4C4 = ) s
+/Courier-Bold 10 10 SUF
+198 200 M
+(new) s
+/F-gs-font 10 10 SF
+216 200 M
+( Choice\(\);) s
+18 189 M (124:) s
+48 189 M
+(        lpeQ4C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 189 M
+("100 million") s
+/F-gs-font 10 10 SF
+276 189 M
+(;) s
+18 178 M (125:) s
+48 178 M
+(        lpeQ4C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 178 M
+(false) s
+/F-gs-font 10 10 SF
+282 178 M
+(;) s
+18 167 M (126:) s
+18 156 M (127:) s
+48 156 M
+(        questionList.add\(q4\);) s
+18 145 M (128:) s
+48 145 M
+(        q4.choices.add\(lpeQ4C1\);) s
+18 134 M (129:) s
+48 134 M
+(        q4.choices.add\(lpeQ4C2\);) s
+18 123 M (130:) s
+48 123 M
+(        q4.choices.add\(lpeQ4C3\);) s
+18 112 M (131:) s
+48 112 M
+(        q4.choices.add\(lpeQ4C4\);) s
+18 101 M (132:) s
+18 90 M (133:) s
+48 90 M
+(        Question q5 = ) s
+/Courier-Bold 10 10 SUF
+180 90 M
+(new) s
+/F-gs-font 10 10 SF
+198 90 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 90 M
+("France is: ") s
+/F-gs-font 10 10 SF
+336 90 M
+(\);) s
+18 79 M (134:) s
+18 68 M (135:) s
+48 68 M
+(        Choice lpeQ5C1 = ) s
+/Courier-Bold 10 10 SUF
+198 68 M
+(new) s
+/F-gs-font 10 10 SF
+216 68 M
+( Choice\(\);) s
+18 57 M (136:) s
+48 57 M
+(        lpeQ5C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 57 M
+("The largest country in the EU") s
+/F-gs-font 10 10 SF
+384 57 M
+(;) s
+18 46 M (137:) s
+48 46 M
+(        lpeQ5C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 46 M
+(true) s
+/F-gs-font 10 10 SF
+276 46 M
+(;) s
+18 35 M (138:) s
+18 24 M (139:) s
+48 24 M
+(        Choice lpeQ5C2 = ) s
+/Courier-Bold 10 10 SUF
+198 24 M
+(new) s
+/F-gs-font 10 10 SF
+216 24 M
+( Choice\(\);) s
+18 13 M (140:) s
+48 13 M
+(        lpeQ5C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 13 M
+("Larger than Italy but smaller than Spain") s
+/F-gs-font 10 10 SF
+450 13 M
+(;) s
+18 2 M (141:) s
+48 2 M
+(        lpeQ5C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 2 M
+(false) s
+/F-gs-font 10 10 SF
+282 2 M
+(;) s
+_R
+S
+%%Page: (4) 24
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 4 def
+/fname (LePetiteEclaire.java) def
+/fdir () def
+/ftail (LePetiteEclaire.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (8-4) def
+/user_header_p true def
+/user_header_left_str (LePetiteEclaire.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (8-4/4\(24\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+18 508 M (142:) s
+18 497 M (143:) s
+48 497 M
+(        Choice lpeQ5C3 = ) s
+/Courier-Bold 10 10 SUF
+198 497 M
+(new) s
+/F-gs-font 10 10 SF
+216 497 M
+( Choice\(\);) s
+18 486 M (144:) s
+48 486 M
+(        lpeQ5C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 486 M
+("Twice as large as Germany") s
+/F-gs-font 10 10 SF
+360 486 M
+(;) s
+18 475 M (145:) s
+48 475 M
+(        lpeQ5C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 475 M
+(false) s
+/F-gs-font 10 10 SF
+282 475 M
+(;) s
+18 464 M (146:) s
+18 453 M (147:) s
+48 453 M
+(        Choice lpeQ5C4 = ) s
+/Courier-Bold 10 10 SUF
+198 453 M
+(new) s
+/F-gs-font 10 10 SF
+216 453 M
+( Choice\(\);) s
+18 442 M (148:) s
+48 442 M
+(        lpeQ5C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 442 M
+("As large as the state of Nevada") s
+/F-gs-font 10 10 SF
+396 442 M
+(;) s
+18 431 M (149:) s
+48 431 M
+(        lpeQ5C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 431 M
+(false) s
+/F-gs-font 10 10 SF
+282 431 M
+(;) s
+18 420 M (150:) s
+18 409 M (151:) s
+48 409 M
+(        questionList.add\(q5\);) s
+18 398 M (152:) s
+48 398 M
+(        q5.choices.add\(lpeQ5C1\);) s
+18 387 M (153:) s
+48 387 M
+(        q5.choices.add\(lpeQ5C2\);) s
+18 376 M (154:) s
+48 376 M
+(        q5.choices.add\(lpeQ5C3\);) s
+18 365 M (155:) s
+48 365 M
+(        q5.choices.add\(lpeQ5C4\);) s
+18 354 M (156:) s
+18 343 M (157:) s
+48 343 M
+(        Question q6 = ) s
+/Courier-Bold 10 10 SUF
+180 343 M
+(new) s
+/F-gs-font 10 10 SF
+198 343 M
+( Question\() s
+/Courier-Bold 10 10 SUF
+258 343 M
+("Which three are the largest French cities?") s
+/F-gs-font 10 10 SF
+522 343 M
+(\);) s
+18 332 M (158:) s
+18 321 M (159:) s
+48 321 M
+(        Choice lpeQ6C1 = ) s
+/Courier-Bold 10 10 SUF
+198 321 M
+(new) s
+/F-gs-font 10 10 SF
+216 321 M
+( Choice\(\);) s
+18 310 M (160:) s
+48 310 M
+(        lpeQ6C1.choice = ) s
+/Courier-Bold 10 10 SUF
+198 310 M
+("Paris, Nice, Lyon") s
+/F-gs-font 10 10 SF
+312 310 M
+(;) s
+18 299 M (161:) s
+48 299 M
+(        lpeQ6C1.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 299 M
+(false) s
+/F-gs-font 10 10 SF
+282 299 M
+(;) s
+18 288 M (162:) s
+18 277 M (163:) s
+48 277 M
+(        Choice lpeQ6C2 = ) s
+/Courier-Bold 10 10 SUF
+198 277 M
+(new) s
+/F-gs-font 10 10 SF
+216 277 M
+( Choice\(\);) s
+18 266 M (164:) s
+48 266 M
+(        lpeQ6C2.choice = ) s
+/Courier-Bold 10 10 SUF
+198 266 M
+("Paris, Marseille, Lille") s
+/F-gs-font 10 10 SF
+348 266 M
+(;) s
+18 255 M (165:) s
+48 255 M
+(        lpeQ6C2.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 255 M
+(false) s
+/F-gs-font 10 10 SF
+282 255 M
+(;) s
+18 244 M (166:) s
+18 233 M (167:) s
+48 233 M
+(        Choice lpeQ6C3 = ) s
+/Courier-Bold 10 10 SUF
+198 233 M
+(new) s
+/F-gs-font 10 10 SF
+216 233 M
+( Choice\(\);) s
+18 222 M (168:) s
+48 222 M
+(        lpeQ6C3.choice = ) s
+/Courier-Bold 10 10 SUF
+198 222 M
+("Paris, Lyon, Marseille") s
+/F-gs-font 10 10 SF
+342 222 M
+(;) s
+18 211 M (169:) s
+48 211 M
+(        lpeQ6C3.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 211 M
+(true) s
+/F-gs-font 10 10 SF
+276 211 M
+(;) s
+18 200 M (170:) s
+18 189 M (171:) s
+48 189 M
+(        Choice lpeQ6C4 = ) s
+/Courier-Bold 10 10 SUF
+198 189 M
+(new) s
+/F-gs-font 10 10 SF
+216 189 M
+( Choice\(\);) s
+18 178 M (172:) s
+48 178 M
+(        lpeQ6C4.choice = ) s
+/Courier-Bold 10 10 SUF
+198 178 M
+("Paris, Toulouse, Lille") s
+/F-gs-font 10 10 SF
+342 178 M
+(;) s
+18 167 M (173:) s
+48 167 M
+(        lpeQ6C4.isCorrectChoice = ) s
+/Courier-Bold 10 10 SUF
+252 167 M
+(false) s
+/F-gs-font 10 10 SF
+282 167 M
+(;) s
+18 156 M (174:) s
+18 145 M (175:) s
+48 145 M
+(        questionList.add\(q6\);) s
+18 134 M (176:) s
+48 134 M
+(        q6.choices.add\(lpeQ6C1\);) s
+18 123 M (177:) s
+48 123 M
+(        q6.choices.add\(lpeQ6C2\);) s
+18 112 M (178:) s
+48 112 M
+(        q6.choices.add\(lpeQ6C3\);) s
+18 101 M (179:) s
+48 101 M
+(        q6.choices.add\(lpeQ6C4\);) s
+18 90 M (180:) s
+18 79 M (181:) s
+18 68 M (182:) s
+18 57 M (183:) s
+48 57 M
+(    }) s
+18 46 M (184:) s
+48 46 M
+(}) s
+_R
+S
+%%Page: (1) 25
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Localizable.java) def
+/fdir () def
+/ftail (Localizable.java) def
+% User defined strings:
+/fmodstr (Thu May 09 12:23:39 2013) def
+/pagenumstr (9-1) def
+/user_header_p true def
+/user_header_left_str (Localizable.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (9-1/1\(25\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Bold 10 10 SUF
+48 508 M
+(package) s
+/F-gs-font 10 10 SF
+90 508 M
+( cakesolutioncorrectversion;) s
+30 497 M (2:) s
+30 486 M (3:) s
+/Courier-Bold 10 10 SUF
+48 486 M
+(import) s
+/F-gs-font 10 10 SF
+84 486 M
+( cakesolutioncorrectversion.Location;) s
+30 475 M (4:) s
+30 464 M (5:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+(/**) s
+/F-gs-font 10 10 SF
+30 453 M (6:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+( * Localizable interface holds getLocation and setLocation method of type Location.) s
+/F-gs-font 10 10 SF
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+( *) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( */) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(public) s
+/F-gs-font 10 10 SF
+84 387 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 387 M
+(interface) s
+/F-gs-font 10 10 SF
+144 387 M
+( Localizable {) s
+24 376 M (13:) s
+24 365 M (14:) s
+48 365 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 365 M
+(/**) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+(     * Returns the current location) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+(     */) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+48 332 M
+(    Location getLocation\(\);) s
+24 321 M (18:) s
+24 310 M (19:) s
+48 310 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 310 M
+(/**) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+/Courier-Oblique 10 10 SUF
+48 299 M
+(     * Sets the location) s
+/F-gs-font 10 10 SF
+24 288 M (21:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+(     */) s
+/F-gs-font 10 10 SF
+24 277 M (22:) s
+48 277 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 277 M
+(boolean) s
+/F-gs-font 10 10 SF
+114 277 M
+( setLocation\(Location location\);) s
+24 266 M (23:) s
+48 266 M
+(}) s
+_R
+S
+%%Page: (1) 26
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Location.java) def
+/fdir () def
+/ftail (Location.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (10-1) def
+/user_header_p true def
+/user_header_left_str (Location.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (10-1/1\(26\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( java.util.ArrayList;) s
+30 431 M (8:) s
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( java.util.List;) s
+30 420 M (9:) s
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+(/**) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * Location interface sets contracts for SuperLocation which eventually sets contracts for each 3 locations.  ) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * @author Cakesolutiongroup) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( * @since \( 01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( */) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Bold 10 10 SUF
+48 343 M
+(public) s
+/F-gs-font 10 10 SF
+84 343 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 343 M
+(interface) s
+/F-gs-font 10 10 SF
+144 343 M
+( Location {) s
+24 332 M (17:) s
+24 321 M (18:) s
+48 321 M
+(    String getDescription\(\);) s
+24 310 M (19:) s
+48 310 M
+(     ) s
+24 299 M (20:) s
+48 299 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 299 M
+(public) s
+/F-gs-font 10 10 SF
+108 299 M
+( Location getNeighbor\(\);) s
+24 288 M (21:) s
+24 277 M (22:) s
+48 277 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 277 M
+(public) s
+/F-gs-font 10 10 SF
+108 277 M
+( ArrayList<Question> getQuestionList\(\);) s
+24 266 M (23:) s
+48 266 M
+(    ) s
+24 255 M (24:) s
+48 255 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 255 M
+(public) s
+/F-gs-font 10 10 SF
+108 255 M
+( Question getRandomQuestion\(\);) s
+24 244 M (25:) s
+48 244 M
+(    ) s
+24 233 M (26:) s
+48 233 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 233 M
+(public) s
+/F-gs-font 10 10 SF
+108 233 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 233 M
+(void) s
+/F-gs-font 10 10 SF
+138 233 M
+( setNeighbor\(Location l\);) s
+24 222 M (27:) s
+24 211 M (28:) s
+48 211 M
+(   ) s
+24 200 M (29:) s
+24 189 M (30:) s
+48 189 M
+(    ) s
+24 178 M (31:) s
+48 178 M
+(}) s
+_R
+S
+%%Page: (1) 27
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (PlayerController.java) def
+/fdir () def
+/ftail (PlayerController.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (11-1) def
+/user_header_p true def
+/user_header_left_str (PlayerController.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (11-1/2\(27\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( cakesolutioncorrectversion.Location;) s
+30 431 M (8:) s
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+(/**) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( *) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( */) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Bold 10 10 SUF
+48 354 M
+(public) s
+/F-gs-font 10 10 SF
+84 354 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 354 M
+(interface) s
+/F-gs-font 10 10 SF
+144 354 M
+( PlayerController ) s
+/Courier-Bold 10 10 SUF
+252 354 M
+(extends) s
+/F-gs-font 10 10 SF
+294 354 M
+( Localizable {) s
+24 343 M (16:) s
+24 332 M (17:) s
+48 332 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 332 M
+(/**) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+(     * Changes the Sugar level of the player as specified by the difference) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+(     *) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+/Courier-Oblique 10 10 SUF
+48 299 M
+(     * @param difference change in Sugar level.) s
+/F-gs-font 10 10 SF
+24 288 M (21:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+(     */) s
+/F-gs-font 10 10 SF
+24 277 M (22:) s
+48 277 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 277 M
+(void) s
+/F-gs-font 10 10 SF
+96 277 M
+( changeSugarLevel\() s
+/Courier-Bold 10 10 SUF
+204 277 M
+(int) s
+/F-gs-font 10 10 SF
+222 277 M
+( difference\);) s
+24 266 M (23:) s
+24 255 M (24:) s
+48 255 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 255 M
+(/**) s
+/F-gs-font 10 10 SF
+24 244 M (25:) s
+/Courier-Oblique 10 10 SUF
+48 244 M
+(     * Player can not eat the cake) s
+/F-gs-font 10 10 SF
+24 233 M (26:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     *) s
+/F-gs-font 10 10 SF
+24 222 M (27:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     * @param object of type Cake) s
+/F-gs-font 10 10 SF
+24 211 M (28:) s
+/Courier-Oblique 10 10 SUF
+48 211 M
+(     * @return true if the question is answered correctly, false otherwise) s
+/F-gs-font 10 10 SF
+24 200 M (29:) s
+/Courier-Oblique 10 10 SUF
+48 200 M
+(     */) s
+/F-gs-font 10 10 SF
+24 189 M (30:) s
+48 189 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 189 M
+(public) s
+/F-gs-font 10 10 SF
+108 189 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 189 M
+(void) s
+/F-gs-font 10 10 SF
+138 189 M
+( dontEatCake\(Cake cake\);) s
+24 178 M (31:) s
+24 167 M (32:) s
+48 167 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 167 M
+(/**) s
+/F-gs-font 10 10 SF
+24 156 M (33:) s
+/Courier-Oblique 10 10 SUF
+48 156 M
+(     * Player can eat the cake) s
+/F-gs-font 10 10 SF
+24 145 M (34:) s
+/Courier-Oblique 10 10 SUF
+48 145 M
+(     *) s
+/F-gs-font 10 10 SF
+24 134 M (35:) s
+/Courier-Oblique 10 10 SUF
+48 134 M
+(     * @param object of type Cake) s
+/F-gs-font 10 10 SF
+24 123 M (36:) s
+/Courier-Oblique 10 10 SUF
+48 123 M
+(     * @return true if the question is answered correctly, false otherwise) s
+/F-gs-font 10 10 SF
+24 112 M (37:) s
+/Courier-Oblique 10 10 SUF
+48 112 M
+(     */) s
+/F-gs-font 10 10 SF
+24 101 M (38:) s
+48 101 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 101 M
+(public) s
+/F-gs-font 10 10 SF
+108 101 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 101 M
+(void) s
+/F-gs-font 10 10 SF
+138 101 M
+( eatCake\(Cake cake\);) s
+24 90 M (39:) s
+24 79 M (40:) s
+48 79 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 79 M
+(/**) s
+/F-gs-font 10 10 SF
+24 68 M (41:) s
+/Courier-Oblique 10 10 SUF
+48 68 M
+(     * Returns the sugar level of the player) s
+/F-gs-font 10 10 SF
+24 57 M (42:) s
+/Courier-Oblique 10 10 SUF
+48 57 M
+(     *) s
+/F-gs-font 10 10 SF
+24 46 M (43:) s
+/Courier-Oblique 10 10 SUF
+48 46 M
+(     * @return) s
+/F-gs-font 10 10 SF
+24 35 M (44:) s
+/Courier-Oblique 10 10 SUF
+48 35 M
+(     */) s
+/F-gs-font 10 10 SF
+24 24 M (45:) s
+48 24 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 24 M
+(int) s
+/F-gs-font 10 10 SF
+90 24 M
+( getSugarlevel\(\);) s
+24 13 M (46:) s
+24 2 M (47:) s
+48 2 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 2 M
+(/**) s
+_R
+S
+%%Page: (2) 28
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (PlayerController.java) def
+/fdir () def
+/ftail (PlayerController.java) def
+/Courier-Oblique 10 10 SUF
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (11-2) def
+/user_header_p true def
+/user_header_left_str (PlayerController.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (11-2/2\(28\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+/F-gs-font 10 10 SF
+24 508 M (48:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(     * Moves the player around to a new location.) s
+/F-gs-font 10 10 SF
+24 497 M (49:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+(     *) s
+/F-gs-font 10 10 SF
+24 486 M (50:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+(     * @param direction direction to be moved to) s
+/F-gs-font 10 10 SF
+24 475 M (51:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+(     * @Return true if new location can be sat as requested, false otherwise) s
+/F-gs-font 10 10 SF
+24 464 M (52:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+(     */) s
+/F-gs-font 10 10 SF
+24 453 M (53:) s
+48 453 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 453 M
+(public) s
+/F-gs-font 10 10 SF
+108 453 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 453 M
+(void) s
+/F-gs-font 10 10 SF
+138 453 M
+( move\(Location location\);) s
+24 442 M (54:) s
+48 442 M
+(}) s
+_R
+S
+%%Page: (1) 29
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Players.java) def
+/fdir () def
+/ftail (Players.java) def
+% User defined strings:
+/fmodstr (Thu May 09 10:00:34 2013) def
+/pagenumstr (12-1) def
+/user_header_p true def
+/user_header_left_str (Players.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (12-1/1\(29\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(/**) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * @version 1.0) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( * @since \(01 may 2013\)) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( */) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Bold 10 10 SUF
+48 387 M
+(public) s
+/F-gs-font 10 10 SF
+84 387 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 387 M
+(class) s
+/F-gs-font 10 10 SF
+120 387 M
+( Players {) s
+24 376 M (13:) s
+48 376 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 376 M
+(//Delete this! But to exam remember superclasses if we wanted more players beside sugarman.) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+48 365 M
+(    ) s
+24 354 M (15:) s
+48 354 M
+(}) s
+_R
+S
+%%Page: (1) 30
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Question.java) def
+/fdir () def
+/ftail (Question.java) def
+% User defined strings:
+/fmodstr (Thu May 09 10:00:34 2013) def
+/pagenumstr (13-1) def
+/user_header_p true def
+/user_header_left_str (Question.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (13-1/1\(30\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( java.util.ArrayList;) s
+30 431 M (8:) s
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+(/**) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( * the class 'Question' contains a constructor that holds the questionText for) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * the specific questions. The class also contains the variables needed when) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * answering questions.) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( *) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( * @version 1.0 \(2 May 2013\)) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( */) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Bold 10 10 SUF
+48 332 M
+(public) s
+/F-gs-font 10 10 SF
+84 332 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 332 M
+(class) s
+/F-gs-font 10 10 SF
+120 332 M
+( Question {) s
+24 321 M (18:) s
+24 310 M (19:) s
+48 310 M
+(    String question;) s
+24 299 M (20:) s
+48 299 M
+(    ArrayList<Choice> choices = ) s
+/Courier-Bold 10 10 SUF
+240 299 M
+(new) s
+/F-gs-font 10 10 SF
+258 299 M
+( ArrayList<Choice>\(\);) s
+24 288 M (21:) s
+48 288 M
+(    Cake cake = ) s
+/Courier-Bold 10 10 SUF
+144 288 M
+(new) s
+/F-gs-font 10 10 SF
+162 288 M
+( Cake\(\);) s
+24 277 M (22:) s
+24 266 M (23:) s
+48 266 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 266 M
+(/**) s
+/F-gs-font 10 10 SF
+24 255 M (24:) s
+/Courier-Oblique 10 10 SUF
+48 255 M
+(     * the constructor creates a new instance of question) s
+/F-gs-font 10 10 SF
+24 244 M (25:) s
+/Courier-Oblique 10 10 SUF
+48 244 M
+(     *) s
+/F-gs-font 10 10 SF
+24 233 M (26:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     * @param questionText of type String) s
+/F-gs-font 10 10 SF
+24 222 M (27:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     *) s
+/F-gs-font 10 10 SF
+24 211 M (28:) s
+/Courier-Oblique 10 10 SUF
+48 211 M
+(     */) s
+/F-gs-font 10 10 SF
+24 200 M (29:) s
+48 200 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 200 M
+(public) s
+/F-gs-font 10 10 SF
+108 200 M
+( Question\(String questionText\) {) s
+24 189 M (30:) s
+48 189 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 189 M
+(this) s
+/F-gs-font 10 10 SF
+120 189 M
+(.question = questionText;) s
+24 178 M (31:) s
+24 167 M (32:) s
+48 167 M
+(    }) s
+24 156 M (33:) s
+48 156 M
+(}) s
+_R
+S
+%%Page: (1) 31
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (Sugarman.java) def
+/fdir () def
+/ftail (Sugarman.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (14-1) def
+/user_header_p true def
+/user_header_left_str (Sugarman.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (14-1/4\(31\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Bold 10 10 SUF
+48 508 M
+(package) s
+/F-gs-font 10 10 SF
+90 508 M
+( cakesolutioncorrectversion;) s
+30 497 M (2:) s
+30 486 M (3:) s
+/Courier-Bold 10 10 SUF
+48 486 M
+(import) s
+/F-gs-font 10 10 SF
+84 486 M
+( cakesolutioncorrectversion.Players;) s
+30 475 M (4:) s
+/Courier-Bold 10 10 SUF
+48 475 M
+(import) s
+/F-gs-font 10 10 SF
+84 475 M
+( cakesolutioncorrectversion.PlayerController;) s
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(import) s
+/F-gs-font 10 10 SF
+84 464 M
+( cakesolutioncorrectversion.Location;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(/**) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * Sugarman is a class that extends Players and implements PlayerController. The) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * class contains the methods needed for the player to play the game, such as) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( * keeping score \(the sugar level\), eating or not eating the cakes and the) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * location of the player.) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( *) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( * @version 1.0 \(2 May 2013\)) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( */) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Bold 10 10 SUF
+48 343 M
+(public) s
+/F-gs-font 10 10 SF
+84 343 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 343 M
+(class) s
+/F-gs-font 10 10 SF
+120 343 M
+( Sugarman ) s
+/Courier-Bold 10 10 SUF
+180 343 M
+(extends) s
+/F-gs-font 10 10 SF
+222 343 M
+( Players ) s
+/Courier-Bold 10 10 SUF
+276 343 M
+(implements) s
+/F-gs-font 10 10 SF
+336 343 M
+( PlayerController {) s
+24 332 M (17:) s
+24 321 M (18:) s
+48 321 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 321 M
+(private) s
+/F-gs-font 10 10 SF
+114 321 M
+( Location sugarmanLocation;) s
+24 310 M (19:) s
+48 310 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 310 M
+(private) s
+/F-gs-font 10 10 SF
+114 310 M
+( ) s
+/Courier-Bold 10 10 SUF
+120 310 M
+(int) s
+/F-gs-font 10 10 SF
+138 310 M
+( currentSugarLevel = 50;) s
+24 299 M (20:) s
+24 288 M (21:) s
+48 288 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 288 M
+(/**) s
+/F-gs-font 10 10 SF
+24 277 M (22:) s
+/Courier-Oblique 10 10 SUF
+48 277 M
+(     * changeSugarLevel changes the currentSugarLevel) s
+/F-gs-font 10 10 SF
+24 266 M (23:) s
+/Courier-Oblique 10 10 SUF
+48 266 M
+(     *) s
+/F-gs-font 10 10 SF
+24 255 M (24:) s
+/Courier-Oblique 10 10 SUF
+48 255 M
+(     * @param difference, which is an integer variable) s
+/F-gs-font 10 10 SF
+24 244 M (25:) s
+/Courier-Oblique 10 10 SUF
+48 244 M
+(     * @return Null) s
+/F-gs-font 10 10 SF
+24 233 M (26:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     */) s
+/F-gs-font 10 10 SF
+24 222 M (27:) s
+48 222 M
+(    @Override) s
+24 211 M (28:) s
+48 211 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 211 M
+(public) s
+/F-gs-font 10 10 SF
+108 211 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 211 M
+(void) s
+/F-gs-font 10 10 SF
+138 211 M
+( changeSugarLevel\() s
+/Courier-Bold 10 10 SUF
+246 211 M
+(int) s
+/F-gs-font 10 10 SF
+264 211 M
+( difference\) {) s
+24 200 M (29:) s
+24 189 M (30:) s
+48 189 M
+(        currentSugarLevel = currentSugarLevel + difference;) s
+24 178 M (31:) s
+48 178 M
+(    }) s
+24 167 M (32:) s
+24 156 M (33:) s
+48 156 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 156 M
+(/**) s
+/F-gs-font 10 10 SF
+24 145 M (34:) s
+/Courier-Oblique 10 10 SUF
+48 145 M
+(     * dontEatCake sets the value for the integer 'difference' in the method) s
+/F-gs-font 10 10 SF
+24 134 M (35:) s
+/Courier-Oblique 10 10 SUF
+48 134 M
+(     * changeSugarLevel, whenever the player answers a question incorrectly) s
+/F-gs-font 10 10 SF
+24 123 M (36:) s
+/Courier-Oblique 10 10 SUF
+48 123 M
+(     *) s
+/F-gs-font 10 10 SF
+24 112 M (37:) s
+/Courier-Oblique 10 10 SUF
+48 112 M
+(     * @param cake of class type Cake) s
+/F-gs-font 10 10 SF
+24 101 M (38:) s
+/Courier-Oblique 10 10 SUF
+48 101 M
+(     * @return Null) s
+/F-gs-font 10 10 SF
+24 90 M (39:) s
+/Courier-Oblique 10 10 SUF
+48 90 M
+(     */) s
+/F-gs-font 10 10 SF
+24 79 M (40:) s
+48 79 M
+(    @Override) s
+24 68 M (41:) s
+48 68 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 68 M
+(public) s
+/F-gs-font 10 10 SF
+108 68 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 68 M
+(void) s
+/F-gs-font 10 10 SF
+138 68 M
+( dontEatCake\(Cake cake\) {) s
+24 57 M (42:) s
+48 57 M
+(        changeSugarLevel\(-cake.sugarLevel\);) s
+24 46 M (43:) s
+24 35 M (44:) s
+48 35 M
+(    }) s
+24 24 M (45:) s
+24 13 M (46:) s
+48 13 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 13 M
+(/**) s
+/F-gs-font 10 10 SF
+24 2 M (47:) s
+/Courier-Oblique 10 10 SUF
+48 2 M
+(     * eatCake sets the value for the integer 'difference' in the method) s
+_R
+S
+%%Page: (2) 32
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (Sugarman.java) def
+/fdir () def
+/ftail (Sugarman.java) def
+/Courier-Oblique 10 10 SUF
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (14-2) def
+/user_header_p true def
+/user_header_left_str (Sugarman.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (14-2/4\(32\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+/F-gs-font 10 10 SF
+24 508 M (48:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(     * changeSugarLevel, whenever the player answers a question correctly) s
+/F-gs-font 10 10 SF
+24 497 M (49:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+(     *) s
+/F-gs-font 10 10 SF
+24 486 M (50:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+(     * @param cake of class type Cake) s
+/F-gs-font 10 10 SF
+24 475 M (51:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+(     * @return Null) s
+/F-gs-font 10 10 SF
+24 464 M (52:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+(     */) s
+/F-gs-font 10 10 SF
+24 453 M (53:) s
+48 453 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 453 M
+(public) s
+/F-gs-font 10 10 SF
+108 453 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 453 M
+(void) s
+/F-gs-font 10 10 SF
+138 453 M
+( eatCake\(Cake cake\) {) s
+24 442 M (54:) s
+48 442 M
+(        changeSugarLevel\(cake.sugarLevel\);) s
+24 431 M (55:) s
+48 431 M
+(    }) s
+24 420 M (56:) s
+24 409 M (57:) s
+48 409 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 409 M
+(/**) s
+/F-gs-font 10 10 SF
+24 398 M (58:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+(     * getLocation returns the current location of sugarman) s
+/F-gs-font 10 10 SF
+24 387 M (59:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+(     *) s
+/F-gs-font 10 10 SF
+24 376 M (60:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+(     * @param Null) s
+/F-gs-font 10 10 SF
+24 365 M (61:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+(     * @returns sugarmanLocation of class type Location) s
+/F-gs-font 10 10 SF
+24 354 M (62:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+(     */) s
+/F-gs-font 10 10 SF
+24 343 M (63:) s
+48 343 M
+(    @Override) s
+24 332 M (64:) s
+48 332 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 332 M
+(public) s
+/F-gs-font 10 10 SF
+108 332 M
+( Location getLocation\(\) {) s
+24 321 M (65:) s
+48 321 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 321 M
+(return) s
+/F-gs-font 10 10 SF
+132 321 M
+( sugarmanLocation;) s
+24 310 M (66:) s
+24 299 M (67:) s
+48 299 M
+(    }) s
+24 288 M (68:) s
+24 277 M (69:) s
+48 277 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 277 M
+(/**) s
+/F-gs-font 10 10 SF
+24 266 M (70:) s
+/Courier-Oblique 10 10 SUF
+48 266 M
+(     * setLocation returns true whenever the location equals sugarmanLocation) s
+/F-gs-font 10 10 SF
+24 255 M (71:) s
+/Courier-Oblique 10 10 SUF
+48 255 M
+(     *) s
+/F-gs-font 10 10 SF
+24 244 M (72:) s
+/Courier-Oblique 10 10 SUF
+48 244 M
+(     * @param location of class type Location) s
+/F-gs-font 10 10 SF
+24 233 M (73:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     * @return boolean) s
+/F-gs-font 10 10 SF
+24 222 M (74:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     */) s
+/F-gs-font 10 10 SF
+24 211 M (75:) s
+48 211 M
+(    @Override) s
+24 200 M (76:) s
+48 200 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 200 M
+(public) s
+/F-gs-font 10 10 SF
+108 200 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 200 M
+(boolean) s
+/F-gs-font 10 10 SF
+156 200 M
+( setLocation\(Location location\) {) s
+24 189 M (77:) s
+24 178 M (78:) s
+48 178 M
+(        sugarmanLocation = location;) s
+24 167 M (79:) s
+48 167 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 167 M
+(return) s
+/F-gs-font 10 10 SF
+132 167 M
+( ) s
+/Courier-Bold 10 10 SUF
+138 167 M
+(true) s
+/F-gs-font 10 10 SF
+162 167 M
+(;) s
+24 156 M (80:) s
+24 145 M (81:) s
+48 145 M
+(    }) s
+24 134 M (82:) s
+24 123 M (83:) s
+48 123 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 123 M
+(/**) s
+/F-gs-font 10 10 SF
+24 112 M (84:) s
+/Courier-Oblique 10 10 SUF
+48 112 M
+(     * getSugarLevel returns the currentSugarLevel, which keeps track of the) s
+/F-gs-font 10 10 SF
+24 101 M (85:) s
+/Courier-Oblique 10 10 SUF
+48 101 M
+(     * player's progress) s
+/F-gs-font 10 10 SF
+24 90 M (86:) s
+/Courier-Oblique 10 10 SUF
+48 90 M
+(     *) s
+/F-gs-font 10 10 SF
+24 79 M (87:) s
+/Courier-Oblique 10 10 SUF
+48 79 M
+(     * @param null) s
+/F-gs-font 10 10 SF
+24 68 M (88:) s
+/Courier-Oblique 10 10 SUF
+48 68 M
+(     * @returns the currentSugarLevel of type integer) s
+/F-gs-font 10 10 SF
+24 57 M (89:) s
+/Courier-Oblique 10 10 SUF
+48 57 M
+(     */) s
+/F-gs-font 10 10 SF
+24 46 M (90:) s
+48 46 M
+(    @Override) s
+24 35 M (91:) s
+48 35 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 35 M
+(public) s
+/F-gs-font 10 10 SF
+108 35 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 35 M
+(int) s
+/F-gs-font 10 10 SF
+132 35 M
+( getSugarlevel\(\) {) s
+24 24 M (92:) s
+24 13 M (93:) s
+48 13 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 13 M
+(return) s
+/F-gs-font 10 10 SF
+132 13 M
+( currentSugarLevel;) s
+24 2 M (94:) s
+48 2 M
+(    }) s
+_R
+S
+%%Page: (3) 33
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 3 def
+/fname (Sugarman.java) def
+/fdir () def
+/ftail (Sugarman.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (14-3) def
+/user_header_p true def
+/user_header_left_str (Sugarman.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (14-3/4\(33\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (95:) s
+24 497 M (96:) s
+48 497 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 497 M
+(/**) s
+/F-gs-font 10 10 SF
+24 486 M (97:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+(     * if the currentSugarLevel of sugarman is equal or above 100, it returns) s
+/F-gs-font 10 10 SF
+24 475 M (98:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+(     * hasWon.) s
+/F-gs-font 10 10 SF
+24 464 M (99:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+(     *) s
+/F-gs-font 10 10 SF
+18 453 M (100:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+(     * @return hasWon) s
+/F-gs-font 10 10 SF
+18 442 M (101:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(     */) s
+/F-gs-font 10 10 SF
+18 431 M (102:) s
+48 431 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 431 M
+(public) s
+/F-gs-font 10 10 SF
+108 431 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 431 M
+(boolean) s
+/F-gs-font 10 10 SF
+156 431 M
+( hasSugarmanWon\(\) {) s
+18 420 M (103:) s
+48 420 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 420 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 420 M
+( hasWon = currentSugarLevel >= 100;) s
+18 409 M (104:) s
+48 409 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 409 M
+(return) s
+/F-gs-font 10 10 SF
+132 409 M
+( hasWon;) s
+18 398 M (105:) s
+18 387 M (106:) s
+48 387 M
+(    }) s
+18 376 M (107:) s
+18 365 M (108:) s
+48 365 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 365 M
+(/**) s
+/F-gs-font 10 10 SF
+18 354 M (109:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+(     * if the currentSugarLevel of sugarman is equal or less than 0, it returns) s
+/F-gs-font 10 10 SF
+18 343 M (110:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+(     * hasLost.) s
+/F-gs-font 10 10 SF
+18 332 M (111:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+(     *) s
+/F-gs-font 10 10 SF
+18 321 M (112:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+(     * @return hasLost) s
+/F-gs-font 10 10 SF
+18 310 M (113:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+(     */) s
+/F-gs-font 10 10 SF
+18 299 M (114:) s
+48 299 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 299 M
+(public) s
+/F-gs-font 10 10 SF
+108 299 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 299 M
+(boolean) s
+/F-gs-font 10 10 SF
+156 299 M
+( hasSugarmanLost\(\) {) s
+18 288 M (115:) s
+48 288 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 288 M
+(boolean) s
+/F-gs-font 10 10 SF
+138 288 M
+( hasLost = currentSugarLevel <= 0;) s
+18 277 M (116:) s
+48 277 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 277 M
+(return) s
+/F-gs-font 10 10 SF
+132 277 M
+( hasLost;) s
+18 266 M (117:) s
+48 266 M
+(    }) s
+18 255 M (118:) s
+18 244 M (119:) s
+48 244 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 244 M
+(/**) s
+/F-gs-font 10 10 SF
+18 233 M (120:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     * isAnswerCorrect is a boolean method which returns true if the user's) s
+/F-gs-font 10 10 SF
+18 222 M (121:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     * answer is correct. and it returns false otherwise.) s
+/F-gs-font 10 10 SF
+18 211 M (122:) s
+/Courier-Oblique 10 10 SUF
+48 211 M
+(     *) s
+/F-gs-font 10 10 SF
+18 200 M (123:) s
+/Courier-Oblique 10 10 SUF
+48 200 M
+(     * @param q) s
+/F-gs-font 10 10 SF
+18 189 M (124:) s
+/Courier-Oblique 10 10 SUF
+48 189 M
+(     * @param answer) s
+/F-gs-font 10 10 SF
+18 178 M (125:) s
+/Courier-Oblique 10 10 SUF
+48 178 M
+(     * @return true/ false) s
+/F-gs-font 10 10 SF
+18 167 M (126:) s
+/Courier-Oblique 10 10 SUF
+48 167 M
+(     */) s
+/F-gs-font 10 10 SF
+18 156 M (127:) s
+48 156 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 156 M
+(public) s
+/F-gs-font 10 10 SF
+108 156 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 156 M
+(boolean) s
+/F-gs-font 10 10 SF
+156 156 M
+( isAnswerCorrect\(Question q, ) s
+/Courier-Bold 10 10 SUF
+330 156 M
+(int) s
+/F-gs-font 10 10 SF
+348 156 M
+( answer\) {) s
+18 145 M (128:) s
+18 134 M (129:) s
+48 134 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 134 M
+(if) s
+/F-gs-font 10 10 SF
+108 134 M
+( \(q.choices.get\(answer - 1\).isCorrectChoice\) {) s
+18 123 M (130:) s
+48 123 M
+(            eatCake\(q.cake\);) s
+18 112 M (131:) s
+48 112 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 112 M
+(return) s
+/F-gs-font 10 10 SF
+156 112 M
+( ) s
+/Courier-Bold 10 10 SUF
+162 112 M
+(true) s
+/F-gs-font 10 10 SF
+186 112 M
+(;) s
+18 101 M (132:) s
+48 101 M
+(        } ) s
+/Courier-Bold 10 10 SUF
+108 101 M
+(else) s
+/F-gs-font 10 10 SF
+132 101 M
+( {) s
+18 90 M (133:) s
+48 90 M
+(            dontEatCake\(q.cake\);) s
+18 79 M (134:) s
+48 79 M
+(            ) s
+/Courier-Bold 10 10 SUF
+120 79 M
+(return) s
+/F-gs-font 10 10 SF
+156 79 M
+( ) s
+/Courier-Bold 10 10 SUF
+162 79 M
+(false) s
+/F-gs-font 10 10 SF
+192 79 M
+(;) s
+18 68 M (135:) s
+48 68 M
+(        }) s
+18 57 M (136:) s
+48 57 M
+(    }) s
+18 46 M (137:) s
+18 35 M (138:) s
+48 35 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 35 M
+(/**) s
+/F-gs-font 10 10 SF
+18 24 M (139:) s
+/Courier-Oblique 10 10 SUF
+48 24 M
+(     * move is a method that determines whether the player can move to the) s
+/F-gs-font 10 10 SF
+18 13 M (140:) s
+/Courier-Oblique 10 10 SUF
+48 13 M
+(     * desired location.) s
+/F-gs-font 10 10 SF
+18 2 M (141:) s
+/Courier-Oblique 10 10 SUF
+48 2 M
+(     *) s
+_R
+S
+%%Page: (4) 34
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 4 def
+/fname (Sugarman.java) def
+/fdir () def
+/ftail (Sugarman.java) def
+/Courier-Oblique 10 10 SUF
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (14-4) def
+/user_header_p true def
+/user_header_left_str (Sugarman.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (14-4/4\(34\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+/F-gs-font 10 10 SF
+18 508 M (142:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(     * @param direction) s
+/F-gs-font 10 10 SF
+18 497 M (143:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+(     * @return boolean) s
+/F-gs-font 10 10 SF
+18 486 M (144:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+(     */) s
+/F-gs-font 10 10 SF
+18 475 M (145:) s
+48 475 M
+(    @Override) s
+18 464 M (146:) s
+48 464 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 464 M
+(public) s
+/F-gs-font 10 10 SF
+108 464 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 464 M
+(void) s
+/F-gs-font 10 10 SF
+138 464 M
+( move\(Location location\) {) s
+18 453 M (147:) s
+48 453 M
+(        sugarmanLocation = location;) s
+18 442 M (148:) s
+18 431 M (149:) s
+48 431 M
+(    }) s
+18 420 M (150:) s
+48 420 M
+(}) s
+_R
+S
+%%Page: (1) 35
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (SuperLocation.java) def
+/fdir () def
+/ftail (SuperLocation.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (15-1) def
+/user_header_p true def
+/user_header_left_str (SuperLocation.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (15-1/2\(35\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(//import apple.laf.JRSUIConstants;) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+/F-gs-font 10 10 SF
+/Courier-Bold 10 10 SUF
+48 431 M
+(import) s
+/F-gs-font 10 10 SF
+84 431 M
+( cakesolutioncorrectversion.Location;) s
+30 420 M (9:) s
+/Courier-Bold 10 10 SUF
+48 420 M
+(import) s
+/F-gs-font 10 10 SF
+84 420 M
+( java.util.ArrayList;) s
+24 409 M (10:) s
+/Courier-Bold 10 10 SUF
+48 409 M
+(import) s
+/F-gs-font 10 10 SF
+84 409 M
+( java.util.List;) s
+24 398 M (11:) s
+/Courier-Bold 10 10 SUF
+48 398 M
+(import) s
+/F-gs-font 10 10 SF
+84 398 M
+( java.util.Random;) s
+24 387 M (12:) s
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+(/**) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( * The class 'SuperLocation' is a super class, which implements Location. It's) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Oblique 10 10 SUF
+48 354 M
+( * purpose is to create the methods for placing the locations in relation to) s
+/F-gs-font 10 10 SF
+24 343 M (16:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+( * each other. It also contains methods that hold information about the) s
+/F-gs-font 10 10 SF
+24 332 M (17:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+( * different locations.) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+( *) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+/Courier-Oblique 10 10 SUF
+48 299 M
+( * @version 1.0 \(1 May 2013\)) s
+/F-gs-font 10 10 SF
+24 288 M (21:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+( */) s
+/F-gs-font 10 10 SF
+24 277 M (22:) s
+/Courier-Bold 10 10 SUF
+48 277 M
+(abstract) s
+/F-gs-font 10 10 SF
+96 277 M
+( ) s
+/Courier-Bold 10 10 SUF
+102 277 M
+(class) s
+/F-gs-font 10 10 SF
+132 277 M
+( SuperLocation ) s
+/Courier-Bold 10 10 SUF
+222 277 M
+(implements) s
+/F-gs-font 10 10 SF
+282 277 M
+( Location {) s
+24 266 M (23:) s
+24 255 M (24:) s
+48 255 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 255 M
+(private) s
+/F-gs-font 10 10 SF
+114 255 M
+( Location neighbor;) s
+24 244 M (25:) s
+48 244 M
+(    Random r = ) s
+/Courier-Bold 10 10 SUF
+138 244 M
+(new) s
+/F-gs-font 10 10 SF
+156 244 M
+( Random\(\);) s
+24 233 M (26:) s
+48 233 M
+(    ArrayList<Question> questionList = ) s
+/Courier-Bold 10 10 SUF
+282 233 M
+(new) s
+/F-gs-font 10 10 SF
+300 233 M
+( ArrayList<Question>\(\);) s
+24 222 M (27:) s
+24 211 M (28:) s
+48 211 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 211 M
+(/**) s
+/F-gs-font 10 10 SF
+24 200 M (29:) s
+/Courier-Oblique 10 10 SUF
+48 200 M
+(     * Class constructor that initializes the questions for the location.) s
+/F-gs-font 10 10 SF
+24 189 M (30:) s
+/Courier-Oblique 10 10 SUF
+48 189 M
+(     */) s
+/F-gs-font 10 10 SF
+24 178 M (31:) s
+48 178 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 178 M
+(public) s
+/F-gs-font 10 10 SF
+108 178 M
+( SuperLocation\(\) {) s
+24 167 M (32:) s
+24 156 M (33:) s
+48 156 M
+(        initializeQuestionList\(\);) s
+24 145 M (34:) s
+24 134 M (35:) s
+48 134 M
+(    }) s
+24 123 M (36:) s
+24 112 M (37:) s
+48 112 M
+(  ) s
+24 101 M (38:) s
+24 90 M (39:) s
+48 90 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 90 M
+(/**) s
+/F-gs-font 10 10 SF
+24 79 M (40:) s
+/Courier-Oblique 10 10 SUF
+48 79 M
+(     * getQuestionList method that returns question list for the location.) s
+/F-gs-font 10 10 SF
+24 68 M (41:) s
+/Courier-Oblique 10 10 SUF
+48 68 M
+(     *) s
+/F-gs-font 10 10 SF
+24 57 M (42:) s
+/Courier-Oblique 10 10 SUF
+48 57 M
+(     * @return questionList) s
+/F-gs-font 10 10 SF
+24 46 M (43:) s
+/Courier-Oblique 10 10 SUF
+48 46 M
+(     */) s
+/F-gs-font 10 10 SF
+24 35 M (44:) s
+48 35 M
+(    @Override) s
+24 24 M (45:) s
+48 24 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 24 M
+(public) s
+/F-gs-font 10 10 SF
+108 24 M
+( ArrayList<Question> getQuestionList\(\) {) s
+24 13 M (46:) s
+24 2 M (47:) s
+48 2 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 2 M
+(return) s
+/F-gs-font 10 10 SF
+132 2 M
+( questionList;) s
+_R
+S
+%%Page: (2) 36
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (SuperLocation.java) def
+/fdir () def
+/ftail (SuperLocation.java) def
+% User defined strings:
+/fmodstr (Tue May 14 14:24:22 2013) def
+/pagenumstr (15-2) def
+/user_header_p true def
+/user_header_left_str (SuperLocation.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (15-2/2\(36\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(    }) s
+24 497 M (49:) s
+24 486 M (50:) s
+48 486 M
+(    @Override) s
+24 475 M (51:) s
+48 475 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 475 M
+(public) s
+/F-gs-font 10 10 SF
+108 475 M
+( Question getRandomQuestion\(\) {) s
+24 464 M (52:) s
+24 453 M (53:) s
+48 453 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 453 M
+(int) s
+/F-gs-font 10 10 SF
+114 453 M
+( randomNumber = r.nextInt\(questionList.size\(\)\);) s
+24 442 M (54:) s
+48 442 M
+(        Question q = questionList.get\(randomNumber\);) s
+24 431 M (55:) s
+48 431 M
+(        questionList.remove\(randomNumber\);) s
+24 420 M (56:) s
+24 409 M (57:) s
+48 409 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 409 M
+(return) s
+/F-gs-font 10 10 SF
+132 409 M
+( q;) s
+24 398 M (58:) s
+48 398 M
+(    }) s
+24 387 M (59:) s
+24 376 M (60:) s
+48 376 M
+(    ) s
+24 365 M (61:) s
+48 365 M
+(      ) s
+/Courier-Bold 10 10 SUF
+84 365 M
+(abstract) s
+/F-gs-font 10 10 SF
+132 365 M
+( ) s
+/Courier-Bold 10 10 SUF
+138 365 M
+(void) s
+/F-gs-font 10 10 SF
+162 365 M
+( initializeQuestionList\(\);) s
+24 354 M (62:) s
+48 354 M
+(      ) s
+24 343 M (63:) s
+48 343 M
+(      ) s
+24 332 M (64:) s
+48 332 M
+(      ) s
+24 321 M (65:) s
+48 321 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 321 M
+(/**) s
+/F-gs-font 10 10 SF
+24 310 M (66:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+(     *) s
+/F-gs-font 10 10 SF
+24 299 M (67:) s
+/Courier-Oblique 10 10 SUF
+48 299 M
+(     * @param l) s
+/F-gs-font 10 10 SF
+24 288 M (68:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+(     * @return neighbor of type location) s
+/F-gs-font 10 10 SF
+24 277 M (69:) s
+/Courier-Oblique 10 10 SUF
+48 277 M
+(     */) s
+/F-gs-font 10 10 SF
+24 266 M (70:) s
+48 266 M
+(    @Override) s
+24 255 M (71:) s
+48 255 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 255 M
+(public) s
+/F-gs-font 10 10 SF
+108 255 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 255 M
+(void) s
+/F-gs-font 10 10 SF
+138 255 M
+( setNeighbor\(Location l\) {) s
+24 244 M (72:) s
+48 244 M
+(        neighbor = l;) s
+24 233 M (73:) s
+48 233 M
+(    }) s
+24 222 M (74:) s
+24 211 M (75:) s
+48 211 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 211 M
+(/**) s
+/F-gs-font 10 10 SF
+24 200 M (76:) s
+/Courier-Oblique 10 10 SUF
+48 200 M
+(     * @param null) s
+/F-gs-font 10 10 SF
+24 189 M (77:) s
+/Courier-Oblique 10 10 SUF
+48 189 M
+(     * @return null) s
+/F-gs-font 10 10 SF
+24 178 M (78:) s
+/Courier-Oblique 10 10 SUF
+48 178 M
+(     */) s
+/F-gs-font 10 10 SF
+24 167 M (79:) s
+48 167 M
+(    @Override) s
+24 156 M (80:) s
+48 156 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 156 M
+(public) s
+/F-gs-font 10 10 SF
+108 156 M
+( Location getNeighbor\(\) {) s
+24 145 M (81:) s
+48 145 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 145 M
+(return) s
+/F-gs-font 10 10 SF
+132 145 M
+( neighbor;) s
+24 134 M (82:) s
+24 123 M (83:) s
+48 123 M
+(    }) s
+24 112 M (84:) s
+48 112 M
+(}) s
+_R
+S
+%%Page: (1) 37
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (View.java) def
+/fdir () def
+/ftail (View.java) def
+% User defined strings:
+/fmodstr (Tue May 14 23:10:56 2013) def
+/pagenumstr (16-1) def
+/user_header_p true def
+/user_header_left_str (View.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (16-1/4\(37\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(/**) s
+/F-gs-font 10 10 SF
+30 431 M (8:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+( * The Class 'View' is the view in the MVC model. The class prints information) s
+/F-gs-font 10 10 SF
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+( * about the status of the game, and the tasks at hand during gameplay.) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( *) s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * @version 1.0 \(1 May 2013\)) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( *) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( */) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Bold 10 10 SUF
+48 354 M
+(public) s
+/F-gs-font 10 10 SF
+84 354 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 354 M
+(class) s
+/F-gs-font 10 10 SF
+120 354 M
+( View {) s
+24 343 M (16:) s
+24 332 M (17:) s
+48 332 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 332 M
+(/**) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+(     * The method'playerStatus' prints the current status of the player.) s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+(     *) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+/Courier-Oblique 10 10 SUF
+48 299 M
+(     * @return null) s
+/F-gs-font 10 10 SF
+24 288 M (21:) s
+/Courier-Oblique 10 10 SUF
+48 288 M
+(     * @param sugarman) s
+/F-gs-font 10 10 SF
+24 277 M (22:) s
+/Courier-Oblique 10 10 SUF
+48 277 M
+(     */) s
+/F-gs-font 10 10 SF
+24 266 M (23:) s
+48 266 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 266 M
+(public) s
+/F-gs-font 10 10 SF
+108 266 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 266 M
+(void) s
+/F-gs-font 10 10 SF
+138 266 M
+( playerStatus\(Sugarman sugarman\) {) s
+24 255 M (24:) s
+48 255 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 255 M
+("This is your current sugar level: ") s
+/F-gs-font 10 10 SF
+426 255 M
+( + sugarman.getSugarlevel\(\)\);) s
+24 244 M (25:) s
+48 244 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 244 M
+("This is your current location: ") s
+/F-gs-font 10 10 SF
+408 244 M
+( + sugarman.getLocation\(\).getDescription\(\)\);) s
+24 233 M (26:) s
+48 233 M
+(    }) s
+24 222 M (27:) s
+24 211 M (28:) s
+48 211 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 211 M
+(/**) s
+/F-gs-font 10 10 SF
+24 200 M (29:) s
+/Courier-Oblique 10 10 SUF
+48 200 M
+(     * The method 'printOutQuestion' prints the question and the adhering) s
+/F-gs-font 10 10 SF
+24 189 M (30:) s
+/Courier-Oblique 10 10 SUF
+48 189 M
+(     * choices.) s
+/F-gs-font 10 10 SF
+24 178 M (31:) s
+/Courier-Oblique 10 10 SUF
+48 178 M
+(     *) s
+/F-gs-font 10 10 SF
+24 167 M (32:) s
+/Courier-Oblique 10 10 SUF
+48 167 M
+(     * @return null) s
+/F-gs-font 10 10 SF
+24 156 M (33:) s
+/Courier-Oblique 10 10 SUF
+48 156 M
+(     * @param q) s
+/F-gs-font 10 10 SF
+24 145 M (34:) s
+/Courier-Oblique 10 10 SUF
+48 145 M
+(     */) s
+/F-gs-font 10 10 SF
+24 134 M (35:) s
+48 134 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 134 M
+(public) s
+/F-gs-font 10 10 SF
+108 134 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 134 M
+(void) s
+/F-gs-font 10 10 SF
+138 134 M
+( printOutQuestion\(Question q\) {) s
+24 123 M (36:) s
+24 112 M (37:) s
+24 101 M (38:) s
+48 101 M
+(        System.out.println\(q.question\);) s
+24 90 M (39:) s
+24 79 M (40:) s
+48 79 M
+(        ) s
+/Courier-Bold 10 10 SUF
+96 79 M
+(for) s
+/F-gs-font 10 10 SF
+114 79 M
+( \() s
+/Courier-Bold 10 10 SUF
+126 79 M
+(int) s
+/F-gs-font 10 10 SF
+144 79 M
+( i = 0; i < q.choices.size\(\); i++\) {) s
+24 68 M (41:) s
+24 57 M (42:) s
+48 57 M
+(            Choice c = q.choices.get\(i\);) s
+24 46 M (43:) s
+48 46 M
+(            System.out.println\(\(i + 1\) + ) s
+/Courier-Bold 10 10 SUF
+294 46 M
+("\) ") s
+/F-gs-font 10 10 SF
+318 46 M
+( + c.choice\);) s
+24 35 M (44:) s
+24 24 M (45:) s
+48 24 M
+(        }) s
+24 13 M (46:) s
+48 13 M
+(    }) s
+24 2 M (47:) s
+_R
+S
+%%Page: (2) 38
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 2 def
+/fname (View.java) def
+/fdir () def
+/ftail (View.java) def
+% User defined strings:
+/fmodstr (Tue May 14 23:10:56 2013) def
+/pagenumstr (16-2) def
+/user_header_p true def
+/user_header_left_str (View.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (16-2/4\(38\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (48:) s
+48 508 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 508 M
+(/**) s
+/F-gs-font 10 10 SF
+24 497 M (49:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+(     * the method prints out to ask if the user wants to stay in the location or) s
+/F-gs-font 10 10 SF
+24 486 M (50:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+(     * moving on to the next location.) s
+/F-gs-font 10 10 SF
+24 475 M (51:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+(     *) s
+/F-gs-font 10 10 SF
+24 464 M (52:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+(     * @param currentLocation) s
+/F-gs-font 10 10 SF
+24 453 M (53:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+(     * @param neighborLocation) s
+/F-gs-font 10 10 SF
+24 442 M (54:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(     */) s
+/F-gs-font 10 10 SF
+24 431 M (55:) s
+48 431 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 431 M
+(public) s
+/F-gs-font 10 10 SF
+108 431 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 431 M
+(void) s
+/F-gs-font 10 10 SF
+138 431 M
+( printToMoveOrToStay\(String currentLocation, String neighborLocation\) {) s
+24 420 M (56:) s
+48 420 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 420 M
+("Do you wanna stay here in ") s
+/F-gs-font 10 10 SF
+378 420 M
+( + currentLocation) s
+24 409 M (57:) s
+48 409 M
+(                + ) s
+/Courier-Bold 10 10 SUF
+156 409 M
+(" and answer questions or move on to ") s
+/F-gs-font 10 10 SF
+384 409 M
+( + neighborLocation) s
+24 398 M (58:) s
+48 398 M
+(                + ) s
+/Courier-Bold 10 10 SUF
+156 398 M
+("Type in 1 to stay or 2 to move on to next location or 3 to exit game") s
+/F-gs-font 10 10 SF
+576 398 M
+(\);) s
+24 387 M (59:) s
+24 376 M (60:) s
+48 376 M
+(    }) s
+24 365 M (61:) s
+24 354 M (62:) s
+48 354 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 354 M
+(/**) s
+/F-gs-font 10 10 SF
+24 343 M (63:) s
+/Courier-Oblique 10 10 SUF
+48 343 M
+(     * the method prints that there are no questions left in the location and) s
+/F-gs-font 10 10 SF
+24 332 M (64:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+(     * that the player should move to next location by pressing "2".) s
+/F-gs-font 10 10 SF
+24 321 M (65:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+(     */) s
+/F-gs-font 10 10 SF
+24 310 M (66:) s
+48 310 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 310 M
+(public) s
+/F-gs-font 10 10 SF
+108 310 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 310 M
+(void) s
+/F-gs-font 10 10 SF
+138 310 M
+( printNoQuestionsLeft\(\) {) s
+24 299 M (67:) s
+24 288 M (68:) s
+48 288 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 288 M
+("There are no questions left in this location! Move to the next location by choosing 2 :) s
+5 277 M
+( ") s
+/F-gs-font 10 10 SF
+17 277 M
+(\);) s
+24 266 M (69:) s
+48 266 M
+(    }) s
+24 255 M (70:) s
+24 244 M (71:) s
+48 244 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 244 M
+(/**) s
+/F-gs-font 10 10 SF
+24 233 M (72:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     * prints to the user to enter answer) s
+/F-gs-font 10 10 SF
+24 222 M (73:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     */) s
+/F-gs-font 10 10 SF
+24 211 M (74:) s
+48 211 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 211 M
+(public) s
+/F-gs-font 10 10 SF
+108 211 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 211 M
+(void) s
+/F-gs-font 10 10 SF
+138 211 M
+( printEnterAnswer\(\) {) s
+24 200 M (75:) s
+24 189 M (76:) s
+48 189 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 189 M
+("Please enter the number of your answer: ") s
+/F-gs-font 10 10 SF
+462 189 M
+(\);) s
+24 178 M (77:) s
+24 167 M (78:) s
+48 167 M
+(    }) s
+24 156 M (79:) s
+24 145 M (80:) s
+48 145 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 145 M
+(/**) s
+/F-gs-font 10 10 SF
+24 134 M (81:) s
+/Courier-Oblique 10 10 SUF
+48 134 M
+(     * print out you got a cake, after the user's answer was correct.) s
+/F-gs-font 10 10 SF
+24 123 M (82:) s
+/Courier-Oblique 10 10 SUF
+48 123 M
+(     */) s
+/F-gs-font 10 10 SF
+24 112 M (83:) s
+48 112 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 112 M
+(public) s
+/F-gs-font 10 10 SF
+108 112 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 112 M
+(void) s
+/F-gs-font 10 10 SF
+138 112 M
+( printYouGotACake\(\) {) s
+24 101 M (84:) s
+24 90 M (85:) s
+48 90 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 90 M
+("Hurray you get a cake!") s
+/F-gs-font 10 10 SF
+354 90 M
+(\);) s
+24 79 M (86:) s
+24 68 M (87:) s
+48 68 M
+(    }) s
+24 57 M (88:) s
+24 46 M (89:) s
+48 46 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 46 M
+(/**) s
+/F-gs-font 10 10 SF
+24 35 M (90:) s
+/Courier-Oblique 10 10 SUF
+48 35 M
+(     * prints no cake for you, if the user's answer wasn't right.) s
+/F-gs-font 10 10 SF
+24 24 M (91:) s
+/Courier-Oblique 10 10 SUF
+48 24 M
+(     */) s
+/F-gs-font 10 10 SF
+24 13 M (92:) s
+48 13 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 13 M
+(public) s
+/F-gs-font 10 10 SF
+108 13 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 13 M
+(void) s
+/F-gs-font 10 10 SF
+138 13 M
+( printNoCake\(\) {) s
+24 2 M (93:) s
+_R
+S
+%%Page: (3) 39
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 3 def
+/fname (View.java) def
+/fdir () def
+/ftail (View.java) def
+% User defined strings:
+/fmodstr (Tue May 14 23:10:56 2013) def
+/pagenumstr (16-3) def
+/user_header_p true def
+/user_header_left_str (View.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (16-3/4\(39\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+24 508 M (94:) s
+48 508 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 508 M
+("Sucker, you don't get a cake! HA!") s
+/F-gs-font 10 10 SF
+420 508 M
+(\);) s
+24 497 M (95:) s
+48 497 M
+(    }) s
+24 486 M (96:) s
+24 475 M (97:) s
+48 475 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 475 M
+(/**) s
+/F-gs-font 10 10 SF
+24 464 M (98:) s
+/Courier-Oblique 10 10 SUF
+48 464 M
+(     * if the users input was anything else than between 1 to max, it prints out) s
+/F-gs-font 10 10 SF
+24 453 M (99:) s
+/Courier-Oblique 10 10 SUF
+48 453 M
+(     * please enter an input from 1 to max.) s
+/F-gs-font 10 10 SF
+18 442 M (100:) s
+/Courier-Oblique 10 10 SUF
+48 442 M
+(     *) s
+/F-gs-font 10 10 SF
+18 431 M (101:) s
+/Courier-Oblique 10 10 SUF
+48 431 M
+(     * @param max) s
+/F-gs-font 10 10 SF
+18 420 M (102:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+(     */) s
+/F-gs-font 10 10 SF
+18 409 M (103:) s
+48 409 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 409 M
+(public) s
+/F-gs-font 10 10 SF
+108 409 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 409 M
+(void) s
+/F-gs-font 10 10 SF
+138 409 M
+( printRetypeInput\() s
+/Courier-Bold 10 10 SUF
+246 409 M
+(int) s
+/F-gs-font 10 10 SF
+264 409 M
+( max\) {) s
+18 398 M (104:) s
+18 387 M (105:) s
+48 387 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 387 M
+("Please, type an input from 1 to ") s
+/F-gs-font 10 10 SF
+414 387 M
+( + max\);) s
+18 376 M (106:) s
+18 365 M (107:) s
+48 365 M
+(    }) s
+18 354 M (108:) s
+18 343 M (109:) s
+48 343 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 343 M
+(/**) s
+/F-gs-font 10 10 SF
+18 332 M (110:) s
+/Courier-Oblique 10 10 SUF
+48 332 M
+(     * when the user wins, print out this message.) s
+/F-gs-font 10 10 SF
+18 321 M (111:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+(     */) s
+/F-gs-font 10 10 SF
+18 310 M (112:) s
+48 310 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 310 M
+(public) s
+/F-gs-font 10 10 SF
+108 310 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 310 M
+(void) s
+/F-gs-font 10 10 SF
+138 310 M
+( printSugarmanWon\(\) {) s
+18 299 M (113:) s
+18 288 M (114:) s
+48 288 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 288 M
+("SPLASH! Hurray Sugarman won! He exploded and is now a happy part of all the cakes - JAY) s
+5 277 M
+(!") s
+/F-gs-font 10 10 SF
+17 277 M
+(\);) s
+18 266 M (115:) s
+48 266 M
+(    }) s
+18 255 M (116:) s
+18 244 M (117:) s
+48 244 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 244 M
+(/**) s
+/F-gs-font 10 10 SF
+18 233 M (118:) s
+/Courier-Oblique 10 10 SUF
+48 233 M
+(     * when the user loses, it prints out this message.) s
+/F-gs-font 10 10 SF
+18 222 M (119:) s
+/Courier-Oblique 10 10 SUF
+48 222 M
+(     */) s
+/F-gs-font 10 10 SF
+18 211 M (120:) s
+48 211 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 211 M
+(public) s
+/F-gs-font 10 10 SF
+108 211 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 211 M
+(void) s
+/F-gs-font 10 10 SF
+138 211 M
+( printSugarmanLost\(\) {) s
+18 200 M (121:) s
+18 189 M (122:) s
+48 189 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 189 M
+("Sorry Sugarman got too thin and got the SugarCold...and then he died...sorry.") s
+/F-gs-font 10 10 SF
+684 189 M
+(\);) s
+18 178 M (123:) s
+48 178 M
+(    }) s
+18 167 M (124:) s
+18 156 M (125:) s
+48 156 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 156 M
+(/**) s
+/F-gs-font 10 10 SF
+18 145 M (126:) s
+/Courier-Oblique 10 10 SUF
+48 145 M
+(     * when there are not question left in all locations, it prints out this) s
+/F-gs-font 10 10 SF
+18 134 M (127:) s
+/Courier-Oblique 10 10 SUF
+48 134 M
+(     * message.) s
+/F-gs-font 10 10 SF
+18 123 M (128:) s
+/Courier-Oblique 10 10 SUF
+48 123 M
+(     */) s
+/F-gs-font 10 10 SF
+18 112 M (129:) s
+48 112 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 112 M
+(public) s
+/F-gs-font 10 10 SF
+108 112 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 112 M
+(void) s
+/F-gs-font 10 10 SF
+138 112 M
+( printRanOutOfQuestions\(\) {) s
+18 101 M (130:) s
+18 90 M (131:) s
+48 90 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 90 M
+("Sorry you ran out of questions. Sugarman will run around crying until you Start over.") s
+/F-gs-font 10 10 SF
+732 90 M
+(\)) s
+5 79 M
+(;) s
+18 68 M (132:) s
+48 68 M
+(    }) s
+18 57 M (133:) s
+48 57 M
+(    ) s
+18 46 M (134:) s
+48 46 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 46 M
+(/**) s
+/F-gs-font 10 10 SF
+18 35 M (135:) s
+/Courier-Oblique 10 10 SUF
+48 35 M
+(     * when the user chose to exit the game, it prints out this) s
+/F-gs-font 10 10 SF
+18 24 M (136:) s
+/Courier-Oblique 10 10 SUF
+48 24 M
+(     * message.) s
+/F-gs-font 10 10 SF
+18 13 M (137:) s
+/Courier-Oblique 10 10 SUF
+48 13 M
+(     */) s
+/F-gs-font 10 10 SF
+18 2 M (138:) s
+48 2 M
+(    ) s
+_R
+S
+%%Page: (4) 40
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 4 def
+/fname (View.java) def
+/fdir () def
+/ftail (View.java) def
+% User defined strings:
+/fmodstr (Tue May 14 23:10:56 2013) def
+/pagenumstr (16-4) def
+/user_header_p true def
+/user_header_left_str (View.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (16-4/4\(40\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+18 508 M (139:) s
+48 508 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 508 M
+(public) s
+/F-gs-font 10 10 SF
+108 508 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 508 M
+(void) s
+/F-gs-font 10 10 SF
+138 508 M
+( printExitGame\(\) {) s
+18 497 M (140:) s
+48 497 M
+(    ) s
+18 486 M (141:) s
+48 486 M
+(        System.out.println\() s
+/Courier-Bold 10 10 SUF
+210 486 M
+("You have exited the game. Bye bye!") s
+/F-gs-font 10 10 SF
+426 486 M
+(\);) s
+18 475 M (142:) s
+48 475 M
+(    }) s
+18 464 M (143:) s
+48 464 M
+(}) s
+_R
+S
+%%Page: (1) 41
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum 1 def
+/fname (World.java) def
+/fdir () def
+/ftail (World.java) def
+% User defined strings:
+/fmodstr (Thu May 09 10:00:34 2013) def
+/pagenumstr (17-1) def
+/user_header_p true def
+/user_header_left_str (World.java) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (17-1/1\(41\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+30 508 M (1:) s
+/Courier-Oblique 10 10 SUF
+48 508 M
+(/*) s
+/F-gs-font 10 10 SF
+30 497 M (2:) s
+/Courier-Oblique 10 10 SUF
+48 497 M
+( * To change this template, choose Tools | Templates) s
+/F-gs-font 10 10 SF
+30 486 M (3:) s
+/Courier-Oblique 10 10 SUF
+48 486 M
+( * and open the template in the editor.) s
+/F-gs-font 10 10 SF
+30 475 M (4:) s
+/Courier-Oblique 10 10 SUF
+48 475 M
+( */) s
+/F-gs-font 10 10 SF
+30 464 M (5:) s
+/Courier-Bold 10 10 SUF
+48 464 M
+(package) s
+/F-gs-font 10 10 SF
+90 464 M
+( cakesolutioncorrectversion;) s
+30 453 M (6:) s
+30 442 M (7:) s
+/Courier-Bold 10 10 SUF
+48 442 M
+(import) s
+/F-gs-font 10 10 SF
+84 442 M
+( java.util.List;) s
+30 431 M (8:) s
+30 420 M (9:) s
+/Courier-Oblique 10 10 SUF
+48 420 M
+(/**) s
+/F-gs-font 10 10 SF
+24 409 M (10:) s
+/Courier-Oblique 10 10 SUF
+48 409 M
+( * The interface 'World' creates a contract that the classes implementing 'World') s
+/F-gs-font 10 10 SF
+24 398 M (11:) s
+/Courier-Oblique 10 10 SUF
+48 398 M
+( * will contain a method 'getLocations'. ) s
+/F-gs-font 10 10 SF
+24 387 M (12:) s
+/Courier-Oblique 10 10 SUF
+48 387 M
+( * @author CakeSolutionGroup) s
+/F-gs-font 10 10 SF
+24 376 M (13:) s
+/Courier-Oblique 10 10 SUF
+48 376 M
+( * @version 1.0 \(1 May 2013\)) s
+/F-gs-font 10 10 SF
+24 365 M (14:) s
+/Courier-Oblique 10 10 SUF
+48 365 M
+( */) s
+/F-gs-font 10 10 SF
+24 354 M (15:) s
+/Courier-Bold 10 10 SUF
+48 354 M
+(public) s
+/F-gs-font 10 10 SF
+84 354 M
+( ) s
+/Courier-Bold 10 10 SUF
+90 354 M
+(interface) s
+/F-gs-font 10 10 SF
+144 354 M
+( World {) s
+24 343 M (16:) s
+48 343 M
+(   ) s
+24 332 M (17:) s
+48 332 M
+(    ) s
+/Courier-Oblique 10 10 SUF
+72 332 M
+(/** This method  will create a list of the Locations using the ) s
+/F-gs-font 10 10 SF
+24 321 M (18:) s
+/Courier-Oblique 10 10 SUF
+48 321 M
+(     *  Class type 'Location') s
+/F-gs-font 10 10 SF
+24 310 M (19:) s
+/Courier-Oblique 10 10 SUF
+48 310 M
+(     */) s
+/F-gs-font 10 10 SF
+24 299 M (20:) s
+48 299 M
+(    ) s
+24 288 M (21:) s
+48 288 M
+(    List<Location> getLocations\(\);) s
+24 277 M (22:) s
+48 277 M
+(    ) s
+24 266 M (23:) s
+48 266 M
+(    ) s
+/Courier-Bold 10 10 SUF
+72 266 M
+(public) s
+/F-gs-font 10 10 SF
+108 266 M
+( ) s
+/Courier-Bold 10 10 SUF
+114 266 M
+(boolean) s
+/F-gs-font 10 10 SF
+156 266 M
+( isOutOfQuestions\(\);) s
+24 255 M (24:) s
+48 255 M
+(    ) s
+24 244 M (25:) s
+48 244 M
+(}) s
+24 233 M (26:) s
+_R
+S
+%%Page: (-1) 42
+%%BeginPageSetup
+_S
+90 rotate
+24 -574 translate
+/pagenum -1 def
+/fname (Table of Contents) def
+/fdir () def
+/ftail (Table of Contents) def
+% User defined strings:
+/fmodstr (Tue May 14 23:11:19 2013) def
+/pagenumstr (-1) def
+/user_header_p true def
+/user_header_left_str (Table of Contents) def
+/user_header_center_str ( 05/14/13) def
+/user_header_right_str (-1/1\(42\)) def
+/user_footer_p false def
+%%EndPageSetup
+do_header
+5 508 M
+(  1 Baklavaci.java                             4 pages  187 lines  13/05/14 14:24:22) s
+5 497 M
+(  2 Cake.java                                  1 pages   15 lines  13/05/09 10:00:34) s
+5 486 M
+(  3 Cakistan.java                              2 pages   65 lines  13/05/14 14:24:22) s
+5 475 M
+(  4 Choice.java                                1 pages   15 lines  13/05/09 12:23:39) s
+5 464 M
+(  5 Controller.java                            5 pages  199 lines  13/05/14 14:48:26) s
+5 453 M
+(  6 GameObject.java                            1 pages   20 lines  13/05/09 10:00:34) s
+5 442 M
+(  7 Lagkagehuset.java                          6 pages  256 lines  13/05/13 12:40:54) s
+5 431 M
+(  8 LePetiteEclaire.java                       4 pages  184 lines  13/05/14 14:24:22) s
+5 420 M
+(  9 Localizable.java                           1 pages   23 lines  13/05/09 12:23:39) s
+5 409 M
+( 10 Location.java                              1 pages   31 lines  13/05/14 14:24:22) s
+5 398 M
+( 11 PlayerController.java                      2 pages   54 lines  13/05/14 14:24:22) s
+5 387 M
+( 12 Players.java                               1 pages   15 lines  13/05/09 10:00:34) s
+5 376 M
+( 13 Question.java                              1 pages   33 lines  13/05/09 10:00:34) s
+5 365 M
+( 14 Sugarman.java                              4 pages  150 lines  13/05/14 14:24:22) s
+5 354 M
+( 15 SuperLocation.java                         2 pages   84 lines  13/05/14 14:24:22) s
+5 343 M
+( 16 View.java                                  4 pages  143 lines  13/05/14 23:10:56) s
+5 332 M
+( 17 World.java                                 1 pages   26 lines  13/05/09 10:00:34) s
+_R
+S
+%%Trailer
+%%Pages: 42
+%%DocumentNeededResources: font Courier-Oblique Courier-Bold Courier 
+%%EOF
