@@ -141,7 +141,7 @@ public class Controller {
             theView.playerStatus(player1);
             theView.printToMoveOrToStay(player1.getLocation().getDescription(),
                     player1.getLocation().getNeighbor().getDescription());
-            int decision = userInput(2);
+            int decision = userInput(3);
             if (decision == 1) { //user chose to stay and answer questions
 
                 ArrayList<Question> currentQuestionList = player1.getLocation().getQuestionList();
@@ -154,6 +154,10 @@ public class Controller {
 
             } else if (decision == 2) { //user chose to move to next location
                 player1.move(player1.getLocation().getNeighbor());
+            }
+            else if (decision == 3){
+                theView.printExitGame();
+                System.exit(1);
             }
         } //end of while loop
         printGameOver();

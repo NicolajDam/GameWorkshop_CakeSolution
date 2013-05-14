@@ -55,7 +55,7 @@ public class View {
     public void printToMoveOrToStay(String currentLocation, String neighborLocation) {
         System.out.println("Do you wanna stay here in " + currentLocation
                 + " and answer questions or move on to " + neighborLocation
-                + "Type in 1 to stay or 2 to move on");
+                + "Type in 1 to stay or 2 to move on or 3 to exit game");
 
     }
 
@@ -129,5 +129,10 @@ public class View {
     public void printRanOutOfQuestions() {
 
         System.out.println("Sorry you ran out of questions. Sugarman will run around crying until you Start over.");
+    }
+    
+    public void printExitGame() {
+    
+        System.out.println("You have exited the game. Bye bye!");
     }
 }
